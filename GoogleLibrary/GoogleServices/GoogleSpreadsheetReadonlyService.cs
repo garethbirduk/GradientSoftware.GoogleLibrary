@@ -62,6 +62,11 @@ namespace GoogleLibrary.Services
             return await GoogleService.Spreadsheets.Get(spreadsheetId).ExecuteAsync();
         }
 
+        public async Task<ValueRange> GetWorksheetData(string spreadsheetId, string worksheetName)
+        {
+            return await GetData(spreadsheetId, worksheetName, BuildRange(0, 0, null, null));
+        }
+
         public async Task<List<Sheet>> GetWorksheets(string spreadsheetId)
         {
             return (await GetSpreadsheetAsync(spreadsheetId)).Sheets.ToList();
