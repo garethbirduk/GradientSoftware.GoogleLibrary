@@ -34,8 +34,13 @@ jobs:
     - name: Print .NET SDK version
       run: dotnet --version
 
+    - name: Nuget set access
+      if: github.ref == 'refs/heads/main'    
+      run: dotnet nuget add source --username ${{ github.actor }} --password ${{ github.token }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
+
     - name: Restore dependencies
       run: dotnet restore
+     
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
@@ -74,10 +79,6 @@ jobs:
     - name: Print badge data
       if: github.ref == 'refs/heads/main'    
       run: echo "Badge data ${{steps.test_step.outputs.badge}}"
-
-    - name: Nuget set access
-      if: github.ref == 'refs/heads/main'    
-      run: dotnet nuget add source --username ${{ github.actor }} --password ${{ github.token }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
 
     - name: Nuget deploy Package
       if: github.ref == 'refs/heads/main'
