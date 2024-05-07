@@ -20,7 +20,7 @@ namespace GoogleLibrary.CustomServices
 
         public async Task WorksheetToCalendarAsync(string spreadsheetId, string worksheetName, string calendarId, int headerRowsCount = 1, int maxEvents = 0)
         {
-            var valueRange = await GoogleSpreadsheetReadonlyService.GetWorksheetData(spreadsheetId, worksheetName);
+            var valueRange = await GoogleSpreadsheetReadonlyService.GetData(spreadsheetId, worksheetName, "");
 
             var headers = valueRange.Values.Take(headerRowsCount).Last().Select(x => x.ToString());
             var data = valueRange.Values.Skip(headerRowsCount).Select(x => x.Select(y => y.ToString()).ToList());

@@ -48,7 +48,9 @@ namespace GoogleLibrary.Services
 
         public async Task<ValueRange> GetData(string spreadsheetId, string worksheetName, string worksheetRange)
         {
-            var range = $"{worksheetName}!{worksheetRange}";
+            var range = $"{worksheetName}";
+            if (!string.IsNullOrWhiteSpace(worksheetRange))
+                range = $"{worksheetName}!{worksheetRange}";
             return await GetData(spreadsheetId, range);
         }
 
