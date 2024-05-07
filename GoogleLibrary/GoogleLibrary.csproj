@@ -16,7 +16,7 @@
     <PackageTags>utils; gradient; software</PackageTags>
     <RepositoryUrl>https://github.com/garethbirduk/GradientSoftware.GoogleLibrary</RepositoryUrl>
     <PackageId>GradientSoftware.$(AssemblyName)</PackageId>
-    <Version>0.0.2</Version>
+    <Version>0.1.0</Version>
     <UserSecretsId>80ec750e-e94e-4b02-b48f-4b2ca157cd39</UserSecretsId>
   </PropertyGroup>
 
