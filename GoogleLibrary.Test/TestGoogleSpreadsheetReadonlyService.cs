@@ -1,8 +1,10 @@
+using Google;
 using Google.Apis.Sheets.v4.Data;
 using GoogleLibrary.CustomServices;
 using GoogleLibrary.GoogleAuthentication;
 using GoogleLibrary.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,6 +44,13 @@ namespace GoogleLibrary.Test
             Assert.AreEqual(10, data.Values.Count());
         }
 
+        [TestMethod]
+        public async Task TestGetData_WorksheetNameException()
+        {
+            Assert.IsTrue((await GoogleSpreadsheetReadonlyService.GetWorksheetData(SpreadsheetId, "USA2024")).Range.Count() > 0);
+            await Assert.ThrowsExceptionAsync<GoogleApiException>(() => GoogleSpreadsheetReadonlyService.GetData(SpreadsheetId, "USA2024"));
+        }
+
         [DataTestMethod]
         [DataRow("TestGetData!A1:A", 10)]
         [DataRow("TestGetData!A1:A10", 10)]
@@ -60,6 +69,35 @@ namespace GoogleLibrary.Test
             var data = await GoogleSpreadsheetReadonlyService.GetData(SpreadsheetId, range);
             Assert.AreEqual(expectedRows, data.Values.Count);
             Assert.AreEqual(expectedColumns, data.Values.First().Count);
+        }
+
+        [DataTestMethod]
+        [DataRow("", 10, 2)]
+        [DataRow("A1:A", 10)]
+        [DataRow("A1:A10", 10)]
+        [DataRow("A:A", 10)]
+        [DataRow("A2:A", 9)]
+        [DataRow("B1:B", 10)]
+        [DataRow("B1:B10", 10)]
+        [DataRow("B:B", 10)]
+        [DataRow("B2:B", 9)]
+        [DataRow("A1:B", 10, 2)]
+        [DataRow("A1:B10", 10, 2)]
+        [DataRow("A:B", 10, 2)]
+        [DataRow("A2:B", 9, 2)]
+        public async Task TestGetData3(string range, int expectedRows, int expectedColumns = 1)
+        {
+            var data = await GoogleSpreadsheetReadonlyService.GetData(SpreadsheetId, "TestGetData", range);
+            Assert.AreEqual(expectedRows, data.Values.Count);
+            Assert.AreEqual(expectedColumns, data.Values.Select(x => x.Count()).Max());
+        }
+
+        [TestMethod]
+        public async Task TestGetWorksheetData()
+        {
+            var data = await GoogleSpreadsheetReadonlyService.GetWorksheetData(SpreadsheetId, "TestGetData");
+            Assert.AreEqual(10, data.Values.Count());
+            Assert.AreEqual(2, data.Values.Select(x => x.Count()).Max());
         }
 
         [TestMethod]
