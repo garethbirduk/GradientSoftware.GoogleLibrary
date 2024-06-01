@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     /// <summary>
     /// Service to get calendar events for a given calendar.

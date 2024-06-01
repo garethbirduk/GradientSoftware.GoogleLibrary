@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     public class GoogleCalendarEventsService : GoogleCalendarEventsReadonlyService
     {

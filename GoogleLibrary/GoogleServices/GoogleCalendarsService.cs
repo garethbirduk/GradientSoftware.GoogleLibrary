@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     public class GoogleCalendarsService : GoogleCalendarsReadonlyService, IGoogleCalendarsService
     {
@@ -39,7 +39,7 @@ namespace GoogleLibrary.Services
 
         public CalendarListEntry CreateCalendar(string summary)
         {
-            var calendar = new Google.Apis.Calendar.v3.Data.Calendar()
+            var calendar = new Calendar()
             {
                 Summary = summary,
             };

@@ -3,7 +3,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using System.Collections.Generic;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     /// <summary>
     /// Service to authenticate all scopes required by library interaction with Google APIs.

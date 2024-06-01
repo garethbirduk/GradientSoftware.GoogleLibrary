@@ -1,12 +1,11 @@
-﻿using GoogleLibrary.Custom;
-using GoogleLibrary.GoogleSheets;
+﻿using GoogleLibrary.GoogleSheets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace GoogleLibrary.GoogleCalendar
+namespace GoogleLibrary.Custom
 {
     public class FieldMaps
     {
@@ -25,7 +24,7 @@ namespace GoogleLibrary.GoogleCalendar
                         continue;
 
                     dictionary.Add(name, type);
-                    var list = EnumExtensions.Aliases(type);
+                    var list = type.Aliases();
                     foreach (var item in list)
                         dictionary.Add(item, type);
                 }

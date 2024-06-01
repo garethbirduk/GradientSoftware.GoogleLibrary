@@ -1,6 +1,6 @@
 ﻿using GoogleLibrary.GoogleAuthentication;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     public abstract class GoogleOAuthAuthenticatedService
     {

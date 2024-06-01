@@ -1,11 +1,4 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Google.Apis.Calendar.v3.Data;
-using System.Linq;
-using GoogleLibrary.Services;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using GoogleLibrary.Custom;
 
 namespace GoogleLibrary.Test
 {
@@ -17,7 +10,8 @@ namespace GoogleLibrary.Test
         [DataRow(1, "B")]
         [DataRow(26, "AA")]
         [DataRow(27, "AB")]
-        public void TestToGoogleColumn(int value, string columnName)
+        [DataRow(null, "")]
+        public void TestNullableToGoogleColumn(int? value, string columnName)
         {
             Assert.AreEqual(columnName, value.ToGoogleColumn());
         }
@@ -27,8 +21,7 @@ namespace GoogleLibrary.Test
         [DataRow(1, "B")]
         [DataRow(26, "AA")]
         [DataRow(27, "AB")]
-        [DataRow(null, "")]
-        public void TestNullableToGoogleColumn(int? value, string columnName)
+        public void TestToGoogleColumn(int value, string columnName)
         {
             Assert.AreEqual(columnName, value.ToGoogleColumn());
         }

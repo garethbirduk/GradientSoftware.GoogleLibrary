@@ -1,12 +1,7 @@
 using GoogleLibrary.CustomServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using GoogleLibrary.Services;
-using GoogleLibrary.Custom;
-using System;
 using GoogleLibrary.GoogleAuthentication;
 
-namespace GoogleLibrary.Test
+namespace GoogleLibrary.IntegrationTest.other
 {
     [TestClass]
     public class TestRoundTripSheetsCalendar : GoogleAuthenticatedUnitTest

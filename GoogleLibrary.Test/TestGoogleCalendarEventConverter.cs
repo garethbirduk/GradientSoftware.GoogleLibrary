@@ -1,7 +1,4 @@
-using GoogleLibrary.Custom;
-using GoogleLibrary.GoogleCalendar;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace GoogleLibrary.Test
 {

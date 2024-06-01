@@ -2,13 +2,14 @@ using Google;
 using Google.Apis.Sheets.v4.Data;
 using GoogleLibrary.CustomServices;
 using GoogleLibrary.GoogleAuthentication;
-using GoogleLibrary.Services;
+using GoogleLibrary.GoogleServices;
+using GoogleLibrary.IntegrationTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GoogleLibrary.Test
+namespace GoogleLibrary.IntegrationTest.other
 {
     [TestClass]
     public class TestGoogleSpreadsheetReadonlyService : GoogleAuthenticatedUnitTest

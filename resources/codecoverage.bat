@@ -1,6 +1,7 @@
 @echo off
 
 dotnet test ../GoogleLibrary.Test/GoogleLibrary.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" --verbosity normal
+dotnet test ../GoogleLibrary.IntegrationTest/GoogleLibrary.IntegrationTest.csproj /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" --verbosity normal
 
 dotnet tool install -g dotnet-reportgenerator-globaltool
 

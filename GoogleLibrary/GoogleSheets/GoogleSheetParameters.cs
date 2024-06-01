@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Sheets.v4.Data;
-using GoogleLibrary.Services;
+using GoogleLibrary.GoogleServices;
 
 namespace GoogleLibrary.GoogleSheets
 {

@@ -1,19 +1,13 @@
-﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.GoogleAuthentication;
-using GoogleLibrary.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GoogleLibrary.GoogleAuthentication;
 
-namespace GoogleLibrary.Test.GoogleServices
+namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarReadonlyService : GoogleAuthenticatedUnitTest
     {
         [DataTestMethod]
         [DataRow("garethbird@gmail.com", "garethbird@gmail.com")]
-        [DataRow("nrgm37qj4a8tsq9rt8th7fcicg@group.calendar.google.com", "Crewe Alexandra")]
+        [DataRow("vbhhaeru6oq3mmg8jance8sar8@group.calendar.google.com", "Bramcote CofE Y1 22/23 (Y2 23/24)")]
         public void TestCalendarSummary(string calendarId, string expectedSummary)
         {
             Assert.AreEqual(expectedSummary, GoogleCalendarReadonlyService.Calendar(calendarId).Summary);

@@ -1,13 +1,6 @@
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Sheets.v4.Data;
 using GoogleLibrary.GoogleAuthentication;
-using GoogleLibrary.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace GoogleLibrary.Test
+namespace GoogleLibrary.IntegrationTest.other
 {
     [TestClass]
     public class TestGoogleSpreadsheetService : GoogleAuthenticatedUnitTest

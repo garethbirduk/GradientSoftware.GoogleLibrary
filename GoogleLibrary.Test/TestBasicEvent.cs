@@ -1,9 +1,10 @@
 ﻿using GoogleLibrary.Custom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System;
 
-namespace GoogleLibrary.Custom.Test
+using System.Collections.Generic;
+
+namespace GoogleLibrary.Test
 {
     [TestClass]
     public class BasicEventTests

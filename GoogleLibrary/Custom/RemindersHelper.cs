@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
-using GoogleLibrary.Custom;
 using System.Linq;
 
-namespace GoogleLibrary
+namespace GoogleLibrary.Custom
 {
     public static class RemindersHelper
     {

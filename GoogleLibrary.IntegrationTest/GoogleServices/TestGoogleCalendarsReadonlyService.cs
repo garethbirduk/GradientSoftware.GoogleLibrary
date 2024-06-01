@@ -1,13 +1,7 @@
-﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.CustomServices;
+﻿using GoogleLibrary.CustomServices;
 using GoogleLibrary.GoogleAuthentication;
-using GoogleLibrary.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace GoogleLibrary.Test.GoogleServices
+namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarsReadonlyService : GoogleAuthenticatedUnitTest

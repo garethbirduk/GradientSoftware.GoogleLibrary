@@ -1,5 +1,4 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.GoogleCalendar;
 using PostSharp.Patterns.Contracts;
 using System.Data;
 

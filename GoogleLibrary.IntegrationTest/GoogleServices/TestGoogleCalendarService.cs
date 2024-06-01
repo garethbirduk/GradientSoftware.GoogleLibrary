@@ -1,9 +1,6 @@
 ﻿using GoogleLibrary.GoogleAuthentication;
-using GoogleLibrary.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
-namespace GoogleLibrary.Test.GoogleServices
+namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarService : GoogleAuthenticatedUnitTest
