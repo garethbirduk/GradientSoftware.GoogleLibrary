@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public class AccommodationEvent : BasicEvent
     {

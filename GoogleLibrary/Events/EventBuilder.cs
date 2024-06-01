@@ -1,9 +1,7 @@
 ﻿using Google.Apis.Calendar.v3.Data;
 using PostSharp.Patterns.Contracts;
-using System;
-using System.Collections.Generic;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public static class EventBuilder
     {

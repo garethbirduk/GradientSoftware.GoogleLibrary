@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public static class RemindersHelper
     {

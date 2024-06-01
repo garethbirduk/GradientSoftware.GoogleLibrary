@@ -1,4 +1,4 @@
-﻿using GoogleLibrary.CustomServices;
+﻿using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleAuthentication;
 using GoogleLibrary.GoogleServices;
 using GoogleLibrary.IntegrationTest;

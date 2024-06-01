@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     /// <summary>
     /// Build a Google Event

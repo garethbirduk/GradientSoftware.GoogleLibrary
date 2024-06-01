@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.Custom;
+using GoogleLibrary.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;

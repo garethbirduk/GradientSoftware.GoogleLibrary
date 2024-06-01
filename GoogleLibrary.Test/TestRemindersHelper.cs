@@ -2,7 +2,7 @@
 //using System.Collections.Generic;
 //using System;
 
-//namespace GoogleLibrary.Custom.Test
+//namespace GoogleLibrary.Events.Test
 //{
 //    [TestClass]
 //    public class TestRemindersHelper

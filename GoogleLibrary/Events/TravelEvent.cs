@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public class TravelEvent : BasicEvent
     {

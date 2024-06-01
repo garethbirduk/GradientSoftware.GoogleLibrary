@@ -1,7 +1,7 @@
-﻿using GoogleLibrary.Custom;
+﻿using GoogleLibrary.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoogleLibrary.Test
+namespace GoogleLibrary.Test.Events
 {
     [TestClass]
     public class TestAirportHelper

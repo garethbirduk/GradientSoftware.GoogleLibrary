@@ -1,6 +1,6 @@
 using Google;
 using Google.Apis.Sheets.v4.Data;
-using GoogleLibrary.CustomServices;
+using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleAuthentication;
 using GoogleLibrary.GoogleServices;
 using GoogleLibrary.IntegrationTest;

@@ -1,8 +1,7 @@
-﻿using Google.Apis.Calendar.v3.Data;
-using PostSharp.Patterns.Contracts;
+﻿using PostSharp.Patterns.Contracts;
 using System.Data;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public static class EventsBuilder
     {
@@ -72,7 +71,7 @@ namespace GoogleLibrary.Custom
             return list;
         }
 
-        public static List<BasicEvent> Create(Events googleEvents)
+        public static List<BasicEvent> Create(Google.Apis.Calendar.v3.Data.Events googleEvents)
         {
             return googleEvents.Items.Select(x => EventBuilder.Create(x)).ToList();
         }

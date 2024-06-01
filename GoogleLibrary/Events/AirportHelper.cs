@@ -1,7 +1,7 @@
 ﻿using PostSharp.Patterns.Contracts;
 using System;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public static class AirportHelper
     {

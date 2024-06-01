@@ -1,4 +1,4 @@
-﻿namespace GoogleLibrary.Custom
+﻿namespace GoogleLibrary.Events
 {
     public enum EventCategory
     {

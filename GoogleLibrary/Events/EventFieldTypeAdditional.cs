@@ -1,6 +1,6 @@
 ﻿using Gradient.Utils.Attributes;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public enum EventFieldTypeAdditional
     {

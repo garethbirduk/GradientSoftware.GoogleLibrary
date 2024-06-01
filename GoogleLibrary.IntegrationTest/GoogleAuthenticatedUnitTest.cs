@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.CustomServices;
+using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleServices;
 
 namespace GoogleLibrary.IntegrationTest

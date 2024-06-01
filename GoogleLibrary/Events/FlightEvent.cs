@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     public class FlightEvent : TravelEvent
     {

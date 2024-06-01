@@ -3,7 +3,7 @@ using PostSharp.Patterns.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GoogleLibrary.Custom
+namespace GoogleLibrary.Events
 {
     /// <summary>
     /// Build one or more Google Events
