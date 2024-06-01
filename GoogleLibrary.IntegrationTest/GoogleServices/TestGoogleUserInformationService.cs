@@ -1,8 +1,5 @@
 using GoogleLibrary.GoogleAuthentication;
 using GoogleLibrary.GoogleServices;
-using GoogleLibrary.IntegrationTest;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
 namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
