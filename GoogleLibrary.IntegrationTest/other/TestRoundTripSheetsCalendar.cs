@@ -22,7 +22,7 @@ namespace GoogleLibrary.Test
         [TestMethod]
         public async Task TestRoundTrip()
         {
-            var calendarName = Utils.RandomName();
+            var calendarName = Utils.RandomName(prefix: "_deleteme_");
             var worksheetName = "ExampleSimple";
 
             CalendarId = GoogleCalendarsService.CreateCalendar(calendarName).Id;

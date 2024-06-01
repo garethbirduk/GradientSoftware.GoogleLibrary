@@ -191,23 +191,6 @@ namespace GoogleLibrary.Custom
         }
 
         /// <summary>
-        /// Add a custom summary to the summary builder based on title, status etc.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual IEnumerable<string> AddCustomSummary()
-        {
-            var list = new List<string>()
-            {
-                Title
-            };
-            if (Status != EventStatus.None)
-                list.Add($"({EventStatusMap[Status]})");
-            if (Category != EventCategory.None)
-                list.Add($"{Category}:");
-            return list;
-        }
-
-        /// <summary>
         /// Build the locations from 'from, to, via' etc.
         /// </summary>
         /// <param name="from"></param>
@@ -244,6 +227,23 @@ namespace GoogleLibrary.Custom
                 if (string.IsNullOrEmpty(location.Address) || location.Address == location.ShortName)
                     location.Address = s;
             }
+        }
+
+        /// <summary>
+        /// Add a custom summary to the summary builder based on title, status etc.
+        /// </summary>
+        /// <returns></returns>
+        internal virtual IEnumerable<string> AddCustomSummary()
+        {
+            var list = new List<string>()
+            {
+                Title
+            };
+            if (Status != EventStatus.None)
+                list.Add($"({EventStatusMap[Status]})");
+            if (Category != EventCategory.None)
+                list.Add($"{Category}:");
+            return list;
         }
 
         /// <summary>

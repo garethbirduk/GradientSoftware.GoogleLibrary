@@ -5,9 +5,19 @@ namespace GoogleLibrary.Custom
 {
     public class FlightEvent : TravelEvent
     {
-        public FlightInformation FlightInformation { get; private set; } = new FlightInformation();
-
         protected override List<int> DefaultRemindersInMinutes { get; set; } = new List<int>() { 2 * 60, 4 * 60, };
+
+        internal override List<string> AddCustomSummary()
+        {
+            var list = new List<string>
+            {
+                FlightInformation.FlightSummary,
+                RouteSummary
+            };
+            return list;
+        }
+
+        public FlightInformation FlightInformation { get; private set; } = new FlightInformation();
 
         public override void Build(List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
         {
@@ -16,16 +26,6 @@ namespace GoogleLibrary.Custom
             FlightInformation.Number = GetString(EnumEventFieldType.FlightNumber, fields, data);
             CustomFields.Add("Flight", FlightInformation.FlightDetails);
             CustomFields.Add("Flight tracker", FlightInformation.FlightTracker);
-        }
-
-        protected override List<string> AddCustomSummary()
-        {
-            var list = new List<string>
-            {
-                FlightInformation.FlightSummary,
-                RouteSummary
-            };
-            return list;
         }
     }
 }

@@ -2,10 +2,10 @@
 {
     public class Location
     {
-        public Location(string shortName, string address)
+        public Location(string? shortName, string? address = null)
         {
-            ShortName = shortName == null ? "" : shortName.Replace("/", " ");
-            Address = address == null ? "" : address.Replace("/", " ");
+            ShortName = shortName == null ? "" : shortName.Replace("/", " ").Trim();
+            Address = address == null ? "" : address.Replace("/", " ").Trim();
 
             if (ShortName == "")
                 ShortName = Address;

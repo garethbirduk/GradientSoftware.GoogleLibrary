@@ -30,10 +30,7 @@ namespace GoogleLibrary.CustomServices
             if (maxEvents > 0)
                 googleEvents = googleEvents.Take(maxEvents).ToList();
             GoogleCalendarService.CreateEvents(calendarId, googleEvents);
-
-            var delimiter = "*/*";
-            var description = string.Join(delimiter, headers.Select(x => x));
-            GoogleCalendarService.SetDescription(calendarId, description);
+            GoogleCalendarService.SetDescription(calendarId, worksheetName);
         }
     }
 }

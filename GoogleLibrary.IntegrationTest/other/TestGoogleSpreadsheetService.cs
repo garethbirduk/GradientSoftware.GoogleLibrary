@@ -15,8 +15,8 @@ namespace GoogleLibrary.Test
         [TestMethod]
         public async Task TestCreateWorksheetsAsync()
         {
-            var name1 = Utils.RandomName();
-            var name2 = Utils.RandomName();
+            var name1 = Utils.RandomName(prefix: "_deleteme_");
+            var name2 = Utils.RandomName(prefix: "_deleteme_");
 
             var worksheets = await GoogleSpreadsheetReadonlyService.GetWorksheets(SpreadsheetId);
             Assert.IsNull(worksheets.Where(x => x.Properties.Title == name1).FirstOrDefault());

@@ -1,6 +1,5 @@
 ﻿using Google.Apis.Calendar.v3.Data;
 using GoogleLibrary.CustomServices;
-using GoogleLibrary.GoogleAuthentication;
 using GoogleLibrary.Services;
 
 namespace GoogleLibrary.Test
