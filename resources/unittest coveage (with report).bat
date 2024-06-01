@@ -1,3 +1,3 @@
-call unittest coverage.bat
+call "unittest coverage.bat"
 start "" "../coverage/index.html"
 pause
