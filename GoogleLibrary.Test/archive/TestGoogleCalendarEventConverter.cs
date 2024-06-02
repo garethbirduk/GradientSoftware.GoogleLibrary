@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoogleLibrary.Test.Custom
+namespace GoogleLibrary.Test.archive
 {
     [TestClass]
     public class TestGoogleCalendarEventConverter
