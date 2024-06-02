@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GoogleLibrary
+﻿namespace GoogleLibrary.Events
 {
     [AttributeUsage(AttributeTargets.All, Inherited = false)]
     public class ContactAttribute : Attribute
@@ -9,6 +7,7 @@ namespace GoogleLibrary
         {
             Email = email;
         }
+
         public string Email { get; }
     }
 }
