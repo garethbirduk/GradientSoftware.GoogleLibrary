@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GoogleLibrary.Events;
 using Microsoft.Extensions.DependencyInjection;
 using GoogleLibrary.GoogleServices;
+using GoogleLibrary.GoogleEvents;
 
 namespace GoogleLibrary.EventsServices
 {

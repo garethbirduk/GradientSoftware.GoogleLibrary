@@ -1,11 +1,9 @@
 ﻿using Google.Apis.Calendar.v3.Data;
+using GoogleLibrary.Events;
 using GoogleLibrary.GoogleExtensions;
 using PostSharp.Patterns.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.GoogleEvents
 {
     /// <summary>
     /// Build a Google Event

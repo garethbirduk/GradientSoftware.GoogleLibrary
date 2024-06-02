@@ -1,8 +1,8 @@
 ﻿using GoogleLibrary.GoogleServices;
 
-namespace GoogleLibrary
+namespace GoogleLibrary.GoogleExtensions
 {
-    public static class IntExtensions
+    public static class GoogleWorksheetExtensions
     {
         public static string ToGoogleColumn(this int myInt, IndexBase indexBase = IndexBase.Zero)
         {

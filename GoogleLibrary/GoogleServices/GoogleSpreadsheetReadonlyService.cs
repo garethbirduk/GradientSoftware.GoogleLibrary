@@ -3,6 +3,7 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
+using GoogleLibrary.GoogleExtensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

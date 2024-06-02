@@ -1,9 +1,10 @@
+using GoogleLibrary.GoogleExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoogleLibrary.Test
+namespace GoogleLibrary.Test.GoogleExtensions
 {
     [TestClass]
-    public class TestIntExtensions
+    public class TestGoogleWorksheetExtensions
     {
         [DataTestMethod]
         [DataRow(0, "A")]
