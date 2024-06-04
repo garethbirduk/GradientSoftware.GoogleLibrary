@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
+using GoogleLibrary.GoogleServices;
+
 using GoogleLibrary.OAuth;
-using System;
-using GoogleLibrary.Services;
-using PostSharp.Extensibility;
-using System.Collections.Generic;
+
+using Microsoft.Extensions.Configuration;
 
 namespace GoogleLibrary.GoogleAuthentication
 {

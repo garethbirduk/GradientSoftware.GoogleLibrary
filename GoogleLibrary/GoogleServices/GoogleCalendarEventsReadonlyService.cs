@@ -1,13 +1,8 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
+﻿using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     /// <summary>
     /// Service to get calendar events for a given calendar.
@@ -37,7 +32,7 @@ namespace GoogleLibrary.Services
         /// <param name="maxResults">Limit the number of events.</param>
         /// <param name="minDate">Restrict events to those from specified Date or newer.</param>
         /// <returns></returns>
-        public Events GetEvents(string calendarId, int maxResults = 100, DateTime? minDate = null)
+        public Google.Apis.Calendar.v3.Data.Events GetEvents(string calendarId, int maxResults = 100, DateTime? minDate = null)
         {
             var now = DateTime.UtcNow.AddMonths(-1);
             if (minDate == null)

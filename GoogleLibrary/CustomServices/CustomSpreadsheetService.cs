@@ -1,11 +1,12 @@
 ﻿using PostSharp.Patterns.Contracts;
-using GoogleLibrary.Services;
 using System.Linq;
 using System.Threading.Tasks;
-using GoogleLibrary.Custom;
+using GoogleLibrary.Events;
 using Microsoft.Extensions.DependencyInjection;
+using GoogleLibrary.GoogleServices;
+using GoogleLibrary.GoogleEvents;
 
-namespace GoogleLibrary.CustomServices
+namespace GoogleLibrary.EventsServices
 {
     public class CustomSpreadsheetService
     {
@@ -30,10 +31,7 @@ namespace GoogleLibrary.CustomServices
             if (maxEvents > 0)
                 googleEvents = googleEvents.Take(maxEvents).ToList();
             GoogleCalendarService.CreateEvents(calendarId, googleEvents);
-
-            var delimiter = "*/*";
-            var description = string.Join(delimiter, headers.Select(x => x));
-            GoogleCalendarService.SetDescription(calendarId, description);
+            GoogleCalendarService.SetDescription(calendarId, worksheetName);
         }
     }
 }

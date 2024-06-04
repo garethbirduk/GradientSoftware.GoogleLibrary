@@ -1,7 +1,7 @@
 ﻿using System;
 using Gradient.Utils;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     public class CannotDeleteCalendarException : Exception
     {

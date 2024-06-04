@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     public class GoogleUserInformationService : GoogleOAuthAuthenticatedService
     {

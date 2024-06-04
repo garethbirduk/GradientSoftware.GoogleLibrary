@@ -1,12 +1,30 @@
 ﻿using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
-using System.Collections.Generic;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
+    internal class GooglePersonalData : IGooglePersonalData
+    {
+        public List<string> ReservedList { get; set; } =
+        [
+            "garethbird",
+            "garethbirdmaster",
+            "garethandvivian",
+            "gareth.and.vivian",
+            "viviancamacho",
+            "testreserved",
+            "family",
+            "bird",
+            "vivian",
+            "gareth",
+            "rafael",
+            "zoe",
+            "bramcote",
+            "home",
+            "camacho",
+        ];
+    }
+
     public class GoogleCalendarsService : GoogleCalendarsReadonlyService, IGoogleCalendarsService
     {
         public IGooglePersonalData GooglePersonalData { get; set; } = new GooglePersonalData();
@@ -39,7 +57,7 @@ namespace GoogleLibrary.Services
 
         public CalendarListEntry CreateCalendar(string summary)
         {
-            var calendar = new Google.Apis.Calendar.v3.Data.Calendar()
+            var calendar = new Calendar()
             {
                 Summary = summary,
             };
@@ -70,8 +88,10 @@ namespace GoogleLibrary.Services
                 return CreateCalendar(summary);
             else if (clear)
             {
-                var s = new GoogleCalendarEventsService();
-                s.ClientSecrets = ClientSecrets;
+                var s = new GoogleCalendarEventsService
+                {
+                    ClientSecrets = ClientSecrets
+                };
                 s.SetupToken();
                 s.SetupExternalServices();
                 await s.ClearEvents(calendar.Id);
@@ -84,27 +104,12 @@ namespace GoogleLibrary.Services
             if (CheckCanDeleteCalendar(calendarId))
                 await GoogleService.Calendars.Delete(calendarId).ExecuteAsync();
         }
-    }
 
-    public class GooglePersonalData : IGooglePersonalData
-    {
-        public List<string> ReservedList { get; set; } = new List<string>()
+        public async Task DeleteCalendarsAsync(Func<CalendarListEntry, bool> predicate)
         {
-            "garethbird",
-            "garethbirdmaster",
-            "garethandvivian",
-            "gareth.and.vivian",
-            "viviancamacho",
-            "testreserved",
-            "family",
-            "bird",
-            "vivian",
-            "gareth",
-            "rafael",
-            "zoe",
-            "bramcote",
-            "home",
-            "camacho",
-        };
+            var calendarIds = GetCalendars(predicate).Items.Select(x => x.Id).ToList();
+            foreach (var calendarId in calendarIds)
+                await DeleteCalendarAsync(calendarId);
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GoogleLibrary.Services
+namespace GoogleLibrary.GoogleServices
 {
     public enum CannotDeleteCalendarReasons
     {

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#if DEBUG
+
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("GoogleLibrary.Test")]
+#endif
 
 namespace GoogleLibrary
 {

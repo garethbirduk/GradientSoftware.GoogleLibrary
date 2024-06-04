@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GoogleLibrary.GoogleAuthentication
+﻿namespace GoogleLibrary.GoogleAuthentication
 {
     public class GoogleOAuthAuthenticatedResponse
     {
+        private Dictionary<string, string> Headers { get; } = new Dictionary<string, string>();
+
         public GoogleOAuthAuthenticatedResponse()
         {
         }
@@ -42,7 +41,5 @@ namespace GoogleLibrary.GoogleAuthentication
         public string Scope { get; set; }
 
         public string TokenType { get; set; }
-
-        private Dictionary<string, string> Headers { get; } = new Dictionary<string, string>();
     }
 }
