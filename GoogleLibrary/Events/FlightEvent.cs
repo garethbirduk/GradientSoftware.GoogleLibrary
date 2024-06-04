@@ -7,7 +7,9 @@ namespace GoogleLibrary.Events
     {
         protected override List<int> DefaultRemindersInMinutes { get; set; } = new List<int>() { 2 * 60, 4 * 60, };
 
-        internal override List<string> AddCustomSummary()
+        public FlightInformation FlightInformation { get; private set; } = new FlightInformation();
+
+        public override List<string> AddCustomSummary()
         {
             var list = new List<string>
             {
@@ -16,8 +18,6 @@ namespace GoogleLibrary.Events
             };
             return list;
         }
-
-        public FlightInformation FlightInformation { get; private set; } = new FlightInformation();
 
         public override void Build(List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
         {
