@@ -1,39 +1,63 @@
-﻿//using Google.Apis.Calendar.v3.Data;
-//using GoogleLibrary.EventsServices;
-//using GoogleLibrary.GoogleAuthentication;
-//using GoogleLibrary.Services;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
+﻿using Google.Apis.Calendar.v3.Data;
+using GoogleLibrary.GoogleAuthentication;
+using GoogleLibrary.GoogleServices;
 
-//namespace GoogleLibrary.Test.GoogleServices
-//{
-//    [TestClass]
-//    public class TestGoogleCalendarsService : GoogleAuthenticatedUnitTest
-//    {
-//        [TestMethod]
-//        public async Task TestDeleteCalendars_WithPredicate()
-//        {
-//            var calendars = GoogleCalendarsService.GetCalendars(x => new List<string>()
-//            {
-//                "0eee9f85",
-//                "32b32e2e",
-//                "88ff3c87",
-//                "df9cf2ad",
-//                "bea5ebb5",
-//            }.Contains(x.Summary));
-//            var calendarIds = calendars.Items.Select(x => x.Id).ToList();
-//            foreach (var calendarId in calendarIds)
-//                await GoogleCalendarsService.DeleteCalendarAsync(calendarId);
-//        }
+namespace GoogleLibrary.IntegrationTest.GoogleServices
+{
+    [TestClass]
+    public class TestGoogleCalendarsService : GoogleAuthenticatedUnitTest
+    {
+        [DataTestMethod]
+        [DataRow("primary", "Calendar is primary calendar")]
+        [DataRow("primary2", "Calendar is primary calendar")]
+        [DataRow("garethbird", "Calendar name is a reserved name")]
+        [DataRow("gareth", "Calendar name is a reserved name")]
+        [DataRow("garethx", "Calendar name starts with a reserved name")]
+        [DataRow("mytestreserved", "Calendar name contains a reserved name")]
+        public void TestCheckDeleteCalendarExceptions(string name, string reason)
+        {
+            var ex = Assert.ThrowsException<CannotDeleteCalendarException>(() => GoogleCalendarsService.CheckCanDeleteCalendar(name));
+            Assert.IsTrue(ex.Message.Contains(reason), $"Message: \"{ex.Message}\" does not contain \"{reason}\"");
+        }
 
-//        [TestInitialize]
-//        public async Task TestInitialize()
-//        {
-//            await GoogleOAuthAuthenticatorHelper.CreateAsync(
-//                GoogleCalendarsService);
-//        }
-//    }
-//}
+        [DataTestMethod]
+        [DataRow("aaa")]
+        [DataRow("bbb")]
+        public void TestCheckDeleteCalendarOk(string name)
+        {
+            Assert.IsTrue(GoogleCalendarsService.CheckCanDeleteCalendar(name));
+        }
+
+        [TestMethod]
+        public async Task TestCreateDeleteCalendar()
+        {
+            var summary = Guid.NewGuid().ToString();
+            var calendar = await GoogleCalendarsService.CreateOrGetCalendarAsync(summary);
+            try
+            {
+                Assert.IsTrue(calendar.Summary == summary);
+            }
+            finally
+            {
+                await GoogleCalendarsService.DeleteCalendarAsync(calendar.Id);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestDeleteCalendars_WithPredicate()
+        {
+            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith("_");
+            var calendarIds = GoogleCalendarsService.GetCalendars(predicate).Items.Select(x => x.Id).ToList();
+            if (!calendarIds.Any())
+                await GoogleCalendarsService.CreateCalendarAsync("_deleteme_");
+            await GoogleCalendarsService.DeleteCalendarsAsync(predicate);
+        }
+
+        [TestInitialize]
+        public async Task TestInitialize()
+        {
+            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+                GoogleCalendarsService);
+        }
+    }
+}

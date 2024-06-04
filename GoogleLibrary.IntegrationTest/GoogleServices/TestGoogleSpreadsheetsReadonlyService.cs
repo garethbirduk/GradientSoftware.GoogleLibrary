@@ -1,6 +1,6 @@
 using GoogleLibrary.GoogleAuthentication;
 
-namespace GoogleLibrary.IntegrationTest.other
+namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
     [TestClass]
     public class TestGoogleSpreadsheetsReadonlyService : GoogleAuthenticatedUnitTest

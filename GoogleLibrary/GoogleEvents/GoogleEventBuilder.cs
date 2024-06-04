@@ -51,32 +51,32 @@ namespace GoogleLibrary.GoogleEvents
 
                 case EventStatus.Idea:
                     {
-                        googleEvent.ColorId = ColorId.Orange;
+                        googleEvent.ColorId = ColorId.Orange.ToString();
                         break;
                     }
                 case EventStatus.Planned:
                     {
-                        googleEvent.ColorId = ColorId.Yellow;
+                        googleEvent.ColorId = ColorId.Yellow.ToString();
                         break;
                     }
                 case EventStatus.Confirmed:
                     {
-                        googleEvent.ColorId = ColorId.Green;
+                        googleEvent.ColorId = ColorId.Green.ToString();
                         break;
                     }
                 case EventStatus.Reserved:
                     {
-                        googleEvent.ColorId = ColorId.Green;
+                        googleEvent.ColorId = ColorId.Green.ToString();
                         break;
                     }
                 case EventStatus.Paid:
                     {
-                        googleEvent.ColorId = ColorId.Cyan;
+                        googleEvent.ColorId = ColorId.Cyan.ToString();
                         break;
                     }
                 case EventStatus.Cancelled:
                     {
-                        googleEvent.ColorId = ColorId.Red;
+                        googleEvent.ColorId = ColorId.Red.ToString();
                         break;
                     }
                 default:

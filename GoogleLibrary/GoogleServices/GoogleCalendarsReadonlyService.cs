@@ -1,10 +1,6 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
+﻿using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace GoogleLibrary.GoogleServices
 {
@@ -50,11 +46,11 @@ namespace GoogleLibrary.GoogleServices
         /// </summary>
         public CalendarList GetCalendars()
         {
-            return GoogleService.CalendarList.List().Execute();
+            return GetCalendars(x => true);
         }
 
         /// <summary>
-        /// Gets all calendars.
+        /// Gets all calendars according to predicate filter.
         /// </summary>
         public CalendarList GetCalendars(Func<CalendarListEntry, bool> predicate)
         {

@@ -1,15 +1,11 @@
 ﻿namespace GoogleLibrary.Events
 {
-    public static class ColorId
+    public enum ColorId
     {
-        public static string Cyan = "7";
-
-        public static string Green = "10";
-
-        public static string Orange = "6";
-
-        public static string Red = "11";
-
-        public static string Yellow = "5";
+        Yellow = 5,
+        Orange = 6,
+        Cyan = 7,
+        Green = 10,
+        Red = 11,
     }
 }

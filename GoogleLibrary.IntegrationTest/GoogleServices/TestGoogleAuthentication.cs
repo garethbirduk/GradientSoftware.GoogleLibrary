@@ -1,10 +1,6 @@
-using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleAuthentication;
-using GoogleLibrary.IntegrationTest;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
-namespace GoogleLibrary.IntegrationTest.other
+namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
     [TestClass]
     public class TestGoogleOAuthAuthenticator : GoogleAuthenticatedUnitTest

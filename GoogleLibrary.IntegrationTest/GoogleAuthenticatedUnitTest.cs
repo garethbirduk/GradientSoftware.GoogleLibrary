@@ -4,10 +4,11 @@ using GoogleLibrary.GoogleServices;
 
 namespace GoogleLibrary.IntegrationTest
 {
+    /// <summary>
+    /// base class gives tests access to all the services derived classes may need.
+    /// </summary>
     public class GoogleAuthenticatedUnitTest
     {
-        // shortcut: give it all the services it might need
-
         protected CalendarListEntry Calendar { get; set; }
         protected string CalendarId { get; set; }
         protected CustomCalendarService CustomCalendarService { get; set; }

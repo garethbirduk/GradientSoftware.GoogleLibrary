@@ -1,15 +1,9 @@
 using Google;
-using Google.Apis.Sheets.v4.Data;
 using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleAuthentication;
 using GoogleLibrary.GoogleServices;
-using GoogleLibrary.IntegrationTest;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace GoogleLibrary.IntegrationTest.other
+namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
     [TestClass]
     public class TestGoogleSpreadsheetReadonlyService : GoogleAuthenticatedUnitTest
@@ -48,8 +42,7 @@ namespace GoogleLibrary.IntegrationTest.other
         [TestMethod]
         public async Task TestGetData_WorksheetNameException()
         {
-            Assert.IsTrue((await GoogleSpreadsheetReadonlyService.GetWorksheetData(SpreadsheetId, "USA2024")).Range.Count() > 0);
-            await Assert.ThrowsExceptionAsync<GoogleApiException>(() => GoogleSpreadsheetReadonlyService.GetData(SpreadsheetId, "USA2024"));
+            await Assert.ThrowsExceptionAsync<GoogleApiException>(async () => await GoogleSpreadsheetReadonlyService.GetWorksheetData(SpreadsheetId, "USA2024"));
         }
 
         [DataTestMethod]

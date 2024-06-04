@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GoogleLibrary.GoogleServices
+﻿namespace GoogleLibrary.GoogleServices
 {
     public interface IGooglePersonalData
     {

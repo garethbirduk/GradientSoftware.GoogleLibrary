@@ -1,12 +1,7 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
+﻿using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using GoogleLibrary.GoogleExtensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GoogleLibrary.GoogleServices
 {
@@ -67,7 +62,7 @@ namespace GoogleLibrary.GoogleServices
 
         public async Task<ValueRange> GetWorksheetData(string spreadsheetId, string worksheetName)
         {
-            return await GetData(spreadsheetId, worksheetName, BuildRange(0, 0, null, null));
+            return await GetData(spreadsheetId, worksheetName);
         }
 
         public async Task<List<Sheet>> GetWorksheets(string spreadsheetId)

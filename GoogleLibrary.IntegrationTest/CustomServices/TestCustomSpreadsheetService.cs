@@ -1,7 +1,7 @@
 using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleAuthentication;
 
-namespace GoogleLibrary.IntegrationTest.other
+namespace GoogleLibrary.IntegrationTest.CustomServices
 {
     [TestClass]
     public class TestCustomSpreadsheetService : GoogleAuthenticatedUnitTest
