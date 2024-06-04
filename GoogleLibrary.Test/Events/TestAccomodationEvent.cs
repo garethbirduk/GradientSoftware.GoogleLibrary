@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GoogleLibrary.Test.Events
 {
     [TestClass]
-    public class AccommodationEventTests
+    public class TestAccomodationEvent
     {
         [DataTestMethod]
         [DataRow("")]

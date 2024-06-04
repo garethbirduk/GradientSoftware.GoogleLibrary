@@ -154,23 +154,6 @@ namespace GoogleLibrary.Events
         }
 
         /// <summary>
-        /// Add a custom summary to the summary builder based on title, status etc.
-        /// </summary>
-        /// <returns></returns>
-        internal virtual IEnumerable<string> AddCustomSummary()
-        {
-            var list = new List<string>()
-            {
-                Title
-            };
-            if (Status != EventStatus.None)
-                list.Add($"({EventStatusMap[Status]})");
-            if (Category != EventCategory.None)
-                list.Add($"{Category}:");
-            return list;
-        }
-
-        /// <summary>
         /// The event id
         /// </summary>
         public readonly Guid EventId = Guid.NewGuid();
@@ -180,16 +163,15 @@ namespace GoogleLibrary.Events
         /// </summary>
         public List<string> AdditionalData { get; private set; } = [];
 
-        ///// <summary>
-        ///// List of attendees known enum form.
-        ///// </summary>
-        //public IEnumerable<EnumAttendeeField> Attendees { get; set; } = new List<EnumAttendeeField>();
-
         /// <summary>
         /// Event category.
         /// </summary>
         public EventCategory Category { get; set; } = EventCategory.None;
 
+        ///// <summary>
+        ///// List of attendees known enum form.
+        ///// </summary>
+        //public IEnumerable<EnumAttendeeField> Attendees { get; set; } = new List<EnumAttendeeField>();
         /// <summary>
         /// Attendee-contact info key-value pairs.
         /// </summary>
@@ -559,6 +541,23 @@ namespace GoogleLibrary.Events
         public static bool TimeIsWithinPeriod(DateTime reminderDateTime, DateTime periodStart, DateTime periodEnd)
         {
             return reminderDateTime >= periodStart && reminderDateTime <= periodEnd;
+        }
+
+        /// <summary>
+        /// Add a custom summary to the summary builder based on title, status etc.
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerable<string> AddCustomSummary()
+        {
+            var list = new List<string>()
+            {
+                Title
+            };
+            if (Status != EventStatus.None)
+                list.Add($"({EventStatusMap[Status]})");
+            if (Category != EventCategory.None)
+                list.Add($"{Category}:");
+            return list;
         }
 
         /// <summary>
