@@ -49,7 +49,11 @@ namespace GoogleLibrary.Test.Events
         [TestMethod]
         [DataRow("Mon 1 Jan", 2024, 1, 1)]
         [DataRow("Mon 30 Dec", 2024, 12, 30)]
+        [DataRow("Monday 30 Dec", 2024, 12, 30)]
+        [DataRow("Monday 30 Dec 2024", 2024, 12, 30)] // THIS FAILS
+        [DataRow("Monday 30th Dec 2024", 2024, 12, 30)]
         [DataRow("1 Jan", 2024, 1, 1)]
+        [DataRow("1st Jan", 2024, 1, 1)] // THIS FAILS
         [DataRow("31 Dec", 2024, 12, 31)]
         [DataRow("01/01/2024", 2024, 1, 1)]
         [DataRow("1/07/2024", 2024, 7, 1)]
