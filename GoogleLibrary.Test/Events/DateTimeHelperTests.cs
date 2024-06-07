@@ -50,10 +50,13 @@ namespace GoogleLibrary.Test.Events
         [DataRow("Mon 1 Jan", 2024, 1, 1)]
         [DataRow("Mon 30 Dec", 2024, 12, 30)]
         [DataRow("Monday 30 Dec", 2024, 12, 30)]
-        [DataRow("Monday 30 Dec 2024", 2024, 12, 30)] // THIS FAILS
+        [DataRow("Monday 30 Dec 2024", 2024, 12, 30)]
         [DataRow("Monday 30th Dec 2024", 2024, 12, 30)]
+        [DataRow("Friday 14th June 2024", 2024, 06, 14)]
+        [DataRow("Thursday 13th June 2024", 2024, 06, 13)]
+        [DataRow("Thursday 13th Jun 2024", 2024, 06, 13)]
         [DataRow("1 Jan", 2024, 1, 1)]
-        [DataRow("1st Jan", 2024, 1, 1)] // THIS FAILS
+        [DataRow("1st Jan", 2024, 1, 1)]
         [DataRow("31 Dec", 2024, 12, 31)]
         [DataRow("01/01/2024", 2024, 1, 1)]
         [DataRow("1/07/2024", 2024, 7, 1)]
@@ -63,7 +66,7 @@ namespace GoogleLibrary.Test.Events
         [DataRow("1/07/24", 2024, 7, 1)]
         [DataRow("01/1/24", 2024, 1, 1)]
         [DataRow("31/12/24", 2024, 12, 31)]
-        public void Parse_ValidDateFormats_ReturnsExpectedDate(string input, int expectedYear, int expectedMonth, int expectedDay)
+        public void Parse(string input, int expectedYear, int expectedMonth, int expectedDay)
         {
             // Arrange
             var expected = new DateTime(expectedYear, expectedMonth, expectedDay);
