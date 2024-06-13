@@ -11,13 +11,13 @@ namespace GoogleLibrary.Test.Events
     {
         private readonly DateTime eventStart = new DateTime(2024, 2, 1, 8, 0, 0);
 
-        private List<(TimeSpan Start, TimeSpan End)> silentPeriods = new List<(TimeSpan Start, TimeSpan End)>
-        {
+        private List<(TimeSpan Start, TimeSpan End)> silentPeriods =
+        [
             (TimeSpan.FromHours(0), TimeSpan.FromHours(7)), // Silent period from 00:00 to 07:00
             (TimeSpan.FromHours(22), TimeSpan.FromHours(24)), // Silent period from 22:00 to 23:59:59, note that 24:00 is technically 00:00 next day
             (TimeSpan.FromHours(21), TimeSpan.FromHours(23).Add(TimeSpan.FromMinutes(10))), // Silent period from 21:00 to 23:10
             (TimeSpan.FromHours(18), TimeSpan.FromHours(19)), // Silent period from 18:00 to 19:00
-        };
+        ];
 
         [TestMethod]
         public void FinalizeReminders_ShouldRemoveDuplicatesAndSort()

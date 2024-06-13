@@ -6,12 +6,12 @@ namespace GoogleLibrary.Events
 {
     public static class AirportHelper
     {
-        public static Airport GetAirportOrDefault(string airportId)
+        public static Airport? GetAirportOrDefault(string airportId)
         {
             if (string.IsNullOrWhiteSpace(airportId))
                 return null;
             var airportProvider = new OpenFlightsDataAirportProvider("airports.cache", new OpenFlightsDataCountryProvider("countries.cache"));
-            AirportIataCodeDatabase airportCodes = new AirportIataCodeDatabase();
+            var airportCodes = new AirportIataCodeDatabase();
             airportCodes.AddOrUpdateAirports(airportProvider.GetAllAirports(), true, true);
 
             if (airportCodes.TryGetAirport(airportId, out Airport airport))
@@ -36,9 +36,9 @@ namespace GoogleLibrary.Events
         /// <param name="to"></param>
         public static void SetAddresses(Location from, Location to)
         {
-            if (from is AirportLocation && to is not AirportLocation)
+            if (from is AirportLocation location && to is not AirportLocation)
             {
-                from.Address = $"{((AirportLocation)from).AirportInformation.Name} Arrivals";
+                from.Address = $"{location.AirportInformation.Name} Arrivals";
             }
             else if (from is not AirportLocation && to is AirportLocation)
             {

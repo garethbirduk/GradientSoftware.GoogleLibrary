@@ -37,7 +37,7 @@ namespace GoogleLibrary.Events
             //}
         }
 
-        private static BasicEvent FindDuplicate(BasicEvent myEvent, IEnumerable<BasicEvent> otherEvents)
+        private static BasicEvent? FindDuplicateOrDefault(BasicEvent myEvent, IEnumerable<BasicEvent> otherEvents)
         {
             return otherEvents.SingleOrDefault(x =>
                 x.EventId != myEvent.EventId
@@ -55,7 +55,7 @@ namespace GoogleLibrary.Events
             var events = data.Select(x => EventBuilder.Create(fields, x.ToList())).ToList();
             foreach (var myEvent in events)
             {
-                var duplicate = FindDuplicate(myEvent, list);
+                var duplicate = FindDuplicateOrDefault(myEvent, list);
                 if (duplicate == null)
                 {
                     if (!string.IsNullOrWhiteSpace(string.Join(" ", myEvent.Summary)))

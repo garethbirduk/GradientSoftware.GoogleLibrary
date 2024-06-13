@@ -7,6 +7,8 @@ namespace GoogleLibrary.Events
     {
         internal static BasicEvent Create(Event x)
         {
+            // todo...
+            Console.WriteLine(x);
             return new BasicEvent();
         }
 

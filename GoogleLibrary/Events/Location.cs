@@ -12,20 +12,22 @@
             if (Address == "")
                 Address = ShortName;
 
-            if (ShortName.ToLowerInvariant() == "home")
+            if (ShortName.Equals(Home, StringComparison.InvariantCultureIgnoreCase))
             {
-                ShortName = "Home";
+                ShortName = Home;
                 Address = "10 Bourne Close, Beeston, NG9 3BZ, UK";
             }
         }
+
+        public readonly string Home = nameof(Home);
 
         public Location(string? shortName = null, string? address = null)
         {
             SetShortNameAndAddress(shortName, address);
         }
 
-        public string Address { get; set; }
+        public string Address { get; set; } = "";
 
-        public string ShortName { get; set; }
+        public string ShortName { get; set; } = "";
     }
 }

@@ -2,7 +2,7 @@
 {
     public class FlightEvent : TravelEvent
     {
-        protected override List<int> DefaultRemindersInMinutes { get; set; } = new List<int>() { 2 * 60, 4 * 60, };
+        protected override List<int> DefaultRemindersInMinutes { get; set; } = [2 * 60, 4 * 60,];
 
         public FlightInformation FlightInformation { get; private set; } = new FlightInformation();
 
