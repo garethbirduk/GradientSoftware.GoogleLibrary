@@ -1,8 +1,5 @@
 ﻿using GoogleLibrary.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-using System.Collections.Generic;
 
 namespace GoogleLibrary.Test.Events
 {
@@ -10,10 +7,14 @@ namespace GoogleLibrary.Test.Events
     public class TestFightEvent
     {
         [TestMethod]
-        public void Test1()
+        public void TestFlightInformation()
         {
             var e = new FlightEvent();
-            Assert.IsNotNull(e);
+            e.FlightInformation.Carrier = "British Airways";
+            e.FlightInformation.Number = "BA1234";
+            Assert.AreEqual("British Airways (BA1234)", e.FlightInformation.FlightDetails);
+            Assert.AreEqual("(BA1234)", e.FlightInformation.FlightSummary);
+            Assert.AreEqual("https://www.flightradar24.com/BA1234", e.FlightInformation.FlightTracker);
         }
     }
 }
