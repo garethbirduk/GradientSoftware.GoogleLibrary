@@ -1,4 +1,6 @@
-﻿namespace GoogleLibrary.Events
+﻿using Gradient.Utils.Attributes;
+
+namespace GoogleLibrary.Events
 {
     public enum EventCategory
     {
@@ -6,8 +8,10 @@
 
         None,
 
+        [Alias("plane")]
         Flight,
 
+        [Alias("car")]
         Drive,
 
         Train,

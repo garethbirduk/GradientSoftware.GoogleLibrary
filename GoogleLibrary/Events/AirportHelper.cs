@@ -1,31 +1,49 @@
-﻿using PostSharp.Patterns.Contracts;
-using System;
+﻿using Ibistic.Public.OpenAirportData;
+using Ibistic.Public.OpenAirportData.MemoryDatabase;
+using Ibistic.Public.OpenAirportData.OpenFlightsData;
 
 namespace GoogleLibrary.Events
 {
     public static class AirportHelper
     {
+        public static Airport? GetAirportOrDefault(string airportId)
+        {
+            if (string.IsNullOrWhiteSpace(airportId))
+                return null;
+            var airportProvider = new OpenFlightsDataAirportProvider("airports.cache", new OpenFlightsDataCountryProvider("countries.cache"));
+            var airportCodes = new AirportIataCodeDatabase();
+            airportCodes.AddOrUpdateAirports(airportProvider.GetAllAirports(), true, true);
+
+            if (airportCodes.TryGetAirport(airportId, out Airport airport))
+                return airport;
+            return null;
+        }
+
         /// <summary>
         /// Checks if the location could be an airport 3-letter code
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
-        public static bool IsAirport(this Location location)
+        public static bool IsAirport(this string location)
         {
-            return location.ShortName.Equals(location.ShortName, StringComparison.CurrentCultureIgnoreCase) && location.ShortName.Length == 3;
+            return GetAirportOrDefault(location) != null;
         }
 
         /// <summary>
-        /// Checks if the location is an airport to airport route.
+        /// Sets the airport suffix or shortname
         /// </summary>
-        /// <param name="location1"></param>
-        /// <param name="location2"></param>
-        /// <returns></returns>
-        public static bool IsAirportToAirport(this Location location1, [Required] Location location2)
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public static void SetAddresses(Location from, Location to)
         {
-            if (location1.ShortName == location2.ShortName)
-                return false;
-            return location1.IsAirport() && location2.IsAirport();
+            if (from is AirportLocation location && to is not AirportLocation)
+            {
+                from.Address = $"{location.AirportInformation.Name} Arrivals";
+            }
+            else if (from is not AirportLocation && to is AirportLocation)
+            {
+                to.Address = $"{((AirportLocation)to).AirportInformation.Name} Departures";
+            }
         }
     }
 }

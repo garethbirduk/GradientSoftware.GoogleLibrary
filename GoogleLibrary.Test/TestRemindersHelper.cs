@@ -37,7 +37,7 @@
 //        [DataRow("2024-01-02T00:00:01", true)] // Just after the end of the period, but exists in other period
 //        public void TestReminderDateTimeIsInSilentPeriod(string reminder, bool expected)
 //        {
-//            bool result = RemindersHelper.ReminderIsInSilentPeriod(DateTime.Parse(reminder), silentPeriods);
+//            bool result = RemindersHelper.ReminderIsInSilentPeriod(DateTime.ParseAdvanced(reminder), silentPeriods);
 //            Assert.AreEqual(expected, result, $"Testing for reminder at {reminder}. Expected {expected}, got {result}.");
 //        }
 

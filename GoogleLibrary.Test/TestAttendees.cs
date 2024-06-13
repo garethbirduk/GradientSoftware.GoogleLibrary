@@ -69,7 +69,7 @@ namespace GoogleLibrary.Test
 
     public class MyClass
     {
-        public List<IAttendee> Attendees { get; set; } = new List<IAttendee>();
+        public List<IAttendee> Attendees { get; set; } = [];
 
         public List<string> GetAttendeesAlias()
         {
@@ -92,11 +92,11 @@ namespace GoogleLibrary.Test
         {
             var myClass = new MyClass()
             {
-                Attendees = new List<IAttendee>()
-                {
+                Attendees =
+                [
                     new EnumAttendeeWrapper<EnumAttendeeField1>(EnumAttendeeField1.Andy),
                     new EnumAttendeeWrapper<EnumAttendeeField1>(EnumAttendeeField1.Carl),
-                }
+                ]
             };
             var list = myClass.GetAttendeesAlias();
             Assert.AreEqual("A", list[0]);

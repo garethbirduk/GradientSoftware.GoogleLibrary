@@ -1,5 +1,6 @@
 using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleAuthentication;
+using Gradient.Utils;
 
 namespace GoogleLibrary.IntegrationTest.CustomServices
 {
@@ -17,7 +18,7 @@ namespace GoogleLibrary.IntegrationTest.CustomServices
         [TestMethod]
         public async Task TestRoundTrip()
         {
-            var calendarName = Utils.RandomName(prefix: "_deleteme_");
+            var calendarName = StringHelpers.RandomName(prefix: "_deleteme_");
             var worksheetName = "ExampleSimple";
 
             CalendarId = GoogleCalendarsService.CreateCalendar(calendarName).Id;

@@ -7,6 +7,8 @@ namespace GoogleLibrary.Events
     {
         internal static BasicEvent Create(Event x)
         {
+            // todo...
+            Console.WriteLine(x);
             return new BasicEvent();
         }
 
@@ -15,7 +17,7 @@ namespace GoogleLibrary.Events
             for (var i = data.Count; i < fields.Count; i++)
                 data.Add("");
 
-            var category = BasicEvent.GetEnum<EnumEventFieldType, EventCategory>(EnumEventFieldType.Category, fields, data);
+            var category = fields.GetEnumOrDefault<EnumEventFieldType, EventCategory>(EnumEventFieldType.Category, data);
 
             BasicEvent e;
             switch (category)
