@@ -1,4 +1,5 @@
 using GoogleLibrary.GoogleAuthentication;
+using Gradient.Utils;
 
 namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
@@ -8,8 +9,8 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         [TestMethod]
         public async Task TestCreateWorksheetsAsync()
         {
-            var name1 = Utils.RandomName(prefix: "_deleteme_");
-            var name2 = Utils.RandomName(prefix: "_deleteme_");
+            var name1 = StringHelpers.RandomName(prefix: "_deleteme_");
+            var name2 = StringHelpers.RandomName(prefix: "_deleteme_");
 
             var worksheets = await GoogleSpreadsheetReadonlyService.GetWorksheets(SpreadsheetId);
             Assert.IsNull(worksheets.Where(x => x.Properties.Title == name1).FirstOrDefault());

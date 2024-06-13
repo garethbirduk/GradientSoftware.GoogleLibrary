@@ -1,5 +1,6 @@
 using GoogleLibrary.EventsServices;
 using GoogleLibrary.GoogleAuthentication;
+using Gradient.Utils;
 
 namespace GoogleLibrary.IntegrationTest.CustomServices
 {
@@ -15,14 +16,14 @@ namespace GoogleLibrary.IntegrationTest.CustomServices
         [TestMethod]
         public async Task TestCreateItineraryEvents()
         {
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(Utils.RandomName())).Id;
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(StringHelpers.RandomName())).Id;
             await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleItinerary", CalendarId, headerRowsCount: 2);
         }
 
         [TestMethod]
         public async Task TestCreateTest2()
         {
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(Utils.RandomName())).Id;
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(StringHelpers.RandomName())).Id;
             await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleSimple", CalendarId);
         }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GoogleLibrary.Events
+﻿namespace GoogleLibrary.Events
 {
     public class FlightEvent : TravelEvent
     {
@@ -22,8 +19,8 @@ namespace GoogleLibrary.Events
         public override void Build(List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
         {
             base.Build(fields, data);
-            FlightInformation.Carrier = GetString(EnumEventFieldType.FlightCarrier, fields, data);
-            FlightInformation.Number = GetString(EnumEventFieldType.FlightNumber, fields, data);
+            FlightInformation.Carrier = fields.GetStringOrDefault(EnumEventFieldType.FlightCarrier, data);
+            FlightInformation.Number = fields.GetStringOrDefault(EnumEventFieldType.FlightNumber, data);
             CustomFields.Add("Flight", FlightInformation.FlightDetails);
             CustomFields.Add("Flight tracker", FlightInformation.FlightTracker);
         }

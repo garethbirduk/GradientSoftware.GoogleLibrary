@@ -1,4 +1,5 @@
 ﻿using GoogleLibrary.GoogleAuthentication;
+using Gradient.Utils;
 
 namespace GoogleLibrary.IntegrationTest.GoogleServices
 {
@@ -20,7 +21,7 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         {
             try
             {
-                var calendarName2 = Utils.RandomName(prefix: "_sandbox_");
+                var calendarName2 = StringHelpers.RandomName(prefix: "_sandbox_");
                 GoogleCalendarService.RenameCalendar(CalendarId, calendarName2);
                 Assert.IsNull(GoogleCalendarsService.GetCalendarBySummary(_calendarName1));
                 Assert.IsNotNull(GoogleCalendarsService.GetCalendarBySummary(calendarName2));
@@ -36,7 +37,7 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         public void TestSetDescription()
         {
             Assert.IsNull(GoogleCalendarService.Calendar(CalendarId).Description);
-            var description = Utils.RandomName(prefix: "_deleteme_");
+            var description = StringHelpers.RandomName(prefix: "_deleteme_");
             GoogleCalendarService.SetDescription(CalendarId, description);
             Assert.AreEqual(description, GoogleCalendarService.Calendar(CalendarId).Description);
         }
