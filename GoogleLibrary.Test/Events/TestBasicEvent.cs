@@ -9,9 +9,9 @@ namespace GoogleLibrary.Test.Events
     [TestClass]
     public class TestBasicEvent
     {
-        private readonly DateTime eventStart = new DateTime(2024, 2, 1, 8, 0, 0);
+        private readonly DateTime eventStart = new(2024, 2, 1, 8, 0, 0);
 
-        private List<(TimeSpan Start, TimeSpan End)> silentPeriods =
+        private readonly List<(TimeSpan Start, TimeSpan End)> silentPeriods =
         [
             (TimeSpan.FromHours(0), TimeSpan.FromHours(7)), // Silent period from 00:00 to 07:00
             (TimeSpan.FromHours(22), TimeSpan.FromHours(24)), // Silent period from 22:00 to 23:59:59, note that 24:00 is technically 00:00 next day

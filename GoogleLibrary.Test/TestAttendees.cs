@@ -51,14 +51,9 @@ namespace GoogleLibrary.Test
         }
     }
 
-    public class EnumAttendeeWrapper<T> : IAttendee where T : Enum
+    public class EnumAttendeeWrapper<T>(T enumValue) : IAttendee where T : Enum
     {
-        private readonly T _enumValue;
-
-        public EnumAttendeeWrapper(T enumValue)
-        {
-            _enumValue = enumValue;
-        }
+        private readonly T _enumValue = enumValue;
 
         public IEnumerable<string> Aliases()
         {

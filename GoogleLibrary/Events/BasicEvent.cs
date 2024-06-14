@@ -97,7 +97,7 @@ namespace GoogleLibrary.Events
         /// <summary>
         /// The description.
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
 
         /// <summary>
         /// The optional end date.
@@ -160,7 +160,7 @@ namespace GoogleLibrary.Events
         /// <summary>
         /// The title of the event. Also known as the Name or simply the Event.
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = "";
 
         public static List<int> FinalizeReminders(List<int> reminders)
         {
