@@ -7,6 +7,7 @@ namespace GoogleLibrary.Events
     {
         private static void CombineEvent(BasicEvent primary, BasicEvent secondary)
         {
+            Console.WriteLine(primary.EventId + " " + secondary.EventId);
             //var descriptions = new List<Dictionary<string, string>>();
             //var list = new List<BasicEvent> { primary, secondary };
             //foreach (var item in list)
