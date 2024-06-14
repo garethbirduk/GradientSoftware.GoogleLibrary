@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace GoogleLibrary.Events
+﻿namespace GoogleLibrary.Events
 {
     public class AccommodationEvent : BasicEvent
     {
         protected override List<int> DefaultRemindersInMinutes { get; set; } = new List<int>() { 12 * 60 };
 
-        public Location Location { get; set; }
+        public Location Location { get; set; } = new();
 
         public override List<string> AddCustomSummary()
         {
