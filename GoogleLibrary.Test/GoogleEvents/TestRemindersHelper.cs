@@ -1,6 +1,5 @@
 ﻿using Google.Apis.Calendar.v3.Data;
 using GoogleLibrary.Custom.Events;
-using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -42,7 +41,7 @@ namespace GoogleLibrary.GoogleEvents.Tests
                 EndDate = DateTime.Now.AddDays(1),
                 EndTime = DateTime.Now.AddDays(1),
                 Description = "Test Description",
-                Locations = new List<Location>() { new Location("here") },
+                Locations = new() { new("here") },
                 Status = EventStatus.Confirmed,
                 ContactableAttendees = new Dictionary<string, string> { { "Contact1", "contact1@test.com" } }
             };
@@ -101,7 +100,7 @@ namespace GoogleLibrary.GoogleEvents.Tests
             var googleEvent = new Event();
             var reminders = new List<EventReminder>
             {
-                new EventReminder { Method = "email", Minutes = 10 }
+                new () { Method = "email", Minutes = 10 }
             };
 
             googleEvent.WithReminders(reminders);

@@ -2,7 +2,7 @@
 {
     public class TravelEvent : BasicEvent
     {
-        internal override List<int> DefaultRemindersInMinutes { get; set; } = new List<int>() { 1 * 60, 2 * 60 };
+        internal override List<int> DefaultRemindersInMinutes { get; set; } = [1 * 60, 2 * 60];
 
         public virtual string RouteSummary
         {
