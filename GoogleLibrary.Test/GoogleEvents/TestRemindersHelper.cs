@@ -13,14 +13,14 @@ namespace GoogleLibrary.GoogleEvents.Tests
         public void Build_WithMissingStartDateTime_ThrowsNullReferenceException()
         {
             var googleEvent = new Event { Summary = "Test Event" };
-            Assert.ThrowsException<NullReferenceException>(() => googleEvent.Build());
+            Assert.ThrowsException<NullReferenceException>(googleEvent.Build);
         }
 
         [TestMethod]
         public void Build_WithMissingSummary_ThrowsGoogleEventBuilderException()
         {
             var googleEvent = new Event();
-            Assert.ThrowsException<GoogleEventBuilderException>(() => googleEvent.Build());
+            Assert.ThrowsException<GoogleEventBuilderException>(googleEvent.Build);
         }
 
         [TestMethod]
