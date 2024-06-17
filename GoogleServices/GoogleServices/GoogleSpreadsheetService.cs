@@ -1,11 +1,6 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Sheets.v4;
+﻿using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using GoogleLibrary.GoogleSheets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GoogleServices
 {
@@ -13,7 +8,7 @@ namespace GoogleServices
     {
         /// <summary>
         /// It's a batch request so you can create more than one request and send them all in one
-        /// batch.Just use reqs.Requests.Add() to add additional requests for the same
+        /// batch. Just use reqs.Requests.Add() to add additional requests for the same
         /// spreadsheet requests.Requests.Add(request);
         /// </summary>
         /// <param name="requests"></param>

@@ -33,11 +33,11 @@ namespace GoogleLibrary.Test.Custom.Events
             var flightEvent = new FlightEvent();
             var fields = new List<Tuple<string, EnumEventFieldType>>
             {
-                new Tuple<string, EnumEventFieldType>("From", EnumEventFieldType.From),
-                new Tuple<string, EnumEventFieldType>("Via", EnumEventFieldType.Via),
-                new Tuple<string, EnumEventFieldType>("To", EnumEventFieldType.To),
-                new Tuple<string, EnumEventFieldType>("Carrier", EnumEventFieldType.FlightCarrier),
-                new Tuple<string, EnumEventFieldType>("Number", EnumEventFieldType.FlightNumber)
+                new ("From", EnumEventFieldType.From),
+                new ("Via", EnumEventFieldType.Via),
+                new ("To", EnumEventFieldType.To),
+                new ("Carrier", EnumEventFieldType.FlightCarrier),
+                new ("Number", EnumEventFieldType.FlightNumber)
             };
             var data = new List<string> { "LHR", "MAD", "VVI", "Airline", "12345" };
 

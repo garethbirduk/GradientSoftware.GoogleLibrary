@@ -22,7 +22,7 @@ namespace GoogleServices
             return BuildRange(columnStart.ToGoogleColumn(indexBasis), rowStart, columnEnd.ToGoogleColumn(indexBasis), rowEnd);
         }
 
-        public static string BuildRange(string columnStart, int rowStart, string columnEnd = null, int? rowEnd = null)
+        public static string BuildRange(string columnStart, int rowStart, string? columnEnd = null, int? rowEnd = null)
         {
             if (string.IsNullOrWhiteSpace(columnEnd))
                 columnEnd = columnStart;
