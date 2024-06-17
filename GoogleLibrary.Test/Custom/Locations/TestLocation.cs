@@ -1,7 +1,7 @@
 ﻿using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoogleLibrary.Test.Locations
+namespace GoogleLibrary.Test.Custom.Locations
 {
     [TestClass]
     public class TestLocation

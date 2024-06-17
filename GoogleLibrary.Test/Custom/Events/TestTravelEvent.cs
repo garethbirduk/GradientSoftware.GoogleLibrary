@@ -2,7 +2,7 @@
 using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoogleLibrary.Events.Tests
+namespace GoogleLibrary.Test.Custom.Events
 {
     [TestClass]
     public class TestTravelEvent

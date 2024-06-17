@@ -1,7 +1,7 @@
 using GoogleLibrary.Custom.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoogleLibrary.Test.Events
+namespace GoogleLibrary.Test.Custom.Events
 {
     [TestClass]
     public class TestFieldMaps

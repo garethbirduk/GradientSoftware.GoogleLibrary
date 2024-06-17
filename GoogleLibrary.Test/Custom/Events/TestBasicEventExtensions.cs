@@ -3,7 +3,7 @@ using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace GoogleLibrary.Events.Tests
+namespace GoogleLibrary.Test.Custom.Events
 {
     [TestClass]
     public class TestBasicEventExtensions

@@ -1,34 +1,9 @@
-using Gradient.Utils.Attributes;
+using GoogleLibrary.Custom.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace GoogleLibrary.Tests
+namespace GoogleLibrary.Test.Custom.Events
 {
-    internal enum EnumEventFieldType
-    {
-        None,
-        Unknown,
-
-        [Alias("Title", "Event", "Name")]
-        Summary,
-
-        [Type(typeof(DateTime))]
-        [Alias("Start Date", "Date", "Date1")]
-        StartDate,
-
-        [Type(typeof(Currency))]
-        [Alias("£", "GBP")]
-        PricePounds,
-
-        [Type(typeof(Currency))]
-        [Alias("E", "EUR")]
-        PriceEuros,
-    }
-
-    internal static class Currency
-    {
-    }
-
     [TestClass]
     public class TypeAttributeTests
     {

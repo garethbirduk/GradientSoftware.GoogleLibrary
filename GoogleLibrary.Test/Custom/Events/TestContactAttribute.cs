@@ -2,7 +2,7 @@ using GoogleLibrary.Custom.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace GoogleLibrary.Events.Tests
+namespace GoogleLibrary.Test.Custom.Events
 {
     [TestClass]
     public class ContactAttributeTests

@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace GoogleLibrary.Events.Tests
+namespace GoogleLibrary.Test.Custom.Events
 {
     [TestClass]
     public class TestFlightEvent
