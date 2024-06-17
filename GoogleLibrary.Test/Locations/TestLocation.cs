@@ -1,7 +1,7 @@
-﻿using GoogleLibrary.Events;
+﻿using GoogleLibrary.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoogleLibrary.Test.Events
+namespace GoogleLibrary.Test.Locations
 {
     [TestClass]
     public class TestLocation

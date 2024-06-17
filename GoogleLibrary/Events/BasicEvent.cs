@@ -1,4 +1,5 @@
-﻿using Gradient.Utils;
+﻿using GoogleLibrary.Locations;
+using Gradient.Utils;
 
 namespace GoogleLibrary.Events
 {
@@ -22,29 +23,6 @@ namespace GoogleLibrary.Events
         };
 
         /// <summary>
-        /// The default reminders in minutes for instances of this type.
-        /// </summary>
-        protected virtual List<int> DefaultRemindersInMinutes { get; set; } = [1 * 60];
-
-        ///// <summary>
-        ///// Get a list of attendess.
-        ///// </summary>
-        ///// <param name = "enumEventFieldType" ></ param >
-        ///// < param name="fields"></param>
-        ///// <param name = "data" ></ param >
-        ///// < returns ></ returns >
-        //protected static List<EnumAttendeeField> GetAttendees(EnumEventFieldType enumEventFieldType, List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
-        //{
-        //    var list = GetList<string>(enumEventFieldType, fields, data);
-        //    var attendees = new List<EnumAttendeeField>();
-        //    foreach (var item in list)
-        //    {
-        //        //attendees.Add();
-        //    }
-        //    return attendees;
-        //}
-
-        /// <summary>
         /// Build the locations from 'from, to, via' etc.
         /// </summary>
         /// <param name="from"></param>
@@ -65,6 +43,28 @@ namespace GoogleLibrary.Events
             }
         }
 
+        /// <summary>
+        /// The default reminders in minutes for instances of this type.
+        /// </summary>
+        internal virtual List<int> DefaultRemindersInMinutes { get; set; } = [1 * 60];
+
+        ///// <summary>
+        ///// Get a list of attendess.
+        ///// </summary>
+        ///// <param name = "enumEventFieldType" ></ param >
+        ///// < param name="fields"></param>
+        ///// <param name = "data" ></ param >
+        ///// < returns ></ returns >
+        //protected static List<EnumAttendeeField> GetAttendees(EnumEventFieldType enumEventFieldType, List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
+        //{
+        //    var list = GetList<string>(enumEventFieldType, fields, data);
+        //    var attendees = new List<EnumAttendeeField>();
+        //    foreach (var item in list)
+        //    {
+        //        //attendees.Add();
+        //    }
+        //    return attendees;
+        //}
         /// <summary>
         /// The event id
         /// </summary>

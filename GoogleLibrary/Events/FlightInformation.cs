@@ -11,7 +11,7 @@
                 if (string.IsNullOrWhiteSpace(Number))
                     return $"{Carrier}".Trim();
                 else
-                    return $"{Carrier} ({Number})".Trim();
+                    return $"{Carrier} {FlightSummary}".Trim();
             }
         }
 

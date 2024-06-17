@@ -1,6 +1,6 @@
 ﻿using Ibistic.Public.OpenAirportData;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Locations
 {
     public class AirportLocation : Location
     {

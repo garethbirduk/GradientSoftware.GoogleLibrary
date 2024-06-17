@@ -1,4 +1,5 @@
-﻿using Gradient.Utils;
+﻿using GoogleLibrary.Locations;
+using Gradient.Utils;
 using System.Globalization;
 
 namespace GoogleLibrary.Events

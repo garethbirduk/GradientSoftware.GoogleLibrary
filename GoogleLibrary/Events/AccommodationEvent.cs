@@ -1,8 +1,10 @@
-﻿namespace GoogleLibrary.Events
+﻿using GoogleLibrary.Locations;
+
+namespace GoogleLibrary.Events
 {
     public class AccommodationEvent : BasicEvent
     {
-        protected override List<int> DefaultRemindersInMinutes { get; set; } = new List<int>() { 12 * 60 };
+        internal override List<int> DefaultRemindersInMinutes { get; set; } = [12 * 60];
 
         public Location Location { get; set; } = new();
 

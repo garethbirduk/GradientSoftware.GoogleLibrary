@@ -1,4 +1,4 @@
-﻿namespace GoogleLibrary.Events
+﻿namespace GoogleLibrary.Locations
 {
     public class Location
     {
