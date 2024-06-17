@@ -41,7 +41,7 @@ jobs:
       run: dotnet restore    
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release --nowarn
+      run: dotnet build --no-restore --configuration Release -nowarn
 
     - name: Install modules
       run: yarn --prefer-offline
