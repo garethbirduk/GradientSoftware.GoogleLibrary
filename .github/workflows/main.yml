@@ -84,12 +84,8 @@ jobs:
      if: github.ref == 'refs/heads/main'    
       run: echo "Badge data ${{steps.test_step.outputs.badge}}"
 
-    - name: Nuget deploy library Package
+    - name: Nuget deploy Packages
       if: github.ref == 'refs/heads/main'
-      run:
+      run: |
         dotnet nuget push ./GoogleLibrary/bin/Release/**/*.nupkg --source "github" --api-key ${{ secrets.GH_APIKEY }} --skip-duplicate
-
-    - name: Nuget deploy services Package
-      if: github.ref == 'refs/heads/main'
-      run:
         dotnet nuget push ./GoogleServices/bin/Release/**/*.nupkg --source "github" --api-key ${{ secrets.GH_APIKEY }} --skip-duplicate
