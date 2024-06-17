@@ -1,8 +1,8 @@
-﻿using GoogleLibrary.Locations;
+﻿using GoogleLibrary.Custom.Locations;
 using Gradient.Utils;
 using System.Globalization;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Custom.Events
 {
     public static class FieldsExtensions
     {

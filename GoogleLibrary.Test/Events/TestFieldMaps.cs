@@ -1,4 +1,4 @@
-using GoogleLibrary.Events;
+using GoogleLibrary.Custom.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoogleLibrary.Test.Events

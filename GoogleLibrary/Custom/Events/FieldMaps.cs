@@ -1,6 +1,6 @@
 ﻿using Gradient.Utils;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Custom.Events
 {
     public class FieldMaps
     {

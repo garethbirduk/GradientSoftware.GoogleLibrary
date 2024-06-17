@@ -1,4 +1,4 @@
-﻿namespace GoogleLibrary.Events
+﻿namespace GoogleLibrary.Custom.Events
 {
     [AttributeUsage(AttributeTargets.All, Inherited = false)]
     public class ContactAttribute : Attribute

@@ -1,4 +1,5 @@
-﻿using GoogleLibrary.Locations;
+﻿using GoogleLibrary.Custom.Events;
+using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace GoogleLibrary.Events.Tests
             Assert.AreEqual(2, summary.Count);
             Assert.AreEqual("British Airways (BA1234)", summary[0]);
             Assert.AreEqual("LHR - VVI", summary[1]);
+            Assert.AreEqual("https://www.flightradar24.com/BA1234", flightEvent.FlightInformation.FlightTracker);
         }
 
         [TestMethod]

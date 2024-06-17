@@ -1,7 +1,7 @@
 ﻿using PostSharp.Patterns.Contracts;
 using System.Data;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Custom.Events
 {
     public static class EventsBuilder
     {

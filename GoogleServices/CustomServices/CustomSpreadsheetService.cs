@@ -1,10 +1,10 @@
 ﻿using PostSharp.Patterns.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using GoogleLibrary.Events;
 using Microsoft.Extensions.DependencyInjection;
 using GoogleServices;
 using GoogleLibrary.GoogleEvents;
+using GoogleLibrary.Custom.Events;
 
 namespace GoogleLibrary.EventsServices
 {

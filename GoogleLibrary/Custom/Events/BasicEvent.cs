@@ -1,7 +1,7 @@
-﻿using GoogleLibrary.Locations;
+﻿using GoogleLibrary.Custom.Locations;
 using Gradient.Utils;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Custom.Events
 {
     /// <summary>
     /// A basic event is an event that contains most of the standard properties to be considered in a calendar setup.

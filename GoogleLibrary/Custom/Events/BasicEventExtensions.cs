@@ -1,6 +1,6 @@
 ﻿using Google.Apis.Calendar.v3.Data;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Custom.Events
 {
     public static class BasicEventExtensions
     {

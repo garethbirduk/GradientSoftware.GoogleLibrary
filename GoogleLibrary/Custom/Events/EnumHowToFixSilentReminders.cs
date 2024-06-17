@@ -1,4 +1,4 @@
-﻿namespace GoogleLibrary.Events
+﻿namespace GoogleLibrary.Custom.Events
 {
     /// <summary>
     /// An enum for defining how to deal with reminders that are with the SlientRemindersPeriods.

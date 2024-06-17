@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.Events;
+using GoogleLibrary.Custom.Events;
 using PostSharp.Patterns.Contracts;
 
 namespace GoogleLibrary.GoogleEvents

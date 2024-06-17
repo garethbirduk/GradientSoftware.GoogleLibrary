@@ -1,6 +1,6 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.Events;
-using GoogleLibrary.Locations;
+using GoogleLibrary.Custom.Events;
+using GoogleLibrary.Custom.Locations;
 
 namespace GoogleLibrary.GoogleExtensions
 {

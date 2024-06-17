@@ -1,6 +1,6 @@
-﻿using GoogleLibrary.Locations;
+﻿using GoogleLibrary.Custom.Locations;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Custom.Events
 {
     public class FlightEvent : TravelEvent
     {

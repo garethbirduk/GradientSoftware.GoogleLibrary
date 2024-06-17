@@ -1,6 +1,6 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.Events;
-using GoogleLibrary.Locations;
+using GoogleLibrary.Custom.Events;
+using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

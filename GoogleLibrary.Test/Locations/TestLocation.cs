@@ -1,4 +1,4 @@
-﻿using GoogleLibrary.Locations;
+﻿using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoogleLibrary.Test.Locations

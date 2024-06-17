@@ -1,6 +1,6 @@
 ﻿using Gradient.Utils.Attributes;
 
-namespace GoogleLibrary.Events
+namespace GoogleLibrary.Custom.Events
 {
     public enum EventCategory
     {

@@ -1,4 +1,5 @@
-﻿using GoogleLibrary.Locations;
+﻿using GoogleLibrary.Custom.Events;
+using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 

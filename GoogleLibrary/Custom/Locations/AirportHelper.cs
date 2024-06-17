@@ -2,7 +2,7 @@
 using Ibistic.Public.OpenAirportData.MemoryDatabase;
 using Ibistic.Public.OpenAirportData.OpenFlightsData;
 
-namespace GoogleLibrary.Locations
+namespace GoogleLibrary.Custom.Locations
 {
     public static class AirportHelper
     {

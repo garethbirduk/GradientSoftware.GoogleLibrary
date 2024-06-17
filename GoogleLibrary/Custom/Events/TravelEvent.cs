@@ -1,4 +1,4 @@
-﻿namespace GoogleLibrary.Events
+﻿namespace GoogleLibrary.Custom.Events
 {
     public class TravelEvent : BasicEvent
     {

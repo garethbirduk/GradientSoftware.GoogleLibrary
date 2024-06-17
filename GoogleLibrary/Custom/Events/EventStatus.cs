@@ -1,4 +1,4 @@
-﻿namespace GoogleLibrary.Events
+﻿namespace GoogleLibrary.Custom.Events
 {
     /// <summary>
     /// Enum for the status of an event

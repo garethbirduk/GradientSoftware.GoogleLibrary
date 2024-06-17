@@ -1,4 +1,4 @@
-﻿namespace GoogleLibrary.Locations
+﻿namespace GoogleLibrary.Custom.Locations
 {
     public class Location
     {
