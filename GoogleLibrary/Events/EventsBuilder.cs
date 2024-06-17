@@ -24,7 +24,7 @@ namespace GoogleLibrary.Events
             //{
             //    foreach (var description in descriptions.Skip(1).Where(x => x.Any()))
             //    {
-            //        var s = GoogleCalendarEventConverter.ToDescription(description);
+            //        var s = GoogleCalendarEventConverter.ToDescriptionString(description);
             //        primary.Event.Description += $"\r\n\r\n{s}";
             //    }
             //}

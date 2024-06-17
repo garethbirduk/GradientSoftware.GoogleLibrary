@@ -1,4 +1,4 @@
-﻿using GoogleLibrary.GoogleServices;
+﻿using GoogleServices;
 
 namespace GoogleLibrary.GoogleExtensions
 {

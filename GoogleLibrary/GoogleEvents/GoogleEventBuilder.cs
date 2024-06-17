@@ -10,15 +10,7 @@ namespace GoogleLibrary.GoogleEvents
     /// </summary>
     public static class GoogleEventBuilder
     {
-        private static List<string> GetCustomFieldsAsDescription(BasicEvent baseEvent)
-        {
-            var list = new List<string>();
-            foreach (var entry in baseEvent.CustomFields.Where(x => !string.IsNullOrWhiteSpace(x.Value)))
-                list.Add($"{entry.Key.Trim()}: {entry.Value.Trim()}");
-            return list;
-        }
-
-        //private static void SetAttendees(BasicEvent baseEvent, Event googleEvent)
+        //internal static void WithAttendees(BasicEvent baseEvent, Event googleEvent)
         //{
         //    if (baseEvent.Attendees == null)
         //        googleEvent.Attendees = new List<EventAttendee>();
@@ -42,9 +34,17 @@ namespace GoogleLibrary.GoogleEvents
         //    }
         //}
 
-        private static void SetColour(BasicEvent baseEvent, Event googleEvent)
+        internal static Event Build(this Event googleEvent)
         {
-            switch (baseEvent.Status)
+            if (googleEvent == null) throw new NullReferenceException(nameof(googleEvent));
+            if (string.IsNullOrWhiteSpace(googleEvent.Summary)) throw new GoogleEventBuilderException("Summary missing.");
+            if (googleEvent.Start.DateTimeDateTimeOffset == null) throw new NullReferenceException(nameof(googleEvent.Start.DateTimeDateTimeOffset));
+            return googleEvent;
+        }
+
+        internal static Event WithColour(this Event googleEvent, EventStatus eventStatus)
+        {
+            switch (eventStatus)
             {
                 case EventStatus.None:
                     break;
@@ -82,48 +82,29 @@ namespace GoogleLibrary.GoogleEvents
                 default:
                     break;
             }
+            return googleEvent;
         }
 
-        private static void SetDates(BasicEvent baseEvent, Event googleEvent)
+        internal static Event WithDescription(this Event googleEvent, string description)
         {
-            googleEvent.SetDates(baseEvent.StartDate, baseEvent.StartTime, baseEvent.EndDate, baseEvent.EndTime);
+            googleEvent.Description = description;
+            return googleEvent;
         }
 
-        private static void SetDescription(BasicEvent baseEvent, Event googleEvent)
+        internal static Event WithLocation(this Event googleEvent, string location)
         {
-            var list = new List<string>()
-            {
-                baseEvent.Description
-            };
-
-            list.AddRange(GetCustomFieldsAsDescription(baseEvent));
-            list.AddRange(baseEvent.AdditionalData);
-            googleEvent.Description = string.Join("\r\n", list.Where(x => !string.IsNullOrWhiteSpace(x)));
+            googleEvent.Location = location;
+            return googleEvent;
         }
 
-        private static void SetLocation(BasicEvent baseEvent, Event googleEvent)
-        {
-            var locations = baseEvent.Locations.Select(x => x.Address).Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-            if (!locations.Any())
-                return;
-            var baseString = "https://www.google.com/maps/dir/";
-            googleEvent.Location = $"{baseString}{string.Join("/", locations)}".Replace(" ", "+");
-        }
-
-        private static void SetReminders(BasicEvent baseEvent, Event googleEvent)
+        internal static Event WithReminders(this Event googleEvent, List<EventReminder> overrides)
         {
             googleEvent.Reminders = new Event.RemindersData
             {
-                Overrides = new List<EventReminder>(),
+                Overrides = overrides,
                 UseDefault = false,
             };
-
-            foreach (var reminder in baseEvent.Reminders)
-                googleEvent.Reminders.Overrides.Add(new EventReminder()
-                {
-                    Method = "popup",
-                    Minutes = reminder,
-                });
+            return googleEvent;
         }
 
         /// <summary>
@@ -133,17 +114,17 @@ namespace GoogleLibrary.GoogleEvents
         /// <returns>The Google Event</returns>
         public static Event Create([Required] BasicEvent myEvent)
         {
-            var googleEvent = new Event()
+            return new Event()
             {
                 Summary = myEvent.Title
-            };
-            //SetAttendees(myEvent, googleEvent);
-            SetDates(myEvent, googleEvent);
-            SetDescription(myEvent, googleEvent);
-            SetLocation(myEvent, googleEvent);
-            SetReminders(myEvent, googleEvent);
-            SetColour(myEvent, googleEvent);
-            return googleEvent;
+            }
+            //WithAttendees(myEvent, googleEvent);
+            .WithDates(myEvent.StartDate, myEvent.StartTime, myEvent.EndDate, myEvent.EndTime)
+            .WithDescription(myEvent.ToDescriptionString())
+            .WithLocation(myEvent.ToLocationString())
+            .WithReminders(myEvent.ToReminderOverrides())
+            .WithColour(myEvent.Status)
+            .Build();
         }
     }
 }

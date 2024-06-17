@@ -58,16 +58,67 @@ namespace GoogleLibrary.GoogleExtensions
         /// <param name="myEvent"></param>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static void SetAllDay(this Event myEvent, DateTime dateTime)
+        public static Event SetAllDay(this Event myEvent, DateTime dateTime)
         {
             myEvent.Start = new EventDateTime();
             myEvent.End = new EventDateTime();
 
             myEvent.Start.Date = dateTime.ToString(GoogleDateFormat);
             myEvent.End.Date = dateTime.ToString(GoogleDateFormat);
+
+            return myEvent;
         }
 
-        public static void SetDates(this Event myEvent, DateTime startDate, DateTime? startTime, DateTime? endDate, DateTime? endTime)
+        /// <summary>
+        /// Turns the event into a multi all day event
+        /// </summary>
+        /// <param name="myEvent"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public static Event SetMultiDay(this Event myEvent, DateTime startDate, DateTime endDate)
+        {
+            myEvent.Start = new EventDateTime();
+            myEvent.End = new EventDateTime();
+
+            myEvent.Start.Date = startDate.ToString("yyyy-MM-dd");
+            myEvent.End.Date = endDate.AddDays(1).ToString("yyyy-MM-dd");
+
+            return myEvent;
+        }
+
+        /// <summary>
+        /// Turns the event into a timed event
+        /// </summary>
+        /// <param name="myEvent"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public static Event SetTimed(this Event myEvent, DateTime startDateTime, DateTime endDateTime)
+        {
+            myEvent.Start = new EventDateTime();
+            myEvent.End = new EventDateTime();
+
+            myEvent.Start.DateTimeDateTimeOffset = startDateTime;
+            myEvent.End.DateTimeDateTimeOffset = endDateTime;
+
+            return myEvent;
+        }
+
+        /// <summary>
+        /// Turns the event into a timed event
+        /// </summary>
+        /// <param name="myEvent"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public static Event SetTimed(this Event myEvent, DateTime startDate, DateTime startTime, DateTime endDate, DateTime endTime)
+        {
+            myEvent.SetTimed(startDate.Date + startTime.TimeOfDay, endDate.Date + endTime.TimeOfDay);
+            return myEvent;
+        }
+
+        public static Event WithDates(this Event myEvent, DateTime startDate, DateTime? startTime, DateTime? endDate, DateTime? endTime)
         {
             if (endDate == null)
                 endDate = startDate;
@@ -88,52 +139,8 @@ namespace GoogleLibrary.GoogleExtensions
                 }
                 myEvent.SetTimed(startDate, startTime.Value, endDate.Value, endTime.Value);
             }
-        }
 
-        /// <summary>
-        /// Turns the event into a multi all day event
-        /// </summary>
-        /// <param name="myEvent"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
-        public static void SetMultiDay(this Event myEvent, DateTime startDate, DateTime endDate)
-        {
-            myEvent.Start = new EventDateTime();
-            myEvent.End = new EventDateTime();
-
-            myEvent.Start.Date = startDate.ToString("yyyy-MM-dd");
-            myEvent.End.Date = endDate.AddDays(1).ToString("yyyy-MM-dd");
-
-            //return myEvent;
-        }
-
-        /// <summary>
-        /// Turns the event into a timed event
-        /// </summary>
-        /// <param name="myEvent"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
-        public static void SetTimed(this Event myEvent, DateTime startDateTime, DateTime endDateTime)
-        {
-            myEvent.Start = new EventDateTime();
-            myEvent.End = new EventDateTime();
-
-            myEvent.Start.DateTimeDateTimeOffset = startDateTime;
-            myEvent.End.DateTimeDateTimeOffset = endDateTime;
-        }
-
-        /// <summary>
-        /// Turns the event into a timed event
-        /// </summary>
-        /// <param name="myEvent"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
-        public static void SetTimed(this Event myEvent, DateTime startDate, DateTime startTime, DateTime endDate, DateTime endTime)
-        {
-            myEvent.SetTimed(startDate.Date + startTime.TimeOfDay, endDate.Date + endTime.TimeOfDay);
+            return myEvent;
         }
     }
 }
