@@ -31,11 +31,11 @@ namespace GoogleServices.Test.GoogleServices
         [TestMethod]
         public async Task TestCreateDeleteCalendar()
         {
-            var summary = Guid.NewGuid().ToString();
-            var calendar = await GoogleCalendarsService.CreateOrGetCalendarAsync(summary);
+            var calendarName = TestHelpers.RandomCalendarName();
+            var calendar = await GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName);
             try
             {
-                Assert.IsTrue(calendar.Summary == summary);
+                Assert.IsTrue(calendar.Summary == calendarName);
             }
             finally
             {
@@ -43,13 +43,14 @@ namespace GoogleServices.Test.GoogleServices
             }
         }
 
-        [TestMethod]
-        public async Task TestDeleteCalendars_WithPredicate()
+        [DataTestMethod]
+        [DataRow("_deleteme_")]
+        public async Task TestDeleteCalendars_WithPredicate(string predicateExpression)
         {
-            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith("_");
+            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith(predicateExpression);
             var calendarIds = GoogleCalendarsService.GetCalendars(predicate).Items.Select(x => x.Id).ToList();
             if (!calendarIds.Any())
-                await GoogleCalendarsService.CreateCalendarAsync("_deleteme_");
+                await GoogleCalendarsService.CreateOrGetCalendarAsync(predicateExpression);
             await GoogleCalendarsService.DeleteCalendarsAsync(predicate);
         }
 

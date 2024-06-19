@@ -1,7 +1,6 @@
 using GoogleServices.CustomServices;
 using GoogleServices.GoogleAuthentication;
 using GoogleServices.Test.GoogleServices;
-using Gradient.Utils;
 
 namespace GoogleServices.Test.CustomServices
 {
@@ -19,8 +18,8 @@ namespace GoogleServices.Test.CustomServices
         [TestMethod]
         public async Task TestRoundTrip()
         {
-            var calendarName = StringHelpers.RandomName(prefix: "_deleteme_");
-            var worksheetName = "ExampleSimple";
+            var calendarName = TestHelpers.RandomCalendarName();
+            var worksheetName = "ExampleStartEndTimes";
 
             CalendarId = GoogleCalendarsService.CreateCalendar(calendarName).Id;
             var customSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);

@@ -201,9 +201,9 @@ namespace GoogleLibrary.Custom.Events
         {
             Title = fields.GetStringOrDefault(EnumEventFieldType.Summary, data);
             StartDate = fields.GetDateTimeOrDefault(EnumEventFieldType.StartDate, data);
-            StartTime = fields.GetDateTimeOrDefault(EnumEventFieldType.StartTime, data);
-            EndDate = fields.GetDateTimeOrDefault(EnumEventFieldType.EndDate, data);
-            EndTime = fields.GetDateTimeOrDefault(EnumEventFieldType.EndTime, data);
+            StartTime = fields.GetDateTimeOrDefault(EnumEventFieldType.StartTime, data, null);
+            EndDate = fields.GetDateTimeOrDefault(EnumEventFieldType.EndDate, data, StartDate);
+            EndTime = fields.GetDateTimeOrDefault(EnumEventFieldType.EndTime, data, StartTime?.AddHours(1));
             Status = fields.GetEnumOrDefault<EnumEventFieldType, EventStatus>(EnumEventFieldType.Status, data, true);
             Category = fields.GetEnumOrDefault<EnumEventFieldType, EventCategory>(EnumEventFieldType.Category, data, true);
             Description = fields.GetStringOrDefault(EnumEventFieldType.Description, data);

@@ -50,7 +50,7 @@ namespace GoogleServices.GoogleAuthentication
         public async Task SetupAuthAsync()
         {
             Configuration = new ConfigurationBuilder()
-               .AddUserSecrets<IOAuthAuthenticatorHelper>()
+               .AddUserSecrets<GoogleOAuthAuthenticatorHelper>()
                .Build();
 
             ClientId = Configuration["Authentication:Google:ClientId"] ?? "";

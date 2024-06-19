@@ -1,7 +1,6 @@
 using GoogleServices.CustomServices;
 using GoogleServices.GoogleAuthentication;
 using GoogleServices.Test.GoogleServices;
-using Gradient.Utils;
 
 namespace GoogleServices.Test.CustomServices
 {
@@ -15,17 +14,24 @@ namespace GoogleServices.Test.CustomServices
         }
 
         [TestMethod]
-        public async Task TestCreateItineraryEvents()
+        public async Task TestCreateExample2Hour()
         {
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(StringHelpers.RandomName())).Id;
-            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleItinerary", CalendarId, headerRowsCount: 2);
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "Example2Hour", CalendarId);
         }
 
         [TestMethod]
-        public async Task TestCreateTest2()
+        public async Task TestCreateExampleAllDay()
         {
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(StringHelpers.RandomName())).Id;
-            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleSimple", CalendarId);
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleAllDay", CalendarId);
+        }
+
+        [TestMethod]
+        public async Task TestCreateItineraryEvents()
+        {
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleItinerary", CalendarId, headerRowsCount: 1);
         }
 
         [TestInitialize]

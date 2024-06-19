@@ -1,5 +1,4 @@
 ﻿using GoogleServices.GoogleAuthentication;
-using GoogleServices.Test.GoogleServices;
 using Gradient.Utils;
 
 namespace GoogleServices.Test.GoogleServices
@@ -7,7 +6,7 @@ namespace GoogleServices.Test.GoogleServices
     [TestClass]
     public class TestGoogleCalendarService : GoogleAuthenticatedUnitTest
     {
-        private readonly string _calendarName1 = "_sandbox_";
+        private readonly string _calendarName1 = TestHelpers.RandomCalendarName();
 
         [TestInitialize]
         public async Task TestInitialize()
@@ -22,7 +21,7 @@ namespace GoogleServices.Test.GoogleServices
         {
             try
             {
-                var calendarName2 = StringHelpers.RandomName(prefix: "_sandbox_");
+                var calendarName2 = TestHelpers.RandomCalendarName();
                 GoogleCalendarService.RenameCalendar(CalendarId, calendarName2);
                 Assert.IsNull(GoogleCalendarsService.GetCalendarBySummary(_calendarName1));
                 Assert.IsNotNull(GoogleCalendarsService.GetCalendarBySummary(calendarName2));
