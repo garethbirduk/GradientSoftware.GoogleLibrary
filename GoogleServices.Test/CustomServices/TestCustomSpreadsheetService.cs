@@ -7,12 +7,6 @@ namespace GoogleServices.Test.CustomServices
     [TestClass]
     public class TestCustomSpreadsheetService : GoogleAuthenticatedUnitTest
     {
-        [TestCleanup]
-        public async Task TestCleanup()
-        {
-            await GoogleCalendarsService.DeleteCalendarAsync(CalendarId);
-        }
-
         [TestMethod]
         public async Task TestCreateExample2Hour()
         {
@@ -37,7 +31,7 @@ namespace GoogleServices.Test.CustomServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleSpreadsheetReadonlyService, GoogleCalendarService, GoogleCalendarsService);
             CustomSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
         }

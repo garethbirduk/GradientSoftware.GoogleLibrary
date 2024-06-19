@@ -10,6 +10,7 @@ namespace GoogleLibrary.OAuth
         string ClientSecret { get; }
         ClientSecrets ClientSecrets { get; }
 
-        Task SetupAuthAsync();
+        Task SetupAuthAsync<T>()
+            where T : class;
     }
 }

@@ -19,7 +19,7 @@ namespace GoogleServices.Test.GoogleServices
         public async Task TestInitialize()
         {
             var authenticator = new GoogleOAuthAuthenticatorHelper();
-            await authenticator.SetupAuthAsync();
+            await authenticator.SetupAuthAsync<GoogleAuthenticatedUnitTest>();
             Service = new GoogleUserInformationService(authenticator.Authenticator.OAuthAuthenticatedResponse);
         }
     }

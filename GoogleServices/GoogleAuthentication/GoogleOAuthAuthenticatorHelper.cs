@@ -28,10 +28,11 @@ namespace GoogleServices.GoogleAuthentication
 
         public ClientSecrets ClientSecrets { get; protected set; }
 
-        public static async Task CreateAsync(params GoogleWebAuthorizationBrokeredScopedService[] services)
+        public static async Task CreateAsync<T>(params GoogleWebAuthorizationBrokeredScopedService[] services)
+            where T : class
         {
             var authenticator = new GoogleOAuthAuthenticatorHelper();
-            await authenticator.SetupAuthAsync();
+            await authenticator.SetupAuthAsync<T>();
             foreach (var service in services)
             {
                 service.ClientSecrets = authenticator.ClientSecrets;
@@ -47,10 +48,11 @@ namespace GoogleServices.GoogleAuthentication
                 service.ClientSecrets = null;
         }
 
-        public async Task SetupAuthAsync()
+        public async Task SetupAuthAsync<T>()
+            where T : class
         {
             Configuration = new ConfigurationBuilder()
-               .AddUserSecrets<GoogleOAuthAuthenticatorHelper>()
+               .AddUserSecrets<T>()
                .Build();
 
             ClientId = Configuration["Authentication:Google:ClientId"] ?? "";

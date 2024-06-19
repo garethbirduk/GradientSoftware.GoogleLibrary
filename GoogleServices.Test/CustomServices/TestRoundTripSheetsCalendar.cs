@@ -10,7 +10,7 @@ namespace GoogleServices.Test.CustomServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleCalendarService, GoogleCalendarsService, GoogleCalendarReadonlyService,
                 GoogleSpreadsheetService, GoogleSpreadsheetReadonlyService);
         }
@@ -19,7 +19,7 @@ namespace GoogleServices.Test.CustomServices
         public async Task TestRoundTrip()
         {
             var calendarName = TestHelpers.RandomCalendarName();
-            var worksheetName = "ExampleStartEndTimes";
+            var worksheetName = "ExampleAllDay";
 
             CalendarId = GoogleCalendarsService.CreateCalendar(calendarName).Id;
             var customSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
@@ -32,7 +32,6 @@ namespace GoogleServices.Test.CustomServices
             }
             finally
             {
-                await GoogleCalendarsService.DeleteCalendarAsync(CalendarId);
                 await GoogleSpreadsheetService.DeleteWorksheetsAsync(SpreadsheetId, calendarName);
             }
         }

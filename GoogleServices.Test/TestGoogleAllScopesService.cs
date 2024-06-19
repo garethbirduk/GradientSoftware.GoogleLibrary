@@ -15,7 +15,7 @@ namespace GoogleServices.Test
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(GoogleAllScopesService);
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(GoogleAllScopesService);
         }
     }
 }

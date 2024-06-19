@@ -13,9 +13,11 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType></RepositoryType>
-    <PackageTags>utils; gradient; software</PackageTags>
+    <PackageTags>utils; gradient; software; google</PackageTags>
+    <PackageId>GradientSoftware.$(AssemblyName)</PackageId>
     <RepositoryUrl>https://github.com/garethbirduk/GradientSoftware.GoogleLibrary</RepositoryUrl>
     <PackageId>GradientSoftware.$(AssemblyName)</PackageId>
+    <Title>GradientSoftware.$(AssemblyName)</Title>
     <Version>1.0.0</Version>
   </PropertyGroup>
 
@@ -47,13 +49,8 @@
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.68.0.3421" />
     <PackageReference Include="GradientSoftware.Utils" Version="0.3.2" />
     <PackageReference Include="Ibistic.Public.OpenAirportData" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="PostSharp" Version="2024.1.4" />
     <PackageReference Include="PostSharp.Patterns.Common" Version="2024.1.4" />
-    <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.1" />
   </ItemGroup>
 
   <ItemGroup>
