@@ -54,8 +54,7 @@
     <PackageReference Include="PostSharp" Version="2024.1.4" />
     <PackageReference Include="PostSharp.Patterns.Common" Version="2024.1.4" />
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.1" />
   </ItemGroup>
 
   <ItemGroup>
