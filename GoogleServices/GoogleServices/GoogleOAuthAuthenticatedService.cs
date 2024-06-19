@@ -1,14 +1,14 @@
-﻿using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.OAuth;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public abstract class GoogleOAuthAuthenticatedService
     {
-        public GoogleOAuthAuthenticatedService(GoogleOAuthAuthenticatedResponse googleOAuthAuthenticatedResponse)
+        public GoogleOAuthAuthenticatedService(IOAuthAuthenticatedResponse oAuthAuthenticatedResponse)
         {
-            GoogleOAuthAuthenticatedResponse = googleOAuthAuthenticatedResponse;
+            GoogleOAuthAuthenticatedResponse = oAuthAuthenticatedResponse;
         }
 
-        public GoogleOAuthAuthenticatedResponse GoogleOAuthAuthenticatedResponse { get; set; }
+        public IOAuthAuthenticatedResponse GoogleOAuthAuthenticatedResponse { get; set; }
     }
 }

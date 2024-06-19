@@ -1,13 +1,14 @@
 ﻿using Google.Apis.Calendar.v3.Data;
 using GoogleLibrary.Custom.Events;
+using GoogleLibrary.GoogleEventBuilders;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace GoogleLibrary.GoogleEvents.Tests
+namespace GoogleLibrary.Test.GoogleEventBuilders
 {
     [TestClass]
-    public class GoogleEventBuilderTests
+    public class TestGoogleEventBuilder
     {
         [TestMethod]
         public void Build_WithMissingStartDateTime_ThrowsNullReferenceException()
@@ -58,6 +59,9 @@ namespace GoogleLibrary.GoogleEvents.Tests
         public void WithColour_SetsCorrectColorId()
         {
             var googleEvent = new Event();
+
+            googleEvent.WithColour(EventStatus.None);
+            Assert.IsNull(googleEvent.ColorId);
 
             googleEvent.WithColour(EventStatus.Idea);
             Assert.AreEqual(ColorId.Orange.ToString(), googleEvent.ColorId);

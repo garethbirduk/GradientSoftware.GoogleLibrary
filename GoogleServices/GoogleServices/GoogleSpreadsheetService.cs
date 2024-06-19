@@ -2,7 +2,7 @@
 using Google.Apis.Sheets.v4.Data;
 using GoogleLibrary.GoogleSheets;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public class GoogleSpreadsheetService : GoogleSpreadsheetReadonlyService
     {

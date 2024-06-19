@@ -1,9 +1,10 @@
 ﻿using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
+using GoogleLibrary.Custom.Maths;
 using GoogleLibrary.GoogleExtensions;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public class GoogleSpreadsheetReadonlyService : GoogleWebAuthorizationBrokeredScopedService
     {

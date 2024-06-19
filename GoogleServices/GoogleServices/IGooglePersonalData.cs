@@ -1,4 +1,4 @@
-﻿namespace GoogleServices
+﻿namespace GoogleServices.GoogleServices
 {
     public interface IGooglePersonalData
     {

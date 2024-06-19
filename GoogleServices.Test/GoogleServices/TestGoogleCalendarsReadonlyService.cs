@@ -1,7 +1,8 @@
-﻿using GoogleLibrary.EventsServices;
-using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.CustomServices;
+using GoogleServices.GoogleAuthentication;
+using GoogleServices.Test.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarsReadonlyService : GoogleAuthenticatedUnitTest

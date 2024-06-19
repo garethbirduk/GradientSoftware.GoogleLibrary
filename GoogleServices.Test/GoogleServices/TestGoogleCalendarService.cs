@@ -1,7 +1,8 @@
-﻿using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.GoogleAuthentication;
+using GoogleServices.Test.GoogleServices;
 using Gradient.Utils;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarService : GoogleAuthenticatedUnitTest

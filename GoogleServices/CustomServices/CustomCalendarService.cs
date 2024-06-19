@@ -1,12 +1,8 @@
-﻿using Google.Apis.Sheets.v4.Data;
-using GoogleServices;
+﻿using GoogleLibrary.Custom.Maths;
 using GoogleLibrary.GoogleSheets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GoogleServices.GoogleServices;
 
-namespace GoogleLibrary.EventsServices
+namespace GoogleServices.CustomServices
 {
     public class CustomCalendarService
     {

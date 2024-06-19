@@ -1,4 +1,4 @@
-﻿namespace GoogleServices
+﻿namespace GoogleLibrary.Custom.Maths
 {
     public enum IndexBase
     {

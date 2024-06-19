@@ -1,9 +1,10 @@
 using Google;
-using GoogleLibrary.EventsServices;
-using GoogleLibrary.GoogleAuthentication;
-using GoogleServices;
+using GoogleLibrary.Custom.Maths;
+using GoogleServices.CustomServices;
+using GoogleServices.GoogleAuthentication;
+using GoogleServices.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleSpreadsheetReadonlyService : GoogleAuthenticatedUnitTest

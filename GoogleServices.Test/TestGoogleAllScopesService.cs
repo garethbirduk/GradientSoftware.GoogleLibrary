@@ -1,6 +1,7 @@
-﻿using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.GoogleAuthentication;
+using GoogleServices.Test.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest
+namespace GoogleServices.Test
 {
     [TestClass]
     public class TestGoogleAllScopesService : GoogleAuthenticatedUnitTest

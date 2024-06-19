@@ -1,8 +1,9 @@
 using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.GoogleAuthentication;
 using GoogleLibrary.GoogleExtensions;
+using GoogleServices.GoogleAuthentication;
+using GoogleServices.Test.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarGoogleCalendarEventsService : GoogleAuthenticatedUnitTest

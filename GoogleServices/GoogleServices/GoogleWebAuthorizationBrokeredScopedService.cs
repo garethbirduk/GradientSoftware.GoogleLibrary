@@ -1,15 +1,8 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Newtonsoft.Json;
-using PostSharp.Reflection;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public abstract class GoogleWebAuthorizationBrokeredScopedService
     {

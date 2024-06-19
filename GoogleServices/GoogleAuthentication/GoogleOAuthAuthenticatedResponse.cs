@@ -1,6 +1,8 @@
-﻿namespace GoogleLibrary.GoogleAuthentication
+﻿using GoogleServices.OAuth;
+
+namespace GoogleServices.GoogleAuthentication
 {
-    public class GoogleOAuthAuthenticatedResponse
+    public class GoogleOAuthAuthenticatedResponse : IOAuthAuthenticatedResponse
     {
         private Dictionary<string, string> Headers { get; } = new Dictionary<string, string>();
 

@@ -1,28 +1,12 @@
 ﻿using Google.Apis.Auth.OAuth2;
-using GoogleServices;
 
 using GoogleLibrary.OAuth;
-
+using GoogleServices.GoogleServices;
+using GoogleServices.OAuth;
 using Microsoft.Extensions.Configuration;
 
-namespace GoogleLibrary.GoogleAuthentication
+namespace GoogleServices.GoogleAuthentication
 {
-    public static class GoogleOAuthAuthenticatorHelperExtensions
-    {
-        public static async Task<GoogleOAuthAuthenticatorHelper> SetupAsync(this GoogleOAuthAuthenticatorHelper googleOAuthAuthenticator,
-            params GoogleWebAuthorizationBrokeredScopedService[] services)
-        {
-            await googleOAuthAuthenticator.SetupAuthAsync();
-            foreach (var service in services)
-            {
-                service.ClientSecrets = googleOAuthAuthenticator.ClientSecrets;
-                service.SetupToken();
-                service.SetupExternalServices();
-            }
-            return googleOAuthAuthenticator;
-        }
-    }
-
     public class GoogleOAuthAuthenticatorHelper : IOAuthAuthenticatorHelper, IDisposable
     {
         private List<GoogleWebAuthorizationBrokeredScopedService> Services { get; } = new List<GoogleWebAuthorizationBrokeredScopedService>();
@@ -66,7 +50,7 @@ namespace GoogleLibrary.GoogleAuthentication
         public async Task SetupAuthAsync()
         {
             Configuration = new ConfigurationBuilder()
-               .AddUserSecrets<GoogleOAuthAuthenticatorHelper>()
+               .AddUserSecrets<IOAuthAuthenticatorHelper>()
                .Build();
 
             ClientId = Configuration["Authentication:Google:ClientId"] ?? "";

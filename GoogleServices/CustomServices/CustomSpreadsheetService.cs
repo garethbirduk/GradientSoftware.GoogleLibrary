@@ -1,12 +1,8 @@
-﻿using PostSharp.Patterns.Contracts;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using GoogleServices;
-using GoogleLibrary.GoogleEvents;
-using GoogleLibrary.Custom.Events;
+﻿using GoogleLibrary.Custom.Events;
+using GoogleLibrary.GoogleEventBuilders;
+using GoogleServices.GoogleServices;
 
-namespace GoogleLibrary.EventsServices
+namespace GoogleServices.CustomServices
 {
     public class CustomSpreadsheetService
     {

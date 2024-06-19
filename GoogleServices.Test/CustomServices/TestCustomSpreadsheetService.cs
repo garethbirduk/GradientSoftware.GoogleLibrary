@@ -1,8 +1,9 @@
-using GoogleLibrary.EventsServices;
-using GoogleLibrary.GoogleAuthentication;
+using GoogleServices.CustomServices;
+using GoogleServices.GoogleAuthentication;
+using GoogleServices.Test.GoogleServices;
 using Gradient.Utils;
 
-namespace GoogleLibrary.IntegrationTest.CustomServices
+namespace GoogleServices.Test.CustomServices
 {
     [TestClass]
     public class TestCustomSpreadsheetService : GoogleAuthenticatedUnitTest

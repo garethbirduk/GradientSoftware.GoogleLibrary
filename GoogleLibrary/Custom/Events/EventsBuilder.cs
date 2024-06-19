@@ -18,7 +18,7 @@ namespace GoogleLibrary.Custom.Events
             //    var duplicates = description.Where(x => descriptions[0].ContainsKey(x.Key) && descriptions[0][x.Key] == x.Value).Select(x => x.Key);
             //    foreach (var duplicate in duplicates)
             //        description.Remove(duplicate);
-            //}
+            //}s
 
             //foreach (var item in list.Skip(1))
             //{
@@ -36,18 +36,6 @@ namespace GoogleLibrary.Custom.Events
             //        primary.Event.Attendees.Add(attendee);
             //    }
             //}
-        }
-
-        private static BasicEvent? FindDuplicateOrDefault(BasicEvent myEvent, IEnumerable<BasicEvent> otherEvents)
-        {
-            return otherEvents.SingleOrDefault(x =>
-                x.EventId != myEvent.EventId
-                && x.Summary == myEvent.Summary
-                && x.StartDate == myEvent.StartDate
-                && x.StartTime == myEvent.StartTime
-                && x.EndDate == myEvent.EndDate
-                && x.EndTime == myEvent.EndTime
-                );
         }
 
         public static List<BasicEvent> Create([Required] List<Tuple<string, EnumEventFieldType>> fields, [Required] IEnumerable<IEnumerable<string>> data)
@@ -81,6 +69,18 @@ namespace GoogleLibrary.Custom.Events
         {
             var fields = FieldMaps.EventTypes(headers.Select(x => x.ToString()).ToArray());
             return Create(fields, data);
+        }
+
+        public static BasicEvent? FindDuplicateOrDefault(BasicEvent myEvent, IEnumerable<BasicEvent> otherEvents)
+        {
+            return otherEvents.SingleOrDefault(x =>
+                x.EventId != myEvent.EventId
+                && x.Summary.SequenceEqual(myEvent.Summary)
+                && x.StartDate == myEvent.StartDate
+                && x.StartTime == myEvent.StartTime
+                && x.EndDate == myEvent.EndDate
+                && x.EndTime == myEvent.EndTime
+                );
         }
     }
 }

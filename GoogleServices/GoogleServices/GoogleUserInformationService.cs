@@ -1,13 +1,12 @@
-﻿using GoogleLibrary.GoogleAuthentication;
-using System.IO;
+﻿using GoogleServices.GoogleAuthentication;
+using GoogleServices.OAuth;
 using System.Net;
-using System.Threading.Tasks;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public class GoogleUserInformationService : GoogleOAuthAuthenticatedService
     {
-        public GoogleUserInformationService(GoogleOAuthAuthenticatedResponse googleOAuthAuthenticatedResponse) : base(googleOAuthAuthenticatedResponse)
+        public GoogleUserInformationService(IOAuthAuthenticatedResponse oAuthAuthenticatedResponse) : base(oAuthAuthenticatedResponse)
         {
         }
 

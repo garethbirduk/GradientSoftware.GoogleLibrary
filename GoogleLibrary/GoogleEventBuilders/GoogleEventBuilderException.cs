@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GoogleLibrary.GoogleEvents
+namespace GoogleLibrary.GoogleEventBuilders
 {
     [Serializable]
     internal class GoogleEventBuilderException : Exception

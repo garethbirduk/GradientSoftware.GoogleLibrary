@@ -1,8 +1,8 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.EventsServices;
-using GoogleServices;
+using GoogleServices.CustomServices;
+using GoogleServices.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest
+namespace GoogleServices.Test.GoogleServices
 {
     /// <summary>
     /// base class gives tests access to all the services derived classes may need.

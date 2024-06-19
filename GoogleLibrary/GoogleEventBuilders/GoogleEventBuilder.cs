@@ -3,7 +3,7 @@ using GoogleLibrary.Custom.Events;
 using GoogleLibrary.GoogleExtensions;
 using PostSharp.Patterns.Contracts;
 
-namespace GoogleLibrary.GoogleEvents
+namespace GoogleLibrary.GoogleEventBuilders
 {
     /// <summary>
     /// Build a Google Event
@@ -46,9 +46,6 @@ namespace GoogleLibrary.GoogleEvents
         {
             switch (eventStatus)
             {
-                case EventStatus.None:
-                    break;
-
                 case EventStatus.Idea:
                     {
                         googleEvent.ColorId = ColorId.Orange.ToString();
