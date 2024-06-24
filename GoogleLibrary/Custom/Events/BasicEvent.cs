@@ -200,7 +200,7 @@ namespace GoogleLibrary.Custom.Events
         public virtual void Build([Required] List<Tuple<string, EnumEventFieldType>> fields, [Required] List<string> data)
         {
             Title = fields.GetStringOrDefault(EnumEventFieldType.Summary, data);
-            StartDate = fields.GetDateTimeOrDefault(EnumEventFieldType.StartDate, data);
+            StartDate = fields.GetDateTimeOrDefault(EnumEventFieldType.StartDate, data, null) ?? DateTime.UtcNow;
             StartTime = fields.GetDateTimeOrDefault(EnumEventFieldType.StartTime, data, null);
             EndDate = fields.GetDateTimeOrDefault(EnumEventFieldType.EndDate, data, StartDate);
             EndTime = fields.GetDateTimeOrDefault(EnumEventFieldType.EndTime, data, StartTime?.AddHours(1));

@@ -45,12 +45,12 @@ namespace GoogleServices.Test.GoogleServices
 
         [DataTestMethod]
         [DataRow("_deleteme_")]
-        public async Task TestDeleteCalendars_WithPredicate(string predicateExpression)
+        public async Task TestDeleteCalendars_WithPredicate(string startsWithPredicateExpression)
         {
-            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith(predicateExpression);
+            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith(startsWithPredicateExpression);
             var calendarIds = GoogleCalendarsService.GetCalendars(predicate).Items.Select(x => x.Id).ToList();
             if (!calendarIds.Any())
-                await GoogleCalendarsService.CreateOrGetCalendarAsync(predicateExpression);
+                await GoogleCalendarsService.CreateOrGetCalendarAsync(startsWithPredicateExpression);
             await GoogleCalendarsService.DeleteCalendarsAsync(predicate);
         }
 
