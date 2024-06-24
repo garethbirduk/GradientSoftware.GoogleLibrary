@@ -1,6 +1,5 @@
 ﻿using GoogleServices.CustomServices;
 using GoogleServices.GoogleAuthentication;
-using GoogleServices.Test.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
 {

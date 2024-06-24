@@ -7,8 +7,6 @@ namespace GoogleServices.Test.GoogleServices
     [TestClass]
     public class TestGoogleCalendarGoogleCalendarEventsService : GoogleAuthenticatedUnitTest
     {
-        private static readonly string CalendarSummary = "TEST_D5425FA-D046-49E4-8AFB-D0768F28F774";
-
         private static void AssertEvents(Event myEvent, Event myEvent2, bool enforceSameIds = false)
         {
             if (enforceSameIds)
@@ -80,7 +78,7 @@ namespace GoogleServices.Test.GoogleServices
         {
             await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleCalendarsService, GoogleCalendarEventsService);
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(CalendarSummary)).Id;
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
             await GoogleCalendarEventsService.DeleteEventsAsync(CalendarId, x => true);
         }
 

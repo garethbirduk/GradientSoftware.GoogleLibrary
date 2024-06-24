@@ -35,5 +35,26 @@ namespace GoogleServices.Test.CustomServices
                 await GoogleSpreadsheetService.DeleteWorksheetsAsync(SpreadsheetId, calendarName);
             }
         }
+
+        //[TestMethod]
+        //public async Task TestSummer2024()
+        //{
+        //    var calendarName = "Summer2024";
+        //    var worksheetName = "Summer2024";
+
+        //    CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName)).Id;
+        //    var customSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
+        //    var customCalendarEventsService = new CustomCalendarService(GoogleCalendarReadonlyService, GoogleSpreadsheetService);
+
+        //    try
+        //    {
+        //        await customSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, worksheetName, CalendarId, headerRowsCount: 2);
+        //        //await customCalendarEventsService.CalendarToWorksheetAsync(CalendarId, SpreadsheetId, calendarName);
+        //    }
+        //    finally
+        //    {
+        //        //await GoogleSpreadshee tService.DeleteWorksheetsAsync(SpreadsheetId, calendarName);
+        //    }
+        //}
     }
 }
