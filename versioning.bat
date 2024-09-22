@@ -12,7 +12,7 @@ git clone --single-branch --branch main https://github.com/%GITHUB_USERNAME%/Gra
 
 :: Run the script from the cloned repository
 dotnet script ./GradientSoftware.GithubScripts/.github/scripts/update-version.csx %GITHUB_USERNAME% GradientSoftware.GoogleLibrary %GITHUB_APIKEY% ./GoogleLibrary/GoogleLibrary.csproj %branch%
-dotnet script ./GradientSoftware.GithubScripts/.github/scripts/update-version.csx %GITHUB_USERNAME% GradientSoftware.GoogleLibrary %GITHUB_APIKEY% ./GoogleServices/GoogleServices.csproj %branch%
+dotnet script ./GradientSoftware.GithubScripts/.github/scripts/update-version.csx %GITHUB_USERNAME% GradientSoftware.GoogleServices %GITHUB_APIKEY% ./GoogleServices/GoogleServices.csproj %branch%
 
 :: remove the cloned repository
 rd /s /q GradientSoftware.GithubScripts

@@ -7,6 +7,17 @@ namespace GoogleServices.Test.CustomServices
     [TestClass]
     public class TestRoundTripSheetsCalendar : GoogleAuthenticatedUnitTest
     {
+        [DataTestMethod]
+        [DataRow("London2024")]
+        public async Task Test1(string calendarName)
+        {
+            var worksheetName = "Summer2024";
+
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName)).Id;
+            var customSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
+            await customSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, worksheetName, CalendarId, headerRowsCount: 1);
+        }
+
         [TestInitialize]
         public async Task TestInitialize()
         {
@@ -37,24 +48,24 @@ namespace GoogleServices.Test.CustomServices
         }
 
         //[TestMethod]
-        //public async Task TestSummer2024()
-        //{
-        //    var calendarName = "Summer2024";
-        //    var worksheetName = "Summer2024";
+        public async Task TestSummer2024()
+        {
+            var calendarName = "Summer2024";
+            var worksheetName = "Summer2024";
 
-        //    CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName)).Id;
-        //    var customSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
-        //    var customCalendarEventsService = new CustomCalendarService(GoogleCalendarReadonlyService, GoogleSpreadsheetService);
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName)).Id;
+            var customSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
+            var customCalendarEventsService = new CustomCalendarService(GoogleCalendarReadonlyService, GoogleSpreadsheetService);
 
-        //    try
-        //    {
-        //        await customSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, worksheetName, CalendarId, headerRowsCount: 2);
-        //        //await customCalendarEventsService.CalendarToWorksheetAsync(CalendarId, SpreadsheetId, calendarName);
-        //    }
-        //    finally
-        //    {
-        //        //await GoogleSpreadshee tService.DeleteWorksheetsAsync(SpreadsheetId, calendarName);
-        //    }
-        //}
+            try
+            {
+                await customSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, worksheetName, CalendarId, headerRowsCount: 1);
+                //await customCalendarEventsService.CalendarToWorksheetAsync(CalendarId, SpreadsheetId, calendarName);
+            }
+            finally
+            {
+                //await GoogleSpreadshee tService.DeleteWorksheetsAsync(SpreadsheetId, calendarName);
+            }
+        }
     }
 }

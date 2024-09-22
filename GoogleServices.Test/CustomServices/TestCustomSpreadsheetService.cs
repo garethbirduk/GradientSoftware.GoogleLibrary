@@ -28,6 +28,13 @@ namespace GoogleServices.Test.CustomServices
             await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleItinerary", CalendarId, headerRowsCount: 1);
         }
 
+        [TestMethod]
+        public async Task TestCrewe()
+        {
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync("Crewe Alex", true)).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync("1xXeM_uG2_z1dH9dAfSNZntxNfadmaWo6K9QrFHRURZg", "Crewe Alex", CalendarId, headerRowsCount: 1);
+        }
+
         [TestInitialize]
         public async Task TestInitialize()
         {
