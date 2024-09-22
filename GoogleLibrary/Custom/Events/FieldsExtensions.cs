@@ -24,11 +24,11 @@ namespace GoogleLibrary.Custom.Events
         /// <param name="fields"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static DateTime GetDateTimeOrDefault<T>(this List<Tuple<string, T>> fields,
-            T enumType, List<string> data)
+        public static DateTime? GetDateTimeOrDefault<T>(this List<Tuple<string, T>> fields,
+            T enumType, List<string> data, DateTime? defaultDateTime)
             where T : Enum
         {
-            var date = DateTime.UtcNow;
+            var date = defaultDateTime;
             var index = fields.FindIndex(x => x.Item2.Equals(enumType));
             if (index < 0)
                 return date;

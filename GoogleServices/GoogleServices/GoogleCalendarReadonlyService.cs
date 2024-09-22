@@ -1,8 +1,7 @@
 ﻿using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
-using System.Collections.Generic;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public class GoogleCalendarReadonlyService : GoogleCalendarEventsService
     {

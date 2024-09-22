@@ -1,8 +1,8 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleLibrary.GoogleAuthentication;
-using GoogleServices;
+using GoogleServices.GoogleAuthentication;
+using GoogleServices.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarsService : GoogleAuthenticatedUnitTest
@@ -31,11 +31,11 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         [TestMethod]
         public async Task TestCreateDeleteCalendar()
         {
-            var summary = Guid.NewGuid().ToString();
-            var calendar = await GoogleCalendarsService.CreateOrGetCalendarAsync(summary);
+            var calendarName = TestHelpers.RandomCalendarName();
+            var calendar = await GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName);
             try
             {
-                Assert.IsTrue(calendar.Summary == summary);
+                Assert.IsTrue(calendar.Summary == calendarName);
             }
             finally
             {
@@ -43,20 +43,21 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
             }
         }
 
-        [TestMethod]
-        public async Task TestDeleteCalendars_WithPredicate()
+        [DataTestMethod]
+        [DataRow("_deleteme_")]
+        public async Task TestDeleteCalendars_WithPredicate(string startsWithPredicateExpression)
         {
-            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith("_");
+            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith(startsWithPredicateExpression);
             var calendarIds = GoogleCalendarsService.GetCalendars(predicate).Items.Select(x => x.Id).ToList();
             if (!calendarIds.Any())
-                await GoogleCalendarsService.CreateCalendarAsync("_deleteme_");
+                await GoogleCalendarsService.CreateOrGetCalendarAsync(startsWithPredicateExpression);
             await GoogleCalendarsService.DeleteCalendarsAsync(predicate);
         }
 
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleCalendarsService);
         }
     }

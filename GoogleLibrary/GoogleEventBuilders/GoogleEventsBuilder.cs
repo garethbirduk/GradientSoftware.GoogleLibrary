@@ -2,7 +2,7 @@
 using GoogleLibrary.Custom.Events;
 using PostSharp.Patterns.Contracts;
 
-namespace GoogleLibrary.GoogleEvents
+namespace GoogleLibrary.GoogleEventBuilders
 {
     /// <summary>
     /// Build one or more Google Events

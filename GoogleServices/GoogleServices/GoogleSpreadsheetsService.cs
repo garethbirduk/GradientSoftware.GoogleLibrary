@@ -1,7 +1,6 @@
 ﻿using Google.Apis.Sheets.v4;
-using System.Collections.Generic;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public class GoogleSpreadsheetsService : GoogleSpreadsheetsReadonlyService
     {

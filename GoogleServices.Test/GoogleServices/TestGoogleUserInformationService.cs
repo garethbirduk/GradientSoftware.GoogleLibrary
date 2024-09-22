@@ -1,7 +1,7 @@
-using GoogleLibrary.GoogleAuthentication;
-using GoogleServices;
+using GoogleServices.GoogleAuthentication;
+using GoogleServices.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleUserInformationService : GoogleAuthenticatedUnitTest
@@ -19,8 +19,8 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         public async Task TestInitialize()
         {
             var authenticator = new GoogleOAuthAuthenticatorHelper();
-            await authenticator.SetupAuthAsync();
-            Service = new GoogleUserInformationService(authenticator.Authenticator.GoogleOAuthAuthenticatedResponse);
+            await authenticator.SetupAuthAsync<GoogleAuthenticatedUnitTest>();
+            Service = new GoogleUserInformationService(authenticator.Authenticator.OAuthAuthenticatedResponse);
         }
     }
 }

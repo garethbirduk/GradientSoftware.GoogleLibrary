@@ -1,17 +1,17 @@
-﻿using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.GoogleAuthentication;
 using Gradient.Utils;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarService : GoogleAuthenticatedUnitTest
     {
-        private readonly string _calendarName1 = "_sandbox_";
+        private readonly string _calendarName1 = TestHelpers.RandomCalendarName();
 
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleCalendarService, GoogleCalendarsService);
             CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(_calendarName1)).Id;
         }
@@ -21,7 +21,7 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         {
             try
             {
-                var calendarName2 = StringHelpers.RandomName(prefix: "_sandbox_");
+                var calendarName2 = TestHelpers.RandomCalendarName();
                 GoogleCalendarService.RenameCalendar(CalendarId, calendarName2);
                 Assert.IsNull(GoogleCalendarsService.GetCalendarBySummary(_calendarName1));
                 Assert.IsNotNull(GoogleCalendarsService.GetCalendarBySummary(calendarName2));

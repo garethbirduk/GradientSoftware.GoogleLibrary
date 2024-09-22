@@ -13,12 +13,18 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType></RepositoryType>
-    <PackageTags>utils; gradient; software</PackageTags>
-    <RepositoryUrl>https://github.com/garethbirduk/GradientSoftware.GoogleLibrary</RepositoryUrl>
+    <PackageTags>utils; gradient; software; google</PackageTags>
     <PackageId>GradientSoftware.$(AssemblyName)</PackageId>
-    <Version>1.0.0</Version>
-    <UserSecretsId>80ec750e-e94e-4b02-b48f-4b2ca157cd39</UserSecretsId>
+    <RepositoryUrl>https://github.com/garethbirduk/GradientSoftware.GoogleLibrary</RepositoryUrl>
+    <Title>GradientSoftware.$(AssemblyName)</Title>
+    <Version>2.0.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Exceptions\**" />
+    <EmbeddedResource Remove="Exceptions\**" />
+    <None Remove="Exceptions\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="icon.ico" />
@@ -40,26 +46,14 @@
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.68.0.3430" />
     <PackageReference Include="Google.Apis.Drive.v2" Version="1.68.0.3428" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.68.0.3421" />
-    <PackageReference Include="GradientSoftware.Utils" Version="0.2.0" />
+    <PackageReference Include="GradientSoftware.Utils" Version="0.3.2" />
     <PackageReference Include="Ibistic.Public.OpenAirportData" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="PostSharp" Version="2024.1.4" />
     <PackageReference Include="PostSharp.Patterns.Common" Version="2024.1.4" />
-    <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="credentials.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Custom\Exceptions\" />
-    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>

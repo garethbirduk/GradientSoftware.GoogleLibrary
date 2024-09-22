@@ -52,6 +52,29 @@ namespace GoogleLibrary.Test.Custom.Events
         }
 
         [TestMethod]
+        public void Build_SetsFlightInformationCorrectly_MissingFlightNumber()
+        {
+            var flightEvent = new FlightEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new ("From", EnumEventFieldType.From),
+                new ("Via", EnumEventFieldType.Via),
+                new ("To", EnumEventFieldType.To),
+                new ("Carrier", EnumEventFieldType.FlightCarrier)
+            };
+            var data = new List<string> { "LHR", "MAD", "VVI", "Airline" };
+
+            flightEvent.Build(fields, data);
+
+            Assert.AreEqual("Airline", flightEvent.FlightInformation.Carrier);
+            Assert.AreEqual("", flightEvent.FlightInformation.Number);
+            Assert.IsTrue(flightEvent.CustomFields.ContainsKey("Flight"));
+            Assert.IsTrue(flightEvent.CustomFields.ContainsKey("Flight tracker"));
+
+            Assert.AreEqual("Airline LHR - VVI", flightEvent.Title);
+        }
+
+        [TestMethod]
         public void FlightEvent_DefaultRemindersInMinutes_AreSetCorrectly()
         {
             var flightEvent = new FlightEvent();
@@ -65,6 +88,35 @@ namespace GoogleLibrary.Test.Custom.Events
         {
             var flightEvent = new FlightEvent();
             Assert.IsNotNull(flightEvent.FlightInformation);
+        }
+
+        [TestMethod]
+        public void TestRouteSummary_FromOnly()
+        {
+            var flightEvent = new FlightEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new ("From", EnumEventFieldType.From),
+            };
+            var data = new List<string> { "LHR" };
+
+            flightEvent.Build(fields, data);
+            Assert.AreEqual("LHR", flightEvent.RouteSummary);
+        }
+
+        [TestMethod]
+        public void TestRouteSummary_FromTo()
+        {
+            var flightEvent = new FlightEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new ("From", EnumEventFieldType.From),
+                new ("To", EnumEventFieldType.To),
+            };
+            var data = new List<string> { "LHR", "MAD" };
+
+            flightEvent.Build(fields, data);
+            Assert.AreEqual("LHR - MAD", flightEvent.RouteSummary);
         }
     }
 }

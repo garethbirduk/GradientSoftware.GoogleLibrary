@@ -1,36 +1,44 @@
-using GoogleLibrary.EventsServices;
-using GoogleLibrary.GoogleAuthentication;
-using Gradient.Utils;
+using GoogleServices.CustomServices;
+using GoogleServices.GoogleAuthentication;
+using GoogleServices.Test.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest.CustomServices
+namespace GoogleServices.Test.CustomServices
 {
     [TestClass]
     public class TestCustomSpreadsheetService : GoogleAuthenticatedUnitTest
     {
-        [TestCleanup]
-        public async Task TestCleanup()
+        [TestMethod]
+        public async Task TestCreateExample2Hour()
         {
-            await GoogleCalendarsService.DeleteCalendarAsync(CalendarId);
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "Example2Hour", CalendarId);
+        }
+
+        [TestMethod]
+        public async Task TestCreateExampleAllDay()
+        {
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleAllDay", CalendarId);
         }
 
         [TestMethod]
         public async Task TestCreateItineraryEvents()
         {
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(StringHelpers.RandomName())).Id;
-            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleItinerary", CalendarId, headerRowsCount: 2);
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleItinerary", CalendarId, headerRowsCount: 1);
         }
 
         [TestMethod]
-        public async Task TestCreateTest2()
+        public async Task TestCrewe()
         {
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(StringHelpers.RandomName())).Id;
-            await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleSimple", CalendarId);
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync("Crewe Alex", true)).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync("1xXeM_uG2_z1dH9dAfSNZntxNfadmaWo6K9QrFHRURZg", "Crewe Alex", CalendarId, headerRowsCount: 1);
         }
 
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleSpreadsheetReadonlyService, GoogleCalendarService, GoogleCalendarsService);
             CustomSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
         }

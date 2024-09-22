@@ -2,7 +2,7 @@
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     public class GoogleCalendarsReadonlyService : GoogleWebAuthorizationBrokeredScopedService
     {

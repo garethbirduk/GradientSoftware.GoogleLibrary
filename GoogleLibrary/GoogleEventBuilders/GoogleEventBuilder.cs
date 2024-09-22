@@ -3,7 +3,7 @@ using GoogleLibrary.Custom.Events;
 using GoogleLibrary.GoogleExtensions;
 using PostSharp.Patterns.Contracts;
 
-namespace GoogleLibrary.GoogleEvents
+namespace GoogleLibrary.GoogleEventBuilders
 {
     /// <summary>
     /// Build a Google Event
@@ -38,7 +38,7 @@ namespace GoogleLibrary.GoogleEvents
         {
             if (googleEvent == null) throw new NullReferenceException(nameof(googleEvent));
             if (string.IsNullOrWhiteSpace(googleEvent.Summary)) throw new GoogleEventBuilderException("Summary missing.");
-            if (googleEvent.Start.DateTimeDateTimeOffset == null) throw new NullReferenceException(nameof(googleEvent.Start.DateTimeDateTimeOffset));
+            if (googleEvent.Start.Date == null && googleEvent.Start.DateTimeDateTimeOffset == null) throw new NullReferenceException("Start.Date and Start.DateTimeDateTimeOffset cannot both be null");
             return googleEvent;
         }
 
@@ -46,37 +46,34 @@ namespace GoogleLibrary.GoogleEvents
         {
             switch (eventStatus)
             {
-                case EventStatus.None:
-                    break;
-
                 case EventStatus.Idea:
                     {
-                        googleEvent.ColorId = ColorId.Orange.ToString();
+                        googleEvent.ColorId = ((int)ColorId.Orange).ToString();
                         break;
                     }
                 case EventStatus.Planned:
                     {
-                        googleEvent.ColorId = ColorId.Yellow.ToString();
+                        googleEvent.ColorId = ((int)ColorId.Yellow).ToString();
                         break;
                     }
                 case EventStatus.Confirmed:
                     {
-                        googleEvent.ColorId = ColorId.Green.ToString();
+                        googleEvent.ColorId = ((int)ColorId.Green).ToString();
                         break;
                     }
                 case EventStatus.Reserved:
                     {
-                        googleEvent.ColorId = ColorId.Green.ToString();
+                        googleEvent.ColorId = ((int)ColorId.Green).ToString();
                         break;
                     }
                 case EventStatus.Paid:
                     {
-                        googleEvent.ColorId = ColorId.Cyan.ToString();
+                        googleEvent.ColorId = ((int)ColorId.Cyan).ToString();
                         break;
                     }
                 case EventStatus.Cancelled:
                     {
-                        googleEvent.ColorId = ColorId.Red.ToString();
+                        googleEvent.ColorId = ((int)ColorId.Red).ToString();
                         break;
                     }
                 default:

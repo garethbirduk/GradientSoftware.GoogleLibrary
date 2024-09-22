@@ -1,6 +1,6 @@
-﻿using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.GoogleAuthentication;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarReadonlyService : GoogleAuthenticatedUnitTest
@@ -16,7 +16,7 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleCalendarReadonlyService);
         }
     }

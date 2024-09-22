@@ -1,7 +1,7 @@
-﻿using GoogleLibrary.EventsServices;
-using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.CustomServices;
+using GoogleServices.GoogleAuthentication;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarsReadonlyService : GoogleAuthenticatedUnitTest
@@ -47,7 +47,7 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleCalendarsReadonlyService, GoogleCalendarService);
             CustomSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
         }

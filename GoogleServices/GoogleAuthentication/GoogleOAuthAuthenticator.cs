@@ -1,18 +1,14 @@
-﻿using GoogleLibrary.OAuth;
+﻿using GoogleServices.OAuth;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace GoogleLibrary.GoogleAuthentication
+namespace GoogleServices.GoogleAuthentication
 {
     public class GoogleOAuthAuthenticator : IOAuthAuthenticator
     {
@@ -255,10 +251,10 @@ namespace GoogleLibrary.GoogleAuthentication
                 // converts to dictionary
                 var headers = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
 
-                GoogleOAuthAuthenticatedResponse = new GoogleOAuthAuthenticatedResponse(headers);
+                OAuthAuthenticatedResponse = new GoogleOAuthAuthenticatedResponse(headers);
                 await SaveTokenToFileAsync();
 
-                string accessToken = GoogleOAuthAuthenticatedResponse.AccessToken;
+                string accessToken = OAuthAuthenticatedResponse.AccessToken;
                 await RequestUserInfoAsync(accessToken);
             }
             catch (WebException ex)
@@ -290,11 +286,11 @@ namespace GoogleLibrary.GoogleAuthentication
 
                 using var sr = new StreamReader(CredentialsFilepath);
                 using var reader = new JsonTextReader(sr);
-                GoogleOAuthAuthenticatedResponse = serializer.Deserialize<GoogleOAuthAuthenticatedResponse>(reader);
+                OAuthAuthenticatedResponse = serializer.Deserialize<GoogleOAuthAuthenticatedResponse>(reader);
             }
             catch
             {
-                GoogleOAuthAuthenticatedResponse = null;
+                OAuthAuthenticatedResponse = null;
             }
             await Task.CompletedTask;
         }
@@ -309,14 +305,14 @@ namespace GoogleLibrary.GoogleAuthentication
             using (var sw = new StreamWriter(CredentialsFilepath))
             using (var writer = new JsonTextWriter(sw))
             {
-                serializer.Serialize(writer, GoogleOAuthAuthenticatedResponse);
+                serializer.Serialize(writer, OAuthAuthenticatedResponse);
             }
             await Task.CompletedTask;
         }
 
         public string CredentialsFilepath { get; private set; } = Path.Combine("c:\\", "temp", "credentials.json");
 
-        public GoogleOAuthAuthenticatedResponse GoogleOAuthAuthenticatedResponse { get; set; }
+        public IOAuthAuthenticatedResponse OAuthAuthenticatedResponse { get; set; }
 
         public async Task AuthenticateForConsole(string clientId, string clientSecret)
         {
@@ -326,7 +322,7 @@ namespace GoogleLibrary.GoogleAuthentication
         public async Task AuthenticateForLibrary(string clientId, string clientSecret)
         {
             await LoadTokenFromFileAsync();
-            if (GoogleOAuthAuthenticatedResponse == null)
+            if (OAuthAuthenticatedResponse == null)
                 await DoOAuthAsync(clientId, clientSecret, false);
 
             if (IsExpired(100))
@@ -336,7 +332,7 @@ namespace GoogleLibrary.GoogleAuthentication
         public bool IsExpired(int delta = 10)
         {
             var now = DateTime.UtcNow;
-            var expires = GoogleOAuthAuthenticatedResponse.Expiry.AddSeconds(-delta);
+            var expires = OAuthAuthenticatedResponse.Expiry.AddSeconds(-delta);
             var isExpired = expires < now;
             return isExpired;
         }

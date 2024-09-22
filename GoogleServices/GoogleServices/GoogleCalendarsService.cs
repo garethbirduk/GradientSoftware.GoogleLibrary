@@ -1,7 +1,7 @@
 ﻿using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 
-namespace GoogleServices
+namespace GoogleServices.GoogleServices
 {
     internal class GooglePersonalData : IGooglePersonalData
     {

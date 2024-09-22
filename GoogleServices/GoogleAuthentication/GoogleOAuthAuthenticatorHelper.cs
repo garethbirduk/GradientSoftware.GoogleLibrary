@@ -1,28 +1,12 @@
 ﻿using Google.Apis.Auth.OAuth2;
-using GoogleServices;
 
 using GoogleLibrary.OAuth;
-
+using GoogleServices.GoogleServices;
+using GoogleServices.OAuth;
 using Microsoft.Extensions.Configuration;
 
-namespace GoogleLibrary.GoogleAuthentication
+namespace GoogleServices.GoogleAuthentication
 {
-    public static class GoogleOAuthAuthenticatorHelperExtensions
-    {
-        public static async Task<GoogleOAuthAuthenticatorHelper> SetupAsync(this GoogleOAuthAuthenticatorHelper googleOAuthAuthenticator,
-            params GoogleWebAuthorizationBrokeredScopedService[] services)
-        {
-            await googleOAuthAuthenticator.SetupAuthAsync();
-            foreach (var service in services)
-            {
-                service.ClientSecrets = googleOAuthAuthenticator.ClientSecrets;
-                service.SetupToken();
-                service.SetupExternalServices();
-            }
-            return googleOAuthAuthenticator;
-        }
-    }
-
     public class GoogleOAuthAuthenticatorHelper : IOAuthAuthenticatorHelper, IDisposable
     {
         private List<GoogleWebAuthorizationBrokeredScopedService> Services { get; } = new List<GoogleWebAuthorizationBrokeredScopedService>();
@@ -44,10 +28,11 @@ namespace GoogleLibrary.GoogleAuthentication
 
         public ClientSecrets ClientSecrets { get; protected set; }
 
-        public static async Task CreateAsync(params GoogleWebAuthorizationBrokeredScopedService[] services)
+        public static async Task CreateAsync<T>(params GoogleWebAuthorizationBrokeredScopedService[] services)
+            where T : class
         {
             var authenticator = new GoogleOAuthAuthenticatorHelper();
-            await authenticator.SetupAuthAsync();
+            await authenticator.SetupAuthAsync<T>();
             foreach (var service in services)
             {
                 service.ClientSecrets = authenticator.ClientSecrets;
@@ -63,10 +48,11 @@ namespace GoogleLibrary.GoogleAuthentication
                 service.ClientSecrets = null;
         }
 
-        public async Task SetupAuthAsync()
+        public async Task SetupAuthAsync<T>()
+            where T : class
         {
             Configuration = new ConfigurationBuilder()
-               .AddUserSecrets<GoogleOAuthAuthenticatorHelper>()
+               .AddUserSecrets<T>()
                .Build();
 
             ClientId = Configuration["Authentication:Google:ClientId"] ?? "";

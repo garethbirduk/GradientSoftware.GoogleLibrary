@@ -1,6 +1,7 @@
-﻿using GoogleLibrary.GoogleAuthentication;
+﻿using GoogleServices.GoogleAuthentication;
+using GoogleServices.Test.GoogleServices;
 
-namespace GoogleLibrary.IntegrationTest
+namespace GoogleServices.Test
 {
     [TestClass]
     public class TestGoogleAllScopesService : GoogleAuthenticatedUnitTest
@@ -14,7 +15,7 @@ namespace GoogleLibrary.IntegrationTest
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(GoogleAllScopesService);
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(GoogleAllScopesService);
         }
     }
 }

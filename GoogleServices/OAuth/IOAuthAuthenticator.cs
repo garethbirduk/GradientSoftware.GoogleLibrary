@@ -1,12 +1,9 @@
-﻿using System.Threading.Tasks;
-using GoogleLibrary.GoogleAuthentication;
-
-namespace GoogleLibrary.OAuth
+﻿namespace GoogleServices.OAuth
 {
     public interface IOAuthAuthenticator
     {
         string CredentialsFilepath { get; }
-        GoogleOAuthAuthenticatedResponse GoogleOAuthAuthenticatedResponse { get; set; }
+        IOAuthAuthenticatedResponse OAuthAuthenticatedResponse { get; set; }
 
         Task AuthenticateForConsole(string clientId, string clientSecret);
 

@@ -1,5 +1,5 @@
 ﻿using Google.Apis.Auth.OAuth2;
-using System.Threading.Tasks;
+using GoogleServices.OAuth;
 
 namespace GoogleLibrary.OAuth
 {
@@ -10,6 +10,7 @@ namespace GoogleLibrary.OAuth
         string ClientSecret { get; }
         ClientSecrets ClientSecrets { get; }
 
-        Task SetupAuthAsync();
+        Task SetupAuthAsync<T>()
+            where T : class;
     }
 }

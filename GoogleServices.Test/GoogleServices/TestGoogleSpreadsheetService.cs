@@ -1,7 +1,7 @@
-using GoogleLibrary.GoogleAuthentication;
+using GoogleServices.GoogleAuthentication;
 using Gradient.Utils;
 
-namespace GoogleLibrary.IntegrationTest.GoogleServices
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleSpreadsheetService : GoogleAuthenticatedUnitTest
@@ -30,7 +30,7 @@ namespace GoogleLibrary.IntegrationTest.GoogleServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync(
+            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
                 GoogleSpreadsheetService, GoogleSpreadsheetReadonlyService);
         }
     }
