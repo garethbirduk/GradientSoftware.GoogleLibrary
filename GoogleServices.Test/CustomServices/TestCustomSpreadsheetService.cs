@@ -8,6 +8,13 @@ namespace GoogleServices.Test.CustomServices
     public class TestCustomSpreadsheetService : GoogleAuthenticatedUnitTest
     {
         [TestMethod]
+        public async Task TestBolivia2024a()
+        {
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync("Bolivia2024a", true)).Id;
+            await CustomSpreadsheetService.WorksheetToCalendarAsync("1xXeM_uG2_z1dH9dAfSNZntxNfadmaWo6K9QrFHRURZg", "Bolivia2024a", CalendarId, headerRowsCount: 2);
+        }
+
+        [TestMethod]
         public async Task TestCreateExample2Hour()
         {
             CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;

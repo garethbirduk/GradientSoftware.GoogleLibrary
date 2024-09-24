@@ -5,6 +5,10 @@ namespace GoogleLibrary.GoogleEventBuilders
     [Serializable]
     internal class GoogleEventBuilderException : Exception
     {
+        protected GoogleEventBuilderException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+
         public GoogleEventBuilderException()
         {
         }
@@ -14,10 +18,6 @@ namespace GoogleLibrary.GoogleEventBuilders
         }
 
         public GoogleEventBuilderException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-
-        protected GoogleEventBuilderException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

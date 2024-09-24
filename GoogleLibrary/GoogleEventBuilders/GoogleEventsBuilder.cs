@@ -16,7 +16,9 @@ namespace GoogleLibrary.GoogleEventBuilders
         /// <returns>The Google Events</returns>
         public static IEnumerable<Event> Create([Required] params BasicEvent[] events)
         {
-            return events.Select(x => GoogleEventBuilder.Create(x));
+            return events
+                .Where(x => !string.IsNullOrWhiteSpace(x.Title))
+                .Select(GoogleEventBuilder.Create);
         }
     }
 }
