@@ -1,7 +1,6 @@
 ﻿using Google.Apis.Calendar.v3.Data;
 using GoogleLibrary.Custom.Events;
 using GoogleLibrary.GoogleEventBuilders;
-using Gradient.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoogleLibrary.Test.GoogleEventBuilders
@@ -41,7 +40,7 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
                 EndDate = DateTime.Now.AddDays(1),
                 EndTime = DateTime.Now.AddDays(1),
                 Description = "Test Description",
-                Locations = new() { new("here") },
+                Locations = [new("here")],
                 Status = EventStatus.Confirmed,
                 ContactableAttendees = new Dictionary<string, string> { { "Contact1", "contact1@test.com" } }
             };
@@ -61,7 +60,7 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
                 Title = "Test Event",
                 StartDate = DateTime.Now,
                 Description = "Test Description",
-                Locations = new() { new("here") },
+                Locations = [new("here")],
                 Status = EventStatus.Confirmed,
                 ContactableAttendees = new Dictionary<string, string> { { "Contact1", "contact1@test.com" } }
             };
@@ -83,7 +82,7 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
                 StartDate = DateTime.Now,
                 StartTime = DateTime.Now,
                 Description = "Test Description",
-                Locations = new() { new("here") },
+                Locations = [new("here")],
                 Status = EventStatus.Confirmed,
                 ContactableAttendees = new Dictionary<string, string> { { "Contact1", "contact1@test.com" } }
             };

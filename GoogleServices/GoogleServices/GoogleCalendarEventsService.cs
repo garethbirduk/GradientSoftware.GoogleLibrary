@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
+using PostSharp.Patterns.Contracts;
 
 namespace GoogleServices.GoogleServices
 {
@@ -12,15 +13,19 @@ namespace GoogleServices.GoogleServices
             await DeleteEventsAsync(calendarId, x => true);
         }
 
-        public Event CreateEvent(string calendarId, Event myEvent)
+        public Event? CreateEvent(string calendarId, [Required] Event myEvent)
         {
+            if (string.IsNullOrWhiteSpace(myEvent.Summary))
+            {
+                return null;
+            }
             return GoogleCalendarService.Events.Insert(myEvent, calendarId).Execute();
         }
 
         public IEnumerable<Event> CreateEvents(string calendarId, IEnumerable<Event> events)
         {
             var list = new List<Event>();
-            foreach (var myEvent in events)
+            foreach (var myEvent in events.Where(x => !string.IsNullOrWhiteSpace(x.Summary)))
                 list.Add(CreateEvent(calendarId, myEvent));
             return list;
         }
