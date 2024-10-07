@@ -4,9 +4,14 @@ using GoogleServices.GoogleServices;
 
 namespace GoogleServices.CustomServices
 {
-    public class CustomSpreadsheetService
+    public class CustomSpreadsheetService : GoogleAuthorizationService
     {
-        public CustomSpreadsheetService(GoogleSpreadsheetReadonlyService googleSpreadsheetReadonlyService, GoogleCalendarService googleCalendarService)
+        public static List<string> RequiredScopes =
+            GoogleSpreadsheetReadonlyService.RequiredScopes
+            .Union(GoogleCalendarService.RequiredScopes)
+            .ToList();
+
+        public CustomSpreadsheetService(GoogleSpreadsheetReadonlyService googleSpreadsheetReadonlyService, GoogleCalendarService googleCalendarService) : base(RequiredScopes)
         {
             GoogleSpreadsheetReadonlyService = googleSpreadsheetReadonlyService;
             GoogleCalendarService = googleCalendarService;
@@ -14,6 +19,11 @@ namespace GoogleServices.CustomServices
 
         public GoogleCalendarService GoogleCalendarService { get; }
         public GoogleSpreadsheetReadonlyService GoogleSpreadsheetReadonlyService { get; }
+
+        public override void SetupExternalServices()
+        {
+            var xx = 1;
+        }
 
         public async Task WorksheetToCalendarAsync(string spreadsheetId, string worksheetName, string calendarId, int headerRowsCount = 1, int maxEvents = 0)
         {

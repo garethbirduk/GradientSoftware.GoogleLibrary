@@ -7,11 +7,11 @@ namespace GoogleServices.GoogleServices
     /// <summary>
     /// Service to authenticate all scopes required by library interaction with Google APIs.
     /// </summary>
-    public class GoogleAllScopesService : GoogleWebAuthorizationBrokeredScopedService
+    public class GoogleAllScopesService : GoogleAuthorizationService
     {
         private CalendarService GoogleService { get; set; }
 
-        public override List<string> Scopes => new()
+        public static List<string> RequiredScopes = new List<string>()
         {
             CalendarService.Scope.Calendar,
             CalendarService.Scope.CalendarEvents,
@@ -25,6 +25,10 @@ namespace GoogleServices.GoogleServices
             SheetsService.Scope.SpreadsheetsReadonly,
             SheetsService.Scope.Spreadsheets
         };
+
+        public GoogleAllScopesService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
 
         /// <summary>
         /// A dummy executable for ensuring the scopes get checked and requested if missing.

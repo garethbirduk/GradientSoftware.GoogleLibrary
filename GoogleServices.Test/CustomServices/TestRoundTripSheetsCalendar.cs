@@ -1,5 +1,4 @@
 using GoogleServices.CustomServices;
-using GoogleServices.GoogleAuthentication;
 using GoogleServices.Test.GoogleServices;
 
 namespace GoogleServices.Test.CustomServices
@@ -16,14 +15,6 @@ namespace GoogleServices.Test.CustomServices
             CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName)).Id;
             var customSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
             await customSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, worksheetName, CalendarId, headerRowsCount: 1);
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleCalendarService, GoogleCalendarsService, GoogleCalendarReadonlyService,
-                GoogleSpreadsheetService, GoogleSpreadsheetReadonlyService);
         }
 
         [TestMethod]

@@ -1,6 +1,4 @@
-﻿using GoogleServices.GoogleAuthentication;
-
-namespace GoogleServices.Test.GoogleServices
+﻿namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarReadonlyService : GoogleAuthenticatedUnitTest
@@ -11,13 +9,6 @@ namespace GoogleServices.Test.GoogleServices
         public void TestCalendarSummary(string calendarId, string expectedSummary)
         {
             Assert.AreEqual(expectedSummary, GoogleCalendarReadonlyService.Calendar(calendarId).Summary);
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleCalendarReadonlyService);
         }
     }
 }

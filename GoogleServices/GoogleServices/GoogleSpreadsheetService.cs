@@ -21,7 +21,12 @@ namespace GoogleServices.GoogleServices
             spreadsheetId).ExecuteAsync();
         }
 
-        public override IEnumerable<string> Scopes => new List<string>() { SheetsService.Scope.Spreadsheets };
+        public static List<string> RequiredScopes = new List<string>()
+            { SheetsService.Scope.Spreadsheets };
+
+        public GoogleSpreadsheetService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
 
         public async Task AddCells(string spreadsheetId, int worksheetId, GoogleSheetParameters googleSheetParameters, List<GoogleSheetRow> rows)
         {

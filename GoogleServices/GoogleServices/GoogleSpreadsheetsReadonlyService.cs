@@ -4,11 +4,16 @@ using Google.Apis.Sheets.v4.Data;
 
 namespace GoogleServices.GoogleServices
 {
-    public class GoogleSpreadsheetsReadonlyService : GoogleWebAuthorizationBrokeredScopedService
+    public class GoogleSpreadsheetsReadonlyService : GoogleAuthorizationService
     {
-        public SheetsService GoogleService { get; set; }
+        public static List<string> RequiredScopes = new List<string>()
+            { SheetsService.Scope.SpreadsheetsReadonly };
 
-        public override IEnumerable<string> Scopes => new List<string>() { SheetsService.Scope.SpreadsheetsReadonly };
+        public GoogleSpreadsheetsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
+
+        public SheetsService GoogleService { get; set; }
 
         public async Task<Spreadsheet> GetSpreadsheetAsync(string spreadsheetId)
         {

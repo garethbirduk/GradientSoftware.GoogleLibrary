@@ -6,11 +6,16 @@ using GoogleLibrary.GoogleExtensions;
 
 namespace GoogleServices.GoogleServices
 {
-    public class GoogleSpreadsheetReadonlyService : GoogleWebAuthorizationBrokeredScopedService
+    public class GoogleSpreadsheetReadonlyService : GoogleAuthorizationService
     {
-        public SheetsService GoogleService { get; set; }
+        public static List<string> RequiredScopes = new List<string>()
+            { SheetsService.Scope.SpreadsheetsReadonly };
 
-        public override IEnumerable<string> Scopes => new List<string>() { SheetsService.Scope.SpreadsheetsReadonly };
+        public GoogleSpreadsheetReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
+
+        public SheetsService GoogleService { get; set; }
 
         public static string BuildRange(int columnStart, int rowStart, int? columnEnd = null, int? rowEnd = null, IndexBase indexBasis = IndexBase.Zero)
         {

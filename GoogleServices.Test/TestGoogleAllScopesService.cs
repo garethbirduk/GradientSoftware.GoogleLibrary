@@ -1,5 +1,4 @@
-﻿using GoogleServices.GoogleAuthentication;
-using GoogleServices.Test.GoogleServices;
+﻿using GoogleServices.Test.GoogleServices;
 
 namespace GoogleServices.Test
 {
@@ -10,12 +9,6 @@ namespace GoogleServices.Test
         public void TestExecuteSomething()
         {
             GoogleAllScopesService.ExecuteSomething();
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(GoogleAllScopesService);
         }
     }
 }

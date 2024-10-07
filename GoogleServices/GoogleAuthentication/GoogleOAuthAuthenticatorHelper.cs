@@ -1,71 +1,71 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿//using Google.Apis.Auth.OAuth2;
 
-using GoogleLibrary.OAuth;
-using GoogleServices.GoogleServices;
-using GoogleServices.OAuth;
-using Microsoft.Extensions.Configuration;
+//using GoogleLibrary.OAuth;
+//using GoogleServices.GoogleServices;
+//using GoogleServices.OAuth;
+//using Microsoft.Extensions.Configuration;
 
-namespace GoogleServices.GoogleAuthentication
-{
-    public class GoogleOAuthAuthenticatorHelper : IOAuthAuthenticatorHelper, IDisposable
-    {
-        private List<GoogleWebAuthorizationBrokeredScopedService> Services { get; } = new List<GoogleWebAuthorizationBrokeredScopedService>();
+//namespace GoogleServices.GoogleAuthentication
+//{
+//    public class GoogleOAuthAuthenticatorHelper : IOAuthAuthenticatorHelper, IDisposable
+//    {
+//        private List<GoogleWebAuthorizationBrokeredScopedService> Services { get; } = new List<GoogleWebAuthorizationBrokeredScopedService>();
 
-        protected IConfigurationRoot Configuration;
+//        protected IConfigurationRoot Configuration;
 
-        /// <summary>
-        /// Create using CreateAsync
-        /// </summary>
-        public GoogleOAuthAuthenticatorHelper()
-        {
-        }
+//        /// <summary>
+//        /// Create using CreateAsync
+//        /// </summary>
+//        public GoogleOAuthAuthenticatorHelper()
+//        {
+//        }
 
-        public IOAuthAuthenticator Authenticator { get; protected set; }
+//        public IOAuthAuthenticator Authenticator { get; protected set; }
 
-        public string ClientId { get; protected set; }
+//        public string ClientId { get; protected set; }
 
-        public string ClientSecret { get; protected set; }
+//        public string ClientSecret { get; protected set; }
 
-        public ClientSecrets ClientSecrets { get; protected set; }
+//        public ClientSecrets ClientSecrets { get; protected set; }
 
-        public static async Task CreateAsync<T>(params GoogleWebAuthorizationBrokeredScopedService[] services)
-            where T : class
-        {
-            var authenticator = new GoogleOAuthAuthenticatorHelper();
-            await authenticator.SetupAuthAsync<T>();
-            foreach (var service in services)
-            {
-                service.ClientSecrets = authenticator.ClientSecrets;
-                service.SetupToken();
-                service.SetupExternalServices();
-            }
-        }
+//        public static async Task CreateAsync<T>(params GoogleWebAuthorizationBrokeredScopedService[] services)
+//            where T : class
+//        {
+//            var authenticator = new GoogleOAuthAuthenticatorHelper();
+//            await authenticator.SetupAuthAsync<T>();
+//            foreach (var service in services)
+//            {
+//                service.ClientSecrets = authenticator.ClientSecrets;
+//                service.SetupToken();
+//                service.SetupExternalServices();
+//            }
+//        }
 
-        public void Dispose()
-        {
-            ClientSecrets = null;
-            foreach (var service in Services)
-                service.ClientSecrets = null;
-        }
+//        public void Dispose()
+//        {
+//            ClientSecrets = null;
+//            foreach (var service in Services)
+//                service.ClientSecrets = null;
+//        }
 
-        public async Task SetupAuthAsync<T>()
-            where T : class
-        {
-            Configuration = new ConfigurationBuilder()
-               .AddUserSecrets<T>()
-               .Build();
+//        public async Task SetupAuthAsync<T>()
+//            where T : class
+//        {
+//            Configuration = new ConfigurationBuilder()
+//               .AddUserSecrets<T>()
+//               .Build();
 
-            ClientId = Configuration["Authentication:Google:ClientId"] ?? "";
-            ClientSecret = Configuration["Authentication:Google:ClientSecret"] ?? "";
+//            ClientId = Configuration["Authentication:Google:ClientId"] ?? "";
+//            ClientSecret = Configuration["Authentication:Google:ClientSecret"] ?? "";
 
-            ClientSecrets = new ClientSecrets()
-            {
-                ClientId = ClientId,
-                ClientSecret = ClientSecret,
-            };
+//            ClientSecrets = new ClientSecrets()
+//            {
+//                ClientId = ClientId,
+//                ClientSecret = ClientSecret,
+//            };
 
-            Authenticator = new GoogleOAuthAuthenticator();
-            await Authenticator.AuthenticateForLibrary(ClientId, ClientSecret);
-        }
-    }
-}
+//            Authenticator = new GoogleOAuthAuthenticator();
+//            await Authenticator.AuthenticateForLibrary(ClientId, ClientSecret);
+//        }
+//    }
+//}

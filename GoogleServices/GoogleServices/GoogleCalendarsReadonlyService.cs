@@ -4,11 +4,16 @@ using Google.Apis.Services;
 
 namespace GoogleServices.GoogleServices
 {
-    public class GoogleCalendarsReadonlyService : GoogleWebAuthorizationBrokeredScopedService
+    public class GoogleCalendarsReadonlyService : GoogleAuthorizationService
     {
-        public CalendarService GoogleService { get; set; }
+        public static List<string> RequiredScopes = new List<string>()
+            { CalendarService.Scope.CalendarReadonly };
 
-        public override IEnumerable<string> Scopes => new List<string>() { CalendarService.Scope.CalendarReadonly };
+        public GoogleCalendarsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
+
+        public CalendarService GoogleService { get; set; }
 
         /// <summary>
         /// Gets a calendar.

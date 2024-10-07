@@ -1,7 +1,6 @@
 using Google;
 using GoogleLibrary.Custom.Maths;
 using GoogleServices.CustomServices;
-using GoogleServices.GoogleAuthentication;
 using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
@@ -105,8 +104,6 @@ namespace GoogleServices.Test.GoogleServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleSpreadsheetReadonlyService, GoogleCalendarService);
             CustomSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
         }
     }

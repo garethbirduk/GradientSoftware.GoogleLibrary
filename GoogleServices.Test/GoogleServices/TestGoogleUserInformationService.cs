@@ -1,4 +1,3 @@
-using GoogleServices.GoogleAuthentication;
 using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
@@ -18,9 +17,9 @@ namespace GoogleServices.Test.GoogleServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            var authenticator = new GoogleOAuthAuthenticatorHelper();
-            await authenticator.SetupAuthAsync<GoogleAuthenticatedUnitTest>();
-            Service = new GoogleUserInformationService(authenticator.Authenticator.OAuthAuthenticatedResponse);
+            //var authenticator = new GoogleOAuthAuthenticatorHelper();
+            //await authenticator.SetupAuthAsync<GoogleAuthenticatedUnitTest>();
+            //Service = new GoogleUserInformationService(authenticator.Authenticator.OAuthAuthenticatedResponse);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using GoogleServices.CustomServices;
-using GoogleServices.GoogleAuthentication;
 
 namespace GoogleServices.Test.GoogleServices
 {
@@ -47,8 +46,6 @@ namespace GoogleServices.Test.GoogleServices
         [TestInitialize]
         public async Task TestInitialize()
         {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleCalendarsReadonlyService, GoogleCalendarService);
             CustomSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
         }
     }
