@@ -1,80 +1,67 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
+using Gradient.Utils.Windows;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Win32;
-using Newtonsoft.Json;
 
 namespace GoogleServices.GoogleServices
 {
-    public abstract class GoogleAuthorizationService
+    public static class TokenResponseExtensions
     {
-        private const string RegistryKeyPath = @"SOFTWARE\Gradient\GoogleOAuth";
-        private readonly string userId = "user";
-        private ClientSecrets clientSecrets;
-        private IAuthorizationCodeFlow authorizationFlow { get; set; }
-        private List<string> Scopes { get; set; }
-
-        /// <summary>
-        /// Check if the user credential has the required scopes
-        /// </summary>
-        /// <param name="credential"></param>
-        /// <param name="requiredScopes"></param>
-        /// <returns></returns>
-        private bool AreRequiredScopesPresent(UserCredential credential, IEnumerable<string> requiredScopes)
-        {
-            if (credential == null || credential.Token == null)
-            {
-                return false; // No valid credential
-            }
-
-            var tokenScopes = GetScopes(credential);
-            return requiredScopes.All(scope => tokenScopes.Contains(scope));
-        }
-
         /// <summary>
         /// Retrieves the list of scopes associated with the given UserCredential.
         /// </summary>
         /// <param name="userCredential">The UserCredential object.</param>
         /// <returns>A list of scopes if available; otherwise, an empty list.</returns>
-        private List<string> GetScopes(UserCredential userCredential)
-        {
-            if (userCredential == null || userCredential.Token == null)
-            {
-                return new List<string>(); // Return an empty list if the credential is null
-            }
-
-            // Split the scopes string into a list
-            var tokenScopes = userCredential.Token.Scope?.Split(' ') ?? Array.Empty<string>();
-            return tokenScopes.ToList(); // Return the scopes as a List<string>
-        }
-
-        /// <summary>
-        /// Retrieves the list of scopes associated with the given UserCredential.
-        /// </summary>
-        /// <param name="tokenResponse">The UserCredential object.</param>
-        /// <returns>A list of scopes if available; otherwise, an empty list.</returns>
-        private List<string> GetScopes(TokenResponse tokenResponse)
+        public static List<string> Scopes(this TokenResponse tokenResponse)
         {
             if (tokenResponse == null)
             {
-                return new List<string>(); // Return an empty list if the credential is null
+                return new List<string>(); // Return an empty list if the tokenResponse is null
             }
 
             // Split the scopes string into a list
             var tokenScopes = tokenResponse.Scope?.Split(' ') ?? Array.Empty<string>();
             return tokenScopes.ToList(); // Return the scopes as a List<string>
         }
+    }
+
+    public static class UserCredentialExtensions
+    {
+        /// <summary>
+        /// Checks if the TokenResponse has the required scopes.
+        /// </summary>
+        public static bool HasScopes(this TokenResponse tokenResponse, IEnumerable<string> requiredScopes)
+        {
+            return tokenResponse != null && !string.IsNullOrEmpty(tokenResponse.Scope) &&
+                   requiredScopes.All(x => tokenResponse.Scope.Split(' ').Contains(x));
+        }
 
         /// <summary>
-        /// Check if the token is expired
+        /// Determines if the UserCredential's token is expired.
         /// </summary>
-        /// <param name="credential"></param>
-        /// <returns></returns>
-        private bool IsTokenExpired(UserCredential credential)
+        public static bool IsExpired(this UserCredential userCredential)
         {
-            return credential.Token.IsStale; // Check if the token is stale or expired
+            return userCredential?.Token?.IsStale ?? true;
         }
+
+        /// <summary>
+        /// Retrieves the list of scopes associated with the given UserCredential.
+        /// </summary>
+        public static List<string> Scopes(this UserCredential userCredential)
+        {
+            return userCredential?.Token?.Scopes() ?? new List<string>();
+        }
+    }
+
+    public abstract class GoogleAuthorizationService
+    {
+        private const string TokenReponseRegistryKeyName = @"Token";
+        private const string TokenResponseRegistryKeyPath = @"SOFTWARE\Gradient\GoogleOAuth";
+        private readonly string userId = "user";
+        private ClientSecrets clientSecrets;
+        private IAuthorizationCodeFlow authorizationFlow { get; set; }
+        private List<string> Scopes { get; set; }
 
         /// <summary>
         /// Loads the client secrets from user secrets or environment variables using the configuration.
@@ -92,92 +79,63 @@ namespace GoogleServices.GoogleServices
             };
         }
 
-        /// <summary>
-        /// Load token from the registry
-        /// </summary>
-        /// <returns>A TokenResponse object if found and valid; otherwise, null.</returns>
         private TokenResponse LoadTokenFromRegistry()
         {
-            // Open the specified registry key
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath))
-            {
-                if (key != null)
-                {
-                    // Retrieve the token JSON string from the registry
-                    string tokenJson = key.GetValue("Token") as string; // Get the token from the registry
-
-                    if (!string.IsNullOrEmpty(tokenJson))
-                    {
-                        try
-                        {
-                            // Attempt to deserialize the JSON string into a TokenResponse object
-                            return Newtonsoft.Json.JsonConvert.DeserializeObject<TokenResponse>(tokenJson);
-                        }
-                        catch (JsonException)
-                        {
-                            // If deserialization fails, assume the token is corrupt and return null
-                            Console.WriteLine("Failed to deserialize token from registry. Token may be corrupt.");
-                        }
-                        catch (Exception ex)
-                        {
-                            // Handle any other unexpected exceptions and log them
-                            Console.WriteLine($"Unexpected error while loading token from registry: {ex.Message}");
-                        }
-                    }
-                }
-            }
-
-            // Return null if the token was not found or could not be deserialized
-            return null;
+            return RegistryHelper.LoadObject<TokenResponse>(TokenResponseRegistryKeyPath, TokenReponseRegistryKeyName);
         }
 
         /// <summary>
-        /// Request user authorization if no valid credential is available
+        /// Requests user authorization if no valid token response is available.
         /// </summary>
-        /// <param name="scopes"></param>
-        /// <returns></returns>
-        private async Task RequestUserAuthorization(List<string> scopes)
+        /// <param name="scopes">The list of scopes required for authorization.</param>
+        /// <returns>A UserCredential object with the authorized token.</returns>
+        private async Task<UserCredential> RequestUserAuthorization(List<string> scopes)
         {
-            var codeReceiver = new LocalServerCodeReceiver();
-            authorizationFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            try
             {
-                ClientSecrets = clientSecrets,
-                Scopes = scopes
-            });
-            var authorizationCodeUrl = authorizationFlow.CreateAuthorizationCodeRequest(codeReceiver.RedirectUri);
+                // Initialize the authorization flow with client secrets and required scopes
+                var codeReceiver = new LocalServerCodeReceiver();
+                authorizationFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+                {
+                    ClientSecrets = clientSecrets,
+                    Scopes = scopes
+                });
 
-            Console.WriteLine($"Open the following URL in your browser to authorize the application: {authorizationCodeUrl.Build()}");
+                // Generate the authorization code request URL
+                var authorizationCodeUrl = authorizationFlow.CreateAuthorizationCodeRequest(codeReceiver.RedirectUri);
 
-            var authorizationCode = await codeReceiver.ReceiveCodeAsync(authorizationCodeUrl, CancellationToken.None);
+                // Prompt the user to open the URL in their browser
+                Console.WriteLine($"Open the following URL in your browser to authorize the application: {authorizationCodeUrl.Build()}");
 
-            // Exchange the authorization code for a new token
-            TokenResponse newTokenResponse = await authorizationFlow.ExchangeCodeForTokenAsync(
-                userId,
-                authorizationCode.Code,
-                codeReceiver.RedirectUri,
-                CancellationToken.None);
+                // Receive the authorization code from the user's browser interaction
+                var authorizationCode = await codeReceiver.ReceiveCodeAsync(authorizationCodeUrl, CancellationToken.None);
 
-            // Create the UserCredential object using the new token response
-            UserCredential = new UserCredential(authorizationFlow, userId, newTokenResponse);
+                // Exchange the authorization code for a new token
+                TokenResponse newTokenResponse = await authorizationFlow.ExchangeCodeForTokenAsync(
+                    userId,
+                    authorizationCode.Code,
+                    codeReceiver.RedirectUri,
+                    CancellationToken.None);
 
-            // Save the new token to the registry for future use
-            SaveTokenToRegistry(newTokenResponse);
+                // Create the UserCredential object using the new token response
+                var userCredential = new UserCredential(authorizationFlow, userId, newTokenResponse);
+
+                // Save the new token to the registry for future use
+                SaveTokenToRegistry(newTokenResponse);
+
+                return userCredential;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle errors in the authorization process
+                Console.WriteLine($"An error occurred during the authorization process: {ex.Message}");
+                throw;
+            }
         }
 
-        /// <summary>
-        /// Save token to the registry
-        /// </summary>
-        /// <param name="tokenResponse"></param>
         private void SaveTokenToRegistry(TokenResponse tokenResponse)
         {
-            using (RegistryKey key = Registry.CurrentUser.CreateSubKey(RegistryKeyPath))
-            {
-                if (key != null)
-                {
-                    string tokenJson = Newtonsoft.Json.JsonConvert.SerializeObject(tokenResponse);
-                    key.SetValue("Token", tokenJson); // Save the token to the registry
-                }
-            }
+            RegistryHelper.SaveObject(TokenResponseRegistryKeyPath, tokenResponse, TokenReponseRegistryKeyName);
         }
 
         /// <summary>
@@ -192,7 +150,7 @@ namespace GoogleServices.GoogleServices
                 authorizationFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
                 {
                     ClientSecrets = clientSecrets,
-                    Scopes = GetScopes(tokenResponse)
+                    Scopes = tokenResponse.Scopes(),
                 });
                 return new UserCredential(authorizationFlow, userId, tokenResponse);
             }
@@ -212,7 +170,7 @@ namespace GoogleServices.GoogleServices
             clientSecrets = LoadClientSecretsFromConfiguration();
 
             // Ensure user is authorized before setting up external services
-            AuthorizeAsync().GetAwaiter().GetResult();
+            UserCredential = GetUserCredentialAsync().GetAwaiter().GetResult();
 
             // Setup external services now that we have the UserCredential available
             SetupExternalServices();
@@ -221,49 +179,43 @@ namespace GoogleServices.GoogleServices
         protected UserCredential UserCredential { get; private set; }
 
         /// <summary>
-        /// Handles the authorization process, obtaining a token and managing user consent if necessary.
+        /// Gets the UserCredential either handling the authorization process or retrieving from store; it refreshes if necessary.
         /// </summary>
-        protected async Task AuthorizeAsync()
+        protected async Task<UserCredential> GetUserCredentialAsync()
         {
-            // Load the token from the registry
             var existingTokenResponse = LoadTokenFromRegistry();
-            if (existingTokenResponse != null)
+            if (existingTokenResponse == null)
             {
-                UserCredential = TryCreateUserCredential(existingTokenResponse);
+                return await RequestUserAuthorization(Scopes);
+            }
 
-                // If UserCredential is valid
-                if (UserCredential != null)
+            var userCredential = TryCreateUserCredential(existingTokenResponse);
+            if (userCredential != null && userCredential.Token.HasScopes(Scopes))
+            {
+                if (userCredential.IsExpired() && !string.IsNullOrEmpty(existingTokenResponse.RefreshToken))
                 {
-                    // Check if the token is not expired
-                    if (!IsTokenExpired(UserCredential))
+                    try
                     {
-                        // Check if the loaded token has the required scopes
-                        if (AreRequiredScopesPresent(UserCredential, Scopes))
-                        {
-                            return; // Already authorized with valid token and required scopes
-                        }
-                        else
-                        {
-                            // If the token is valid but lacks scopes, get the existing scopes
-                            var existingScopes = UserCredential.Token.Scope?.Split(' ') ?? Array.Empty<string>();
-
-                            // Combine existing scopes with the required scopes
-                            Scopes = existingScopes.Union(Scopes).Distinct().ToList();
-
-                            // Clear the credential to force reauthorization since scopes are insufficient
-                            UserCredential = null;
-                        }
+                        var refreshedToken = await authorizationFlow.RefreshTokenAsync(userId, existingTokenResponse.RefreshToken, CancellationToken.None);
+                        SaveTokenToRegistry(refreshedToken); // Save the refreshed token
+                        return new UserCredential(authorizationFlow, userId, refreshedToken);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        // If token is expired, clear the credential
-                        UserCredential = null;
+                        Console.WriteLine($"Failed to refresh token: {ex.Message}. Reverting to new authorization.");
                     }
+                }
+                else
+                {
+                    return userCredential; // Return the valid and non-expired credential
                 }
             }
 
-            // Proceed to request user authorization if no valid credential is available
-            await RequestUserAuthorization(Scopes);
+            if (userCredential != null)
+            {
+                Scopes = userCredential.Scopes().Union(Scopes).Distinct().ToList();
+            }
+            return await RequestUserAuthorization(Scopes);
         }
 
         public abstract void SetupExternalServices();

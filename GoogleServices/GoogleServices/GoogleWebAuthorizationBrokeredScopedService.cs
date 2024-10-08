@@ -40,7 +40,7 @@
 //            if (token != null && !TokenScopesAreSufficient(token, Scopes.ToArray()))
 //                File.Delete(TokenFilepath);
 
-//            UserCredential = GoogleWebAuthorizationBroker.AuthorizeAsync(ClientSecrets,
+//            UserCredential = GoogleWebAuthorizationBroker.GetUserCredentialAsync(ClientSecrets,
 //                Scopes,
 //                "user",
 //                CancellationToken.None).Result;

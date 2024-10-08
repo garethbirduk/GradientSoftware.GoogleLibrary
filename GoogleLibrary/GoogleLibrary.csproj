@@ -43,13 +43,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.68.0.3430" />
-    <PackageReference Include="Google.Apis.Drive.v2" Version="1.68.0.3428" />
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.68.0.3421" />
-    <PackageReference Include="GradientSoftware.Utils" Version="0.3.2" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.68.0.3557" />
+    <PackageReference Include="Google.Apis.Drive.v2" Version="1.68.0.3544" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.68.0.3547" />
+    <PackageReference Include="GradientSoftware.Utils" Version="0.4.0" />
     <PackageReference Include="Ibistic.Public.OpenAirportData" Version="1.1.0" />
-    <PackageReference Include="PostSharp" Version="2024.1.4" />
-    <PackageReference Include="PostSharp.Patterns.Common" Version="2024.1.4" />
+    <PackageReference Include="PostSharp" Version="2024.1.6" />
+    <PackageReference Include="PostSharp.Patterns.Common" Version="2024.1.6" />
   </ItemGroup>
 
   <ItemGroup>
