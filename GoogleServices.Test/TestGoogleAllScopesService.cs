@@ -8,7 +8,7 @@ namespace GoogleServices.Test
         [TestMethod]
         public void TestExecuteSomething()
         {
-            GoogleAllScopesService.ExecuteSomething();
+            Assert.AreEqual("primary", GoogleAllScopesService.ExecuteSomething().Summary);
         }
     }
 }

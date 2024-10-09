@@ -72,6 +72,7 @@ namespace GoogleServices.GoogleServices
             else if (clear)
             {
                 var s = new GoogleCalendarEventsService();
+                s.Initialize();
                 await s.ClearEvents(calendar.Id);
             }
             return calendar;

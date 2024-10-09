@@ -1,66 +1,24 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Services;
 using Gradient.Utils.Windows;
 using Microsoft.Extensions.Configuration;
 
 namespace GoogleServices.GoogleServices
 {
-    public static class TokenResponseExtensions
-    {
-        /// <summary>
-        /// Retrieves the list of scopes associated with the given UserCredential.
-        /// </summary>
-        /// <param name="userCredential">The UserCredential object.</param>
-        /// <returns>A list of scopes if available; otherwise, an empty list.</returns>
-        public static List<string> Scopes(this TokenResponse tokenResponse)
-        {
-            if (tokenResponse == null)
-            {
-                return new List<string>(); // Return an empty list if the tokenResponse is null
-            }
-
-            // Split the scopes string into a list
-            var tokenScopes = tokenResponse.Scope?.Split(' ') ?? Array.Empty<string>();
-            return tokenScopes.ToList(); // Return the scopes as a List<string>
-        }
-    }
-
-    public static class UserCredentialExtensions
-    {
-        /// <summary>
-        /// Checks if the TokenResponse has the required scopes.
-        /// </summary>
-        public static bool HasScopes(this TokenResponse tokenResponse, IEnumerable<string> requiredScopes)
-        {
-            return tokenResponse != null && !string.IsNullOrEmpty(tokenResponse.Scope) &&
-                   requiredScopes.All(x => tokenResponse.Scope.Split(' ').Contains(x));
-        }
-
-        /// <summary>
-        /// Determines if the UserCredential's token is expired.
-        /// </summary>
-        public static bool IsExpired(this UserCredential userCredential)
-        {
-            return userCredential?.Token?.IsStale ?? true;
-        }
-
-        /// <summary>
-        /// Retrieves the list of scopes associated with the given UserCredential.
-        /// </summary>
-        public static List<string> Scopes(this UserCredential userCredential)
-        {
-            return userCredential?.Token?.Scopes() ?? new List<string>();
-        }
-    }
-
     public abstract class GoogleAuthorizationService
     {
         private const string TokenReponseRegistryKeyName = @"Token";
+
         private const string TokenResponseRegistryKeyPath = @"SOFTWARE\Gradient\GoogleOAuth";
+
         private readonly string userId = "user";
+
         private ClientSecrets clientSecrets;
+
         private IAuthorizationCodeFlow authorizationFlow { get; set; }
+
         private List<string> Scopes { get; set; }
 
         /// <summary>
@@ -168,12 +126,6 @@ namespace GoogleServices.GoogleServices
         {
             Scopes = requiredScopes.Distinct().ToList();
             clientSecrets = LoadClientSecretsFromConfiguration();
-
-            // Ensure user is authorized before setting up external services
-            UserCredential = GetUserCredentialAsync().GetAwaiter().GetResult();
-
-            // Setup external services now that we have the UserCredential available
-            SetupExternalServices();
         }
 
         protected UserCredential UserCredential { get; private set; }
@@ -218,6 +170,17 @@ namespace GoogleServices.GoogleServices
             return await RequestUserAuthorization(Scopes);
         }
 
-        public abstract void SetupExternalServices();
+        public BaseClientService.Initializer BaseClientServiceInitializer { get; set; }
+
+        public virtual void Initialize()
+        {
+            SetupExternalServices(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = GetUserCredentialAsync().GetAwaiter().GetResult(),
+                ApplicationName = "Google Calender API v3",
+            });
+        }
+
+        public abstract void SetupExternalServices(BaseClientService.Initializer initializer);
     }
 }

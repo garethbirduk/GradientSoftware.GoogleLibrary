@@ -51,13 +51,9 @@ namespace GoogleServices.GoogleServices
             return request.Execute();
         }
 
-        public override void SetupExternalServices()
+        public override void SetupExternalServices(BaseClientService.Initializer initializer)
         {
-            GoogleCalendarService = new CalendarService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = UserCredential,
-                ApplicationName = "Google Calender API v3",
-            });
+            GoogleCalendarService = new CalendarService(initializer);
         }
     }
 }

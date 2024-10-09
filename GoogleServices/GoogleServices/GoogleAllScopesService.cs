@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Calendar.v3;
+using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 
@@ -9,7 +10,9 @@ namespace GoogleServices.GoogleServices
     /// </summary>
     public class GoogleAllScopesService : GoogleAuthorizationService
     {
-        private CalendarService GoogleService { get; set; }
+        private GoogleCalendarsService GoogleCalendarsService { get; set; } = new();
+        private CalendarService GoogleService { get; set; } = new();
+        private GoogleSpreadsheetService GoogleSpreadsheetService { get; set; } = new();
 
         public static List<string> RequiredScopes = new List<string>()
         {
@@ -28,23 +31,20 @@ namespace GoogleServices.GoogleServices
 
         public GoogleAllScopesService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
         {
+            GoogleCalendarsService.Initialize();
+            GoogleSpreadsheetService.Initialize();
         }
 
         /// <summary>
         /// A dummy executable for ensuring the scopes get checked and requested if missing.
         /// </summary>
-        public void ExecuteSomething()
+        public CalendarListEntry ExecuteSomething()
         {
-            GoogleService.CalendarList.List().Execute();
+            return GoogleCalendarsService.GetCalendar();
         }
 
-        public override void SetupExternalServices()
+        public override void SetupExternalServices(BaseClientService.Initializer initializer)
         {
-            GoogleService = new CalendarService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = UserCredential,
-                ApplicationName = "Google Calender API v3",
-            });
         }
     }
 }

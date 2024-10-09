@@ -26,13 +26,9 @@ namespace GoogleServices.GoogleServices
             throw new NotSupportedException();
         }
 
-        public override void SetupExternalServices()
+        public override void SetupExternalServices(BaseClientService.Initializer initializer)
         {
-            GoogleService = new SheetsService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = UserCredential,
-                ApplicationName = "Google Calender API v3",
-            });
+            GoogleService = new SheetsService(initializer);
         }
     }
 }

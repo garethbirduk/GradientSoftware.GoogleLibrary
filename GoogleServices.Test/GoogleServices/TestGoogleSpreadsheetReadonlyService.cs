@@ -1,6 +1,5 @@
 using Google;
 using GoogleLibrary.Custom.Maths;
-using GoogleServices.CustomServices;
 using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
@@ -99,12 +98,6 @@ namespace GoogleServices.Test.GoogleServices
         {
             var worksheets = await GoogleSpreadsheetReadonlyService.GetWorksheets(SpreadsheetId);
             Assert.IsTrue(worksheets.Where(x => x.Properties.Title == "TestGetData").Count() > 0);
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            CustomSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
         }
     }
 }

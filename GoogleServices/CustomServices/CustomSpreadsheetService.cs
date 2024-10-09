@@ -1,4 +1,5 @@
-﻿using GoogleLibrary.Custom.Events;
+﻿using Google.Apis.Services;
+using GoogleLibrary.Custom.Events;
 using GoogleLibrary.GoogleEventBuilders;
 using GoogleServices.GoogleServices;
 
@@ -9,20 +10,28 @@ namespace GoogleServices.CustomServices
         public static List<string> RequiredScopes =
             GoogleSpreadsheetReadonlyService.RequiredScopes
             .Union(GoogleCalendarService.RequiredScopes)
+            .Union(GoogleCalendarsService.RequiredScopes)
             .ToList();
 
-        public CustomSpreadsheetService(GoogleSpreadsheetReadonlyService googleSpreadsheetReadonlyService, GoogleCalendarService googleCalendarService) : base(RequiredScopes)
+        public CustomSpreadsheetService() : base(RequiredScopes)
         {
-            GoogleSpreadsheetReadonlyService = googleSpreadsheetReadonlyService;
-            GoogleCalendarService = googleCalendarService;
+            GoogleSpreadsheetReadonlyService.Initialize();
+            GoogleCalendarService.Initialize();
+            GoogleCalendarsService.Initialize();
         }
 
-        public GoogleCalendarService GoogleCalendarService { get; }
-        public GoogleSpreadsheetReadonlyService GoogleSpreadsheetReadonlyService { get; }
+        public GoogleCalendarService GoogleCalendarService { get; } = new();
+        public GoogleCalendarsService GoogleCalendarsService { get; } = new();
+        public GoogleSpreadsheetReadonlyService GoogleSpreadsheetReadonlyService { get; } = new();
 
-        public override void SetupExternalServices()
+        public override void SetupExternalServices(BaseClientService.Initializer initializer)
         {
-            var xx = 1;
+        }
+
+        public async Task WorksheetToCalendarAsync(string spreadsheetId, string name, int headerRowsCount = 1, int maxEvents = 0)
+        {
+            var calendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(name, true)).Id;
+            await WorksheetToCalendarAsync(spreadsheetId, name, calendarId, headerRowsCount, maxEvents);
         }
 
         public async Task WorksheetToCalendarAsync(string spreadsheetId, string worksheetName, string calendarId, int headerRowsCount = 1, int maxEvents = 0)
