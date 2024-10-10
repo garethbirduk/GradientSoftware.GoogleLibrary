@@ -29,7 +29,12 @@ namespace GoogleLibrary.Custom.Events
             var locations = baseEvent.Locations.Select(x => x.Address).Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
             if (!locations.Any())
                 return "";
-            var baseString = "https://www.google.com/maps/dir/";
+
+            var prefix = "place";
+            if (locations.Count > 1)
+                prefix = "dir";
+
+            var baseString = $"https://www.google.com/maps/{prefix}/";
             return $"{baseString}{string.Join("/", locations)}".Replace(" ", "+");
         }
 
