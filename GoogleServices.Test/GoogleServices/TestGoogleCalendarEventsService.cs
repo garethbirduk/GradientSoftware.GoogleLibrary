@@ -1,6 +1,5 @@
 using Google.Apis.Calendar.v3.Data;
 using GoogleLibrary.GoogleExtensions;
-using GoogleServices.GoogleAuthentication;
 
 namespace GoogleServices.Test.GoogleServices
 {
@@ -71,15 +70,6 @@ namespace GoogleServices.Test.GoogleServices
             TestCreateAllDay();
             var events = GoogleCalendarEventsService.GetEvents(CalendarId);
             Assert.AreEqual(1, events.Items.Count);
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleCalendarsService, GoogleCalendarEventsService);
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
-            await GoogleCalendarEventsService.DeleteEventsAsync(CalendarId, x => true);
         }
 
         [TestMethod]

@@ -3,33 +3,16 @@ using Google.Apis.Calendar.v3.Data;
 
 namespace GoogleServices.GoogleServices
 {
-    internal class GooglePersonalData : IGooglePersonalData
-    {
-        public List<string> ReservedList { get; set; } =
-        [
-            "garethbird",
-            "garethbirdmaster",
-            "garethandvivian",
-            "gareth.and.vivian",
-            "viviancamacho",
-            "testreserved",
-            "family",
-            "bird",
-            "vivian",
-            "gareth",
-            "rafael",
-            "zoe",
-            "bramcote",
-            "home",
-            "camacho",
-        ];
-    }
-
     public class GoogleCalendarsService : GoogleCalendarsReadonlyService, IGoogleCalendarsService
     {
-        public IGooglePersonalData GooglePersonalData { get; set; } = new GooglePersonalData();
+        public static List<string> RequiredScopes = new List<string>()
+            { CalendarService.Scope.Calendar };
 
-        public override IEnumerable<string> Scopes => new List<string>() { CalendarService.Scope.Calendar };
+        public GoogleCalendarsService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
+
+        public IGooglePersonalData GooglePersonalData { get; set; } = new GooglePersonalData();
 
         public bool CheckCanDeleteCalendar(string calendarId, params CannotDeleteCalendarReasons[] cannotDeleteCalendarReasons)
         {
@@ -88,12 +71,8 @@ namespace GoogleServices.GoogleServices
                 return CreateCalendar(summary);
             else if (clear)
             {
-                var s = new GoogleCalendarEventsService
-                {
-                    ClientSecrets = ClientSecrets
-                };
-                s.SetupToken();
-                s.SetupExternalServices();
+                var s = new GoogleCalendarEventsService();
+                s.Initialize();
                 await s.ClearEvents(calendar.Id);
             }
             return calendar;

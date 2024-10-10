@@ -4,11 +4,16 @@ using Google.Apis.Sheets.v4.Data;
 
 namespace GoogleServices.GoogleServices
 {
-    public class GoogleSpreadsheetsReadonlyService : GoogleWebAuthorizationBrokeredScopedService
+    public class GoogleSpreadsheetsReadonlyService : GoogleAuthorizationService
     {
-        public SheetsService GoogleService { get; set; }
+        public static List<string> RequiredScopes = new List<string>()
+            { SheetsService.Scope.SpreadsheetsReadonly };
 
-        public override IEnumerable<string> Scopes => new List<string>() { SheetsService.Scope.SpreadsheetsReadonly };
+        public GoogleSpreadsheetsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
+
+        public SheetsService GoogleService { get; set; }
 
         public async Task<Spreadsheet> GetSpreadsheetAsync(string spreadsheetId)
         {
@@ -21,13 +26,9 @@ namespace GoogleServices.GoogleServices
             throw new NotSupportedException();
         }
 
-        public override void SetupExternalServices()
+        public override void SetupExternalServices(BaseClientService.Initializer initializer)
         {
-            GoogleService = new SheetsService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = UserCredential,
-                ApplicationName = "Google Calender API v3",
-            });
+            GoogleService = new SheetsService(initializer);
         }
     }
 }

@@ -6,14 +6,8 @@ namespace GoogleServices.CustomServices
 {
     public class CustomCalendarService
     {
-        public CustomCalendarService(GoogleCalendarReadonlyService googleCalendarReadonlyService, GoogleSpreadsheetService googleSpreadsheetService)
-        {
-            GoogleCalendarReadonlyService = googleCalendarReadonlyService;
-            GoogleSpreadsheetService = googleSpreadsheetService;
-        }
-
-        public GoogleCalendarReadonlyService GoogleCalendarReadonlyService { get; }
-        public GoogleSpreadsheetService GoogleSpreadsheetService { get; }
+        public GoogleCalendarReadonlyService GoogleCalendarReadonlyService { get; } = new();
+        public GoogleSpreadsheetService GoogleSpreadsheetService { get; } = new();
 
         public async Task CalendarToWorksheetAsync(string calendarId, string spreadsheetId, string worksheetName = "", int maxResults = 100)
         {

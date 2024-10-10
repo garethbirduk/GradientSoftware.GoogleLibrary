@@ -1,4 +1,3 @@
-using GoogleServices.GoogleAuthentication;
 using Gradient.Utils;
 
 namespace GoogleServices.Test.GoogleServices
@@ -25,13 +24,6 @@ namespace GoogleServices.Test.GoogleServices
             worksheets = await GoogleSpreadsheetReadonlyService.GetWorksheets(SpreadsheetId);
             Assert.IsNull(worksheets.Where(x => x.Properties.Title == name1).FirstOrDefault());
             Assert.IsNull(worksheets.Where(x => x.Properties.Title == name2).FirstOrDefault());
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleSpreadsheetService, GoogleSpreadsheetReadonlyService);
         }
     }
 }

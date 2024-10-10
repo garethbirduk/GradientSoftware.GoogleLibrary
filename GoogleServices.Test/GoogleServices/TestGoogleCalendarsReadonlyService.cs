@@ -1,7 +1,4 @@
-﻿using GoogleServices.CustomServices;
-using GoogleServices.GoogleAuthentication;
-
-namespace GoogleServices.Test.GoogleServices
+﻿namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
     public class TestGoogleCalendarsReadonlyService : GoogleAuthenticatedUnitTest
@@ -42,14 +39,6 @@ namespace GoogleServices.Test.GoogleServices
                 Assert.IsTrue(name.StartsWith("Arin"));
                 Console.WriteLine(name);
             }
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleCalendarsReadonlyService, GoogleCalendarService);
-            CustomSpreadsheetService = new CustomSpreadsheetService(GoogleSpreadsheetReadonlyService, GoogleCalendarService);
         }
     }
 }

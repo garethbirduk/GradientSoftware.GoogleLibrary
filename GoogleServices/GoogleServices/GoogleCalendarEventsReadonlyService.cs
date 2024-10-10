@@ -7,14 +7,19 @@ namespace GoogleServices.GoogleServices
     /// <summary>
     /// Service to get calendar events for a given calendar.
     /// </summary>
-    public class GoogleCalendarEventsReadonlyService : GoogleWebAuthorizationBrokeredScopedService
+    public class GoogleCalendarEventsReadonlyService : GoogleAuthorizationService
     {
+        public static List<string> RequiredScopes = new List<string>()
+            { CalendarService.Scope.Calendar, CalendarService.Scope.CalendarEvents };
+
+        public GoogleCalendarEventsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes))
+        {
+        }
+
         /// <summary>
         /// The google calendar service for accessing the calendar to which the events belong.
         /// </summary>
         public CalendarService GoogleCalendarService { get; set; }
-
-        public override IEnumerable<string> Scopes => new List<string>() { CalendarService.Scope.Calendar, CalendarService.Scope.CalendarEvents }.Distinct();
 
         /// <summary>
         /// Get a single event by id
@@ -46,13 +51,9 @@ namespace GoogleServices.GoogleServices
             return request.Execute();
         }
 
-        public override void SetupExternalServices()
+        public override void SetupExternalServices(BaseClientService.Initializer initializer)
         {
-            GoogleCalendarService = new CalendarService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = UserCredential,
-                ApplicationName = "Google Calender API v3",
-            });
+            GoogleCalendarService = new CalendarService(initializer);
         }
     }
 }

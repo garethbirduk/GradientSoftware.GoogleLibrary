@@ -1,5 +1,4 @@
 ﻿using Google.Apis.Calendar.v3.Data;
-using GoogleServices.GoogleAuthentication;
 using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
@@ -52,13 +51,6 @@ namespace GoogleServices.Test.GoogleServices
             if (!calendarIds.Any())
                 await GoogleCalendarsService.CreateOrGetCalendarAsync(startsWithPredicateExpression);
             await GoogleCalendarsService.DeleteCalendarsAsync(predicate);
-        }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            await GoogleOAuthAuthenticatorHelper.CreateAsync<GoogleAuthenticatedUnitTest>(
-                GoogleCalendarsService);
         }
     }
 }

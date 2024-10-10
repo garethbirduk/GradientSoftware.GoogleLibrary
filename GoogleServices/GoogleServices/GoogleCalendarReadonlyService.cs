@@ -5,7 +5,12 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleCalendarReadonlyService : GoogleCalendarEventsService
     {
-        public override IEnumerable<string> Scopes => new List<string>() { CalendarService.Scope.Calendar };
+        public static List<string> RequiredScopes = new List<string>()
+            { CalendarService.Scope.Calendar };
+
+        public GoogleCalendarReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
 
         public Calendar Calendar(string calendarId)
         {

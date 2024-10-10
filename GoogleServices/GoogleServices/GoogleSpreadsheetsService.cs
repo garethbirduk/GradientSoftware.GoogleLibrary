@@ -4,6 +4,11 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleSpreadsheetsService : GoogleSpreadsheetsReadonlyService
     {
-        public override IEnumerable<string> Scopes => new List<string>() { SheetsService.Scope.Spreadsheets };
+        public static List<string> RequiredScopes = new List<string>()
+            { SheetsService.Scope.Spreadsheets };
+
+        public GoogleSpreadsheetsService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
+        {
+        }
     }
 }

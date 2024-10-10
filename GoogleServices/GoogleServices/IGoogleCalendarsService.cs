@@ -4,8 +4,6 @@ namespace GoogleServices.GoogleServices
 {
     public interface IGoogleCalendarsService
     {
-        IEnumerable<string> Scopes { get; }
-
         CalendarListEntry CreateCalendar(string summary);
 
         Task<CalendarListEntry> CreateCalendarAsync(string summary, bool allowDuplicate = false);
