@@ -1,7 +1,6 @@
 ﻿using GoogleLibrary.Custom.Events;
 using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace GoogleLibrary.Test.Custom.Events
 {
@@ -67,6 +66,23 @@ namespace GoogleLibrary.Test.Custom.Events
             var result = baseEvent.ToLocationString();
 
             var expected = "https://www.google.com/maps/dir/Address+1/Address+2";
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ToLocationString_WithValidLocationSingleLocation_ReturnsFormattedString()
+        {
+            var baseEvent = new BasicEvent
+            {
+                Locations = new List<Location>
+                {
+                    new Location { Address = "Address 1" }
+                }
+            };
+
+            var result = baseEvent.ToLocationString();
+
+            var expected = "https://www.google.com/maps/place/Address+1";
             Assert.AreEqual(expected, result);
         }
 
