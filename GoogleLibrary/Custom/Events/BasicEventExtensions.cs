@@ -30,7 +30,7 @@ namespace GoogleLibrary.Custom.Events
             if (!locations.Any())
                 return "";
 
-            var prefix = "place";
+            var prefix = "search";
             if (locations.Count > 1)
                 prefix = "dir";
 

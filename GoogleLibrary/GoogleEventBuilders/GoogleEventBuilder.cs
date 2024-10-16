@@ -42,6 +42,41 @@ namespace GoogleLibrary.GoogleEventBuilders
             return googleEvent;
         }
 
+        internal static Event WithAnnotation(this Event googleEvent, EventStatus eventStatus)
+        {
+            switch (eventStatus)
+            {
+                case EventStatus.Idea:
+                    {
+                        googleEvent.Summary = $"(?) {googleEvent.Summary}";
+                        break;
+                    }
+                case EventStatus.Planned:
+                    {
+                        googleEvent.Summary = $"(p) {googleEvent.Summary}"; break;
+                    }
+                case EventStatus.Confirmed:
+                    {
+                        googleEvent.Summary = $"{googleEvent.Summary}"; break;
+                    }
+                case EventStatus.Reserved:
+                    {
+                        googleEvent.Summary = $"(r) {googleEvent.Summary}"; break;
+                    }
+                case EventStatus.Paid:
+                    {
+                        googleEvent.Summary = $"(£) {googleEvent.Summary}"; break;
+                    }
+                case EventStatus.Cancelled:
+                    {
+                        googleEvent.Summary = $"(x) {googleEvent.Summary}"; break;
+                    }
+                default:
+                    break;
+            }
+            return googleEvent;
+        }
+
         internal static Event WithColour(this Event googleEvent, EventStatus eventStatus)
         {
             switch (eventStatus)
@@ -111,7 +146,17 @@ namespace GoogleLibrary.GoogleEventBuilders
         /// <returns>The Google Event</returns>
         public static Event Create([Required] BasicEvent myEvent)
         {
-            return new Event()
+            return Create(new GoogleEventOptions(), myEvent);
+        }
+
+        /// <summary>
+        /// Create a Google Event based on a Basic event
+        /// </summary>
+        /// <param name="myEvent"></param>
+        /// <returns>The Google Event</returns>
+        public static Event Create([Required] GoogleEventOptions options, [Required] BasicEvent myEvent)
+        {
+            var e = new Event()
             {
                 Summary = myEvent.Title
             }
@@ -119,9 +164,15 @@ namespace GoogleLibrary.GoogleEventBuilders
             .WithDates(myEvent.StartDate, myEvent.StartTime, myEvent.EndDate, myEvent.EndTime)
             .WithDescription(myEvent.ToDescriptionString())
             .WithLocation(myEvent.ToLocationString())
-            .WithReminders(myEvent.ToReminderOverrides())
-            .WithColour(myEvent.Status)
-            .Build();
+            .WithReminders(myEvent.ToReminderOverrides());
+
+            if (options.WithColour)
+                e = e.WithColour(myEvent.Status);
+
+            if (options.WithAnnotation)
+                e = e.WithAnnotation(myEvent.Status);
+
+            return e.Build();
         }
     }
 }

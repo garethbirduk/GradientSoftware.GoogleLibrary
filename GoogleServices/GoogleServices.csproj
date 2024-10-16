@@ -18,7 +18,7 @@
     <PackageId>GradientSoftware.$(AssemblyName)</PackageId>
     <RepositoryUrl>https://github.com/garethbirduk/GradientSoftware.GoogleLibrary</RepositoryUrl>
     <Title>GradientSoftware.$(AssemblyName)</Title>
-    <Version>3.0.1</Version>
+    <Version>3.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

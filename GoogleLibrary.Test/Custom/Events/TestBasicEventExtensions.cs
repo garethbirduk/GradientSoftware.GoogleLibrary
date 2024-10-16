@@ -82,7 +82,7 @@ namespace GoogleLibrary.Test.Custom.Events
 
             var result = baseEvent.ToLocationString();
 
-            var expected = "https://www.google.com/maps/place/Address+1";
+            var expected = "https://www.google.com/maps/search/Address+1";
             Assert.AreEqual(expected, result);
         }
 
