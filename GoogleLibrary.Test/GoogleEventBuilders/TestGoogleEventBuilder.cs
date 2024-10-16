@@ -49,7 +49,6 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
             Assert.AreEqual(myEvent.Title, googleEvent.Summary);
             Assert.AreEqual(myEvent.ToDescriptionString(), googleEvent.Description);
             Assert.AreEqual(myEvent.ToLocationString(), googleEvent.Location);
-            Assert.AreEqual(((int)ColorId.Green).ToString(), googleEvent.ColorId);
         }
 
         [TestMethod]
@@ -70,7 +69,6 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
             Assert.AreEqual(myEvent.Title, googleEvent.Summary);
             Assert.AreEqual(myEvent.ToDescriptionString(), googleEvent.Description);
             Assert.AreEqual(myEvent.ToLocationString(), googleEvent.Location);
-            Assert.AreEqual(((int)ColorId.Green).ToString(), googleEvent.ColorId.ToString());
         }
 
         [TestMethod]
@@ -92,34 +90,55 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
             Assert.AreEqual(myEvent.Title, googleEvent.Summary);
             Assert.AreEqual(myEvent.ToDescriptionString(), googleEvent.Description);
             Assert.AreEqual(myEvent.ToLocationString(), googleEvent.Location);
-            Assert.AreEqual(((int)ColorId.Green).ToString(), googleEvent.ColorId.ToString());
+        }
+
+        [DataTestMethod]
+        [DataRow(EventStatus.None, "MyEvent")]
+        [DataRow(EventStatus.Idea, "(?) MyEvent")]
+        [DataRow(EventStatus.Planned, "(p) MyEvent")]
+        [DataRow(EventStatus.Confirmed, "MyEvent")]
+        [DataRow(EventStatus.Reserved, "(r) MyEvent")]
+        [DataRow(EventStatus.Paid, "(£) MyEvent")]
+        [DataRow(EventStatus.Cancelled, "(x) MyEvent")]
+        public void WithAnnotation_SetsCorrectAnnotation(EventStatus eventStatus, string expected)
+        {
+            var googleEvent = new Event()
+            {
+                Summary = "MyEvent"
+            };
+
+            googleEvent.WithAnnotation(eventStatus);
+            Assert.AreEqual(expected, googleEvent.Summary);
         }
 
         [TestMethod]
-        public void WithColour_SetsCorrectColorId()
+        public void WithColour_DefaultHasNoSetColour()
         {
-            var googleEvent = new Event();
+            var googleEvent = new Event()
+            {
+                Summary = "MyEvent"
+            };
 
             googleEvent.WithColour(EventStatus.None);
-            Assert.IsNull(googleEvent.ColorId);
+            Assert.AreEqual(null, googleEvent.ColorId);
+        }
 
-            googleEvent.WithColour(EventStatus.Idea);
-            Assert.AreEqual(((int)ColorId.Orange).ToString(), googleEvent.ColorId);
+        [DataTestMethod]
+        [DataRow(EventStatus.Idea, ColorId.Orange)]
+        [DataRow(EventStatus.Planned, ColorId.Yellow)]
+        [DataRow(EventStatus.Confirmed, ColorId.Green)]
+        [DataRow(EventStatus.Reserved, ColorId.Green)]
+        [DataRow(EventStatus.Paid, ColorId.Cyan)]
+        [DataRow(EventStatus.Cancelled, ColorId.Red)]
+        public void WithColour_SetsCorrectColorId(EventStatus eventStatus, ColorId expected)
+        {
+            var googleEvent = new Event()
+            {
+                Summary = "MyEvent"
+            };
 
-            googleEvent.WithColour(EventStatus.Planned);
-            Assert.AreEqual(((int)ColorId.Yellow).ToString(), googleEvent.ColorId);
-
-            googleEvent.WithColour(EventStatus.Confirmed);
-            Assert.AreEqual(((int)ColorId.Green).ToString(), googleEvent.ColorId);
-
-            googleEvent.WithColour(EventStatus.Reserved);
-            Assert.AreEqual(((int)ColorId.Green).ToString(), googleEvent.ColorId);
-
-            googleEvent.WithColour(EventStatus.Paid);
-            Assert.AreEqual(((int)ColorId.Cyan).ToString(), googleEvent.ColorId);
-
-            googleEvent.WithColour(EventStatus.Cancelled);
-            Assert.AreEqual(((int)ColorId.Red).ToString(), googleEvent.ColorId);
+            googleEvent.WithColour(eventStatus);
+            Assert.AreEqual(((int)expected).ToString(), googleEvent.ColorId);
         }
 
         [TestMethod]
