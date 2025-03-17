@@ -49,8 +49,7 @@ jobs:
       run: rm -rf ~/.npm ~/.nuget ~/.cargo ~/.dotnet
 
     - name: Restore dependencies
-      run: dotnet restore    
-
+      run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
