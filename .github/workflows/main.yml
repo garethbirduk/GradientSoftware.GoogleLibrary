@@ -34,9 +34,16 @@ jobs:
 
     - name: Print .NET SDK version
       run: dotnet --version
-      
+
+    - name: Generate GitHub App Token
+      id: generate_token
+      uses: tibdex/github-app-token@v2
+      with:
+        app_id: ${{ secrets.GH_APP_ID }}
+        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+           
     - name: Nuget set access
-      run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GH_APIKEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
+      run: dotnet nuget add source --username "x-access-token" --password ${{ steps.generate_token.outputs.token }} --store-password-in-clear-text --name github-utils "https://nuget.pkg.github.com/garethbirduk/index.json"
 
     - name: Clear GitHub Actions Runner Cache
       run: rm -rf ~/.npm ~/.nuget ~/.cargo ~/.dotnet
