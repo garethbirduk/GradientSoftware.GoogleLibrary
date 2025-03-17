@@ -41,6 +41,9 @@ jobs:
       with:
         app_id: ${{ secrets.GH_APP_ID }}
         private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+    - name: Debug GitHub App Token
+      run: echo "Generated token: ${{ steps.generate_token.outputs.token }}" | sed 's/./*/g'
            
     - name: Nuget set access
       run: dotnet nuget add source --username "x-access-token" --password ${{ steps.generate_token.outputs.token }} --store-password-in-clear-text --name github-utils "https://nuget.pkg.github.com/garethbirduk/index.json"
