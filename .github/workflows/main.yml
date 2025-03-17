@@ -47,12 +47,18 @@ jobs:
         TOKEN="${{ steps.generate_token.outputs.token }}"
         MASKED_TOKEN=$(echo "$TOKEN" | sed 's/./*/g')
         echo "Generated token: $MASKED_TOKEN"
-           
-    - name: Nuget set access
-      run: dotnet nuget add source --username "x-access-token" --password ${{ steps.generate_token.outputs.token }} --store-password-in-clear-text --name github-utils "https://nuget.pkg.github.com/garethbirduk/index.json"
 
     - name: Clear GitHub Actions Runner Cache
       run: rm -rf ~/.npm ~/.nuget ~/.cargo ~/.dotnet
+
+    - name: Nuget set access (Private Package)
+      run: |
+        dotnet nuget remove source github-utils || true
+        dotnet nuget add source --username "x-access-token" --password "${{ steps.generate_token.outputs.token }}" \
+        --store-password-in-clear-text --name github-utils "https://nuget.pkg.github.com/garethbirduk/index.json"
+
+    - name: Verify NuGet Source
+      run: dotnet nuget list source
 
     - name: Test NuGet Authentication (NuGet Packages)
       run: |
@@ -61,13 +67,14 @@ jobs:
         "https://api.github.com/users/garethbirduk/packages?package_type=nuget"
 
     - name: Restore dependencies
-      run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
+      run: dotnet restore
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
     - name: Install modules
       run: yarn --prefer-offline
+
 
     - name: Test and generate coverage report
       run: |
