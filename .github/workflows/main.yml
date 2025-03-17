@@ -54,11 +54,11 @@ jobs:
     - name: Clear GitHub Actions Runner Cache
       run: rm -rf ~/.npm ~/.nuget ~/.cargo ~/.dotnet
 
-    - name: Test NuGet Authentication (User Packages)
+    - name: Test NuGet Authentication (NuGet Packages)
       run: |
         curl -H "Authorization: Bearer ${{ steps.generate_token.outputs.token }}" \
         -H "Accept: application/vnd.github.v3+json" \
-        https://api.github.com/users/garethbirduk/packages
+        "https://api.github.com/users/garethbirduk/packages?package_type=nuget"
 
     - name: Restore dependencies
       run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
