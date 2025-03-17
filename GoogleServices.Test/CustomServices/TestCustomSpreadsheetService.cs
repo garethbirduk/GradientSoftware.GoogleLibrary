@@ -5,23 +5,15 @@ namespace GoogleServices.Test.CustomServices
     [TestClass]
     public class TestCustomSpreadsheetService
     {
-        protected string SimpleCalendarSpreadsheetId { get; set; } = "1xXeM_uG2_z1dH9dAfSNZntxNfadmaWo6K9QrFHRURZg";
-        //protected string TestSpreadsheetId { get; set; } = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+        protected string TestSpreadsheetId { get; set; } = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
 
         public CustomSpreadsheetService CustomSpreadsheetService { get; set; } = new();
 
         [TestMethod]
-        public async Task TestBlackpool2024a()
+        public async Task TestBlackpool2025a()
         {
-            var name = "Blackpool2024a";
-            await CustomSpreadsheetService.WorksheetToCalendarAsync(SimpleCalendarSpreadsheetId, name, headerRowsCount: 2);
-        }
-
-        [TestMethod]
-        public async Task TestBolivia2024a()
-        {
-            var name = "Bolivia2024a";
-            await CustomSpreadsheetService.WorksheetToCalendarAsync(SimpleCalendarSpreadsheetId, name, headerRowsCount: 2);
+            var name = "Blackpool2025a";
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(TestSpreadsheetId, name, headerRowsCount: 2);
         }
 
         //[TestMethod]

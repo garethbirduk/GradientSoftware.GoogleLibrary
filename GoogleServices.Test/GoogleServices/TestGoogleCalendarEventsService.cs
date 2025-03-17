@@ -1,11 +1,18 @@
 using Google.Apis.Calendar.v3.Data;
 using GoogleLibrary.GoogleExtensions;
+using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
-    public class TestGoogleCalendarGoogleCalendarEventsService : GoogleAuthenticatedUnitTest
+    public class TestGoogleCalendarGoogleCalendarEventsService
     {
+        private static readonly string _calendarName1 = TestHelpers.RandomCalendarName();
+
+        private static GoogleCalendarEventsService GoogleCalendarEventsService = new();
+        private static GoogleCalendarService GoogleCalendarService = new();
+        private static GoogleCalendarsService GoogleCalendarsService = new();
+
         private static void AssertEvents(Event myEvent, Event myEvent2, bool enforceSameIds = false)
         {
             if (enforceSameIds)
@@ -29,6 +36,26 @@ namespace GoogleServices.Test.GoogleServices
             };
             myEvent.SetAllDay(DateTime.UtcNow);
             return myEvent;
+        }
+
+        public static string CalendarId { get; private set; } = "";
+
+        [ClassCleanup]
+        public static async Task ClassCleanup()
+        {
+            await GoogleCalendarsService.DeleteCalendarAsync(CalendarId);
+        }
+
+        [ClassInitialize]
+        public static async Task ClassInitialize(TestContext context)
+        {
+            GoogleCalendarService = new GoogleCalendarService();
+            GoogleCalendarService.Initialize();
+            GoogleCalendarsService = new GoogleCalendarsService();
+            GoogleCalendarsService.Initialize();
+            GoogleCalendarEventsService = new GoogleCalendarEventsService();
+            GoogleCalendarEventsService.Initialize();
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(_calendarName1)).Id;
         }
 
         [TestCleanup]

@@ -17,17 +17,11 @@ namespace GoogleServices.Test.GoogleServices
         protected GoogleAllScopesService GoogleAllScopesService { get; set; } = new();
 
         protected GoogleCalendarEventsReadonlyService GoogleCalendarEventsReadonlyService { get; set; } = new();
-
         protected GoogleCalendarEventsService GoogleCalendarEventsService { get; set; } = new();
-
         protected GoogleCalendarReadonlyService GoogleCalendarReadonlyService { get; set; } = new();
-
         protected GoogleCalendarService GoogleCalendarService { get; set; } = new();
-
         protected GoogleCalendarsReadonlyService GoogleCalendarsReadonlyService { get; set; } = new();
-
         protected GoogleCalendarsService GoogleCalendarsService { get; set; } = new();
-
         protected GoogleSpreadsheetReadonlyService GoogleSpreadsheetReadonlyService { get; set; } = new();
 
         protected GoogleSpreadsheetService GoogleSpreadsheetService { get; set; } = new();

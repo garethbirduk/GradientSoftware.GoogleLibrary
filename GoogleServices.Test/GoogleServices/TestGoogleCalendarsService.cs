@@ -4,8 +4,17 @@ using GoogleServices.GoogleServices;
 namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
-    public class TestGoogleCalendarsService : GoogleAuthenticatedUnitTest
+    public class TestGoogleCalendarsService
     {
+        private static GoogleCalendarsService GoogleCalendarsService = new();
+
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            GoogleCalendarsService = new GoogleCalendarsService();
+            GoogleCalendarsService.Initialize();
+        }
+
         [DataTestMethod]
         [DataRow("primary", "Calendar is primary calendar")]
         [DataRow("primary2", "Calendar is primary calendar")]

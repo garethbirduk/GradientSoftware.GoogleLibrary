@@ -5,8 +5,19 @@ using GoogleServices.GoogleServices;
 namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
-    public class TestGoogleSpreadsheetReadonlyService : GoogleAuthenticatedUnitTest
+    public class TestGoogleSpreadsheetReadonlyService
     {
+        private static GoogleSpreadsheetReadonlyService GoogleSpreadsheetReadonlyService = new();
+
+        private static string SpreadsheetId { get; set; } = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+
+        [ClassInitialize]
+        public static async Task ClassInitialize(TestContext context)
+        {
+            GoogleSpreadsheetReadonlyService = new GoogleSpreadsheetReadonlyService();
+            GoogleSpreadsheetReadonlyService.Initialize();
+        }
+
         [DataTestMethod]
         [DataRow(0, 0, null, null, IndexBase.Zero, "A1:A")]
         [DataRow(1, 0, null, null, IndexBase.Zero, "B1:B")]
