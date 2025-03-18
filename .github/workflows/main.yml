@@ -6,19 +6,16 @@ on:
   pull_request:
     branches: [ "main" ]
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   actions: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
-  
+
 jobs:
   build:
 
@@ -35,34 +32,17 @@ jobs:
     - name: Print .NET SDK version
       run: dotnet --version
 
-    - name: Generate GitHub App Token
-      id: generate_token
-      uses: tibdex/github-app-token@v2
-      with:
-        app_id: ${{ secrets.GH_APP_ID }}
-        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-
-    - name: Debug GitHub App Token
-      run: |
-        TOKEN="${{ steps.generate_token.outputs.token }}"
-        MASKED_TOKEN=$(echo "$TOKEN" | sed 's/./*/g')
-        echo "Generated token: $MASKED_TOKEN"
-
     - name: Clear GitHub Actions Runner Cache
       run: rm -rf ~/.npm ~/.nuget ~/.cargo ~/.dotnet
 
-    - name: Nuget set access (Debug Token)
+    - name: Test Public API Access to Package
       run: |
-        dotnet nuget remove source github-utils || true
-        dotnet nuget add source --username "x-access-token" --password "${{ steps.generate_token.outputs.token }}" \
-        --store-password-in-clear-text --name github-utils "https://nuget.pkg.github.com/garethbirduk/index.json"
-        dotnet nuget list source
+        echo "🔍 Checking if public access works..."
+        curl -H "Accept: application/vnd.github.v3+json" \
+             "https://api.github.com/users/garethbirduk/packages/nuget/GradientSoftware.Utils/versions"
 
-    - name: Verify NuGet Source
-      run: dotnet nuget list source
-
-    - name: Restore dependencies
-      run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
+    - name: Restore dependencies (Public Package)
+      run: dotnet restore --source "https://api.nuget.org/v3/index.json"
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
@@ -107,4 +87,4 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: |
         dotnet nuget push ./GoogleLibrary/bin/Release/**/*.nupkg --source "github" --api-key ${{ secrets.GH_APIKEY }} --skip-duplicate
-        dotnet nuget push ./GoogleServices/bin/Release/**/*.nupkg --source "github" --api-key ${{ secrets.GH_APIKEY }} --skip-duplicate
+        dotnet nuget push ./GoogleServices/bin/Release/**/*.nupkg --source "gi
