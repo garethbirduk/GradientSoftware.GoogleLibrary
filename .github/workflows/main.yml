@@ -61,17 +61,22 @@ jobs:
     - name: Verify NuGet Source
       run: dotnet nuget list source
 
-    - name: Test Package Access (Different Scopes)
+    - name: Test Package Access (Various Owners)
       run: |
-        echo "🔍 Checking package access (User Scope)..."
+        echo "🔍 Checking package under User Scope..."
         curl -H "Authorization: Bearer ${{ steps.generate_token.outputs.token }}" \
         -H "Accept: application/vnd.github.v3+json" \
         "https://api.github.com/users/garethbirduk/packages/nuget/GradientSoftware.Utils/versions"
 
-        echo "🔍 Checking package access (Repository Scope)..."
+        echo "🔍 Checking package under Repo Scope..."
         curl -H "Authorization: Bearer ${{ steps.generate_token.outputs.token }}" \
         -H "Accept: application/vnd.github.v3+json" \
         "https://api.github.com/repos/garethbirduk/GradientSoftware.Utils/packages/nuget/GradientSoftware.Utils/versions"
+
+        echo "🔍 Checking package under Org Scope (if in an org)..."
+        curl -H "Authorization: Bearer ${{ steps.generate_token.outputs.token }}" \
+        -H "Accept: application/vnd.github.v3+json" \
+        "https://api.github.com/orgs/YOUR_ORG_NAME/packages/nuget/GradientSoftware.Utils/versions"
 
 
 
