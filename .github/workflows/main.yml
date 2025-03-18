@@ -69,7 +69,7 @@ jobs:
         --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
 
     - name: Debug NuGet Sources
       run: dotnet nuget list source
