@@ -43,6 +43,9 @@ jobs:
     - name: Debug NuGet Sources
       run: dotnet nuget list source
 
+    - name: Test NuGet Package Fetching
+      run: dotnet list package --source github
+
     - name: Restore dependencies
       run: dotnet restore
 
