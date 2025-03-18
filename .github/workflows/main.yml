@@ -51,23 +51,25 @@ jobs:
     - name: Clear GitHub Actions Runner Cache
       run: rm -rf ~/.npm ~/.nuget ~/.cargo ~/.dotnet
 
-    - name: Nuget set access (Private Package)
+    - name: Nuget set access (Debug Token)
       run: |
         dotnet nuget remove source github-utils || true
         dotnet nuget add source --username "x-access-token" --password "${{ steps.generate_token.outputs.token }}" \
         --store-password-in-clear-text --name github-utils "https://nuget.pkg.github.com/garethbirduk/index.json"
+        dotnet nuget list source
 
     - name: Verify NuGet Source
       run: dotnet nuget list source
 
-    - name: Test NuGet Authentication (NuGet Packages)
+    - name: Test Package Access with Token
       run: |
         curl -H "Authorization: Bearer ${{ steps.generate_token.outputs.token }}" \
         -H "Accept: application/vnd.github.v3+json" \
-        "https://api.github.com/users/garethbirduk/packages?package_type=nuget"
+        "https://api.github.com/users/garethbirduk/packages/nuget/GradientSoftware.Utils/versions"
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore dependencies (with debug)
+      run: |
+        dotnet restore || echo "NuGet restore failed! Check authentication."
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
