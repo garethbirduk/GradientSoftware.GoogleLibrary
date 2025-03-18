@@ -40,14 +40,14 @@ jobs:
         dotnet nuget add source --username "x-access-token" --password "${{ steps.generate_token.outputs.token }}" \
         --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
 
+    - name: Restore dependencies
+      run: dotnet restore
+
     - name: Debug NuGet Sources
       run: dotnet nuget list source
 
     - name: Test NuGet Package Fetching
       run: dotnet list package --source github
-
-    - name: Restore dependencies
-      run: dotnet restore
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
