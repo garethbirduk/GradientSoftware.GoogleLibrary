@@ -68,8 +68,19 @@ jobs:
         dotnet nuget add source --username "x-access-token" --password "${{ steps.generate_token.outputs.token }}" \
         --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
 
-    - name: Restore dependencies
-      run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
+    - name: 🕵️ Verify Token Before Restore
+      run: |
+        echo "🔍 Checking GitHub Token"
+        dotnet nuget list source
+
+    - name: 🔄 Restore dependencies (with explicit token)
+      run: |
+        dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" \
+                       --source "https://api.nuget.org/v3/index.json" \
+                       --configfile /home/runner/.nuget/NuGet/NuGet.Config
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
     - name: Debug NuGet Sources
       run: dotnet nuget list source
