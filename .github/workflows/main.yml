@@ -41,6 +41,12 @@ jobs:
         curl -H "Accept: application/vnd.github.v3+json" \
              "https://api.github.com/users/garethbirduk/packages/nuget/GradientSoftware.Utils/versions"
 
+    - name: Authenticate NuGet Source for GitHub Packages
+      run: |
+        dotnet nuget remove source github || true
+        dotnet nuget add source --username "x-access-token" --password "${{ secrets.GITHUB_TOKEN }}" \
+        --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
+
     - name: Restore dependencies (Using GitHub Packages)
       run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
 
