@@ -35,14 +35,14 @@ jobs:
     - name: Clear GitHub Actions Runner Cache
       run: rm -rf ~/.npm ~/.nuget ~/.cargo ~/.dotnet
 
-    - name: Test Public API Access to Package
+    - name: Check Public API Access
       run: |
         echo "🔍 Checking if public access works..."
         curl -H "Accept: application/vnd.github.v3+json" \
              "https://api.github.com/users/garethbirduk/packages/nuget/GradientSoftware.Utils/versions"
 
-    - name: Restore dependencies (Public Package)
-      run: dotnet restore --source "https://api.nuget.org/v3/index.json"
+    - name: Restore dependencies (Using GitHub Packages)
+      run: dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" --source "https://api.nuget.org/v3/index.json"
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
