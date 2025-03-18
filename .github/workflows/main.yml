@@ -33,6 +33,17 @@ jobs:
       with:
         app_id: ${{ secrets.GH_APP_ID }}
         private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        
+    - name: Debug GitHub App Token
+      run: |
+        TOKEN="${{ steps.generate_token.outputs.token }}"
+        if [[ -z "$TOKEN" ]]; then
+          echo "❌ Token is empty! Something went wrong."
+          exit 1
+        else
+          echo "✅ Token generated successfully!"
+        fi
+        
 
     - name: Authenticate NuGet Source
       run: |
