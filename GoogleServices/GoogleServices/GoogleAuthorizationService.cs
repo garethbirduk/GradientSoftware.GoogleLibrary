@@ -136,7 +136,7 @@ namespace GoogleServices.GoogleServices
         protected async Task<UserCredential> GetUserCredentialAsync()
         {
             var existingTokenResponse = LoadTokenFromRegistry();
-            if (existingTokenResponse == null)
+            if (existingTokenResponse == null && false)
             {
                 return await RequestUserAuthorization(Scopes);
             }

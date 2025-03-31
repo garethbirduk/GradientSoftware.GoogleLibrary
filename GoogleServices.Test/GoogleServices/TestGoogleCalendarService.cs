@@ -1,15 +1,31 @@
-﻿using Gradient.Utils;
+﻿using GoogleServices.GoogleServices;
+using Gradient.Utils;
 
 namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
-    public class TestGoogleCalendarService : GoogleAuthenticatedUnitTest
+    public class TestGoogleCalendarService
     {
-        private readonly string _calendarName1 = TestHelpers.RandomCalendarName();
+        private static readonly string _calendarName1 = TestHelpers.RandomCalendarName();
 
-        [TestInitialize]
-        public async Task TestInitialize()
+        private static GoogleCalendarService GoogleCalendarService = new();
+        private static GoogleCalendarsService GoogleCalendarsService = new();
+
+        public static string CalendarId { get; private set; } = "";
+
+        [ClassCleanup]
+        public static async Task ClassCleanup()
         {
+            await GoogleCalendarsService.DeleteCalendarAsync(CalendarId);
+        }
+
+        [ClassInitialize]
+        public static async Task ClassInitialize(TestContext context)
+        {
+            GoogleCalendarService = new GoogleCalendarService();
+            GoogleCalendarService.Initialize();
+            GoogleCalendarsService = new GoogleCalendarsService();
+            GoogleCalendarsService.Initialize();
             CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(_calendarName1)).Id;
         }
 

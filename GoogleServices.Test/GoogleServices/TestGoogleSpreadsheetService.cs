@@ -1,10 +1,26 @@
+using GoogleServices.GoogleServices;
 using Gradient.Utils;
 
 namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
-    public class TestGoogleSpreadsheetService : GoogleAuthenticatedUnitTest
+    public class TestGoogleSpreadsheetService
     {
+        private static string SpreadsheetId { get; set; } = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+
+        public static GoogleSpreadsheetReadonlyService GoogleSpreadsheetReadonlyService = new();
+
+        public static GoogleSpreadsheetService GoogleSpreadsheetService = new();
+
+        [ClassInitialize]
+        public static async Task ClassInitialize(TestContext context)
+        {
+            GoogleSpreadsheetReadonlyService = new GoogleSpreadsheetReadonlyService();
+            GoogleSpreadsheetReadonlyService.Initialize();
+            GoogleSpreadsheetService = new GoogleSpreadsheetService();
+            GoogleSpreadsheetService.Initialize();
+        }
+
         [TestMethod]
         public async Task TestCreateWorksheetsAsync()
         {

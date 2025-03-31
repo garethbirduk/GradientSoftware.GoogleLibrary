@@ -1,8 +1,32 @@
-﻿namespace GoogleServices.Test.GoogleServices
+﻿using GoogleServices.GoogleServices;
+
+namespace GoogleServices.Test.GoogleServices
 {
     [TestClass]
-    public class TestGoogleCalendarsReadonlyService : GoogleAuthenticatedUnitTest
+    public class TestGoogleCalendarsReadonlyService
     {
+        private static readonly string _calendarName1 = Guid.NewGuid().ToString();
+
+        private static GoogleCalendarService GoogleCalendarService = new();
+
+        private static GoogleCalendarsReadonlyService GoogleCalendarsReadonlyService = new();
+
+        private static GoogleCalendarsService GoogleCalendarsService = new();
+
+        public static string CalendarId { get; private set; } = "";
+
+        [ClassInitialize]
+        public static async Task ClassInitialize(TestContext context)
+        {
+            GoogleCalendarsService = new GoogleCalendarsService();
+            GoogleCalendarsService.Initialize();
+            GoogleCalendarService = new GoogleCalendarService();
+            GoogleCalendarService.Initialize();
+            GoogleCalendarsReadonlyService = new GoogleCalendarsReadonlyService();
+            GoogleCalendarsReadonlyService.Initialize();
+            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(_calendarName1)).Id;
+        }
+
         [DataTestMethod]
         [DataRow("garethbird@gmail.com")]
         public void TestGetCalendar(string summary)

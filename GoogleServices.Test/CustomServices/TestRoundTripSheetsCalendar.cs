@@ -1,29 +1,32 @@
 using GoogleServices.CustomServices;
-using GoogleServices.Test.GoogleServices;
+using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.CustomServices
 {
     [TestClass]
-    public class TestRoundTripSheetsCalendar : GoogleAuthenticatedUnitTest
+    public class TestRoundTripSheetsCalendar
     {
+        private readonly string SpreadsheetId = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+        public CustomSpreadsheetService CustomSpreadsheetService { get; set; } = new();
+
         [TestMethod]
         public async Task TestRoundTrip()
         {
             var calendarName = TestHelpers.RandomCalendarName();
             var worksheetName = "ExampleAllDay";
 
-            CalendarId = GoogleCalendarsService.CreateCalendar(calendarName).Id;
+            var calendarId = (await CustomSpreadsheetService.GoogleCalendarsService.CreateOrGetCalendarAsync(calendarName)).Id;
             var customSpreadsheetService = new CustomSpreadsheetService();
             var customCalendarEventsService = new CustomCalendarService();
 
             try
             {
-                await customSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, worksheetName, CalendarId, maxEvents: 2);
-                await customCalendarEventsService.CalendarToWorksheetAsync(CalendarId, SpreadsheetId, calendarName);
+                await customSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, worksheetName, calendarId, maxEvents: 2);
+                await customSpreadsheetService.CalendarToWorksheetAsync(calendarId, SpreadsheetId, calendarName);
             }
             finally
             {
-                await GoogleSpreadsheetService.DeleteWorksheetsAsync(SpreadsheetId, calendarName);
+                await customSpreadsheetService.GoogleSpreadsheetService.DeleteWorksheetsAsync(SpreadsheetId, calendarName);
             }
         }
     }
