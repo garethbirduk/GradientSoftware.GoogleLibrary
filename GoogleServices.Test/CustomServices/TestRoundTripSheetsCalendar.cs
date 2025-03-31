@@ -1,5 +1,4 @@
 using GoogleServices.CustomServices;
-using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.CustomServices
 {
