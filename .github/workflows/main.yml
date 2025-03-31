@@ -33,72 +33,36 @@ jobs:
       with:
         app_id: ${{ secrets.GH_APP_ID }}
         private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-        
-    - name: Debug GitHub App Token
-      run: |
-        TOKEN="${{ steps.generate_token.outputs.token }}"
-        if [[ -z "$TOKEN" ]]; then
-          echo "❌ Token is empty! Something went wrong."
-          exit 1
-        else
-          echo "✅ Token generated successfully!"
-        fi       
-        
-    - name: Verify GitHub App Token with NuGet Packages
-      run: |
-        echo "🔍 Checking if token can access NuGet packages..."
-        RESPONSE=$(curl -s -H "Authorization: Bearer ${{ steps.generate_token.outputs.token }}" \
-                          -H "Accept: application/vnd.github.v3+json" \
-                          "https://api.github.com/users/garethbirduk/packages?package_type=nuget")
-        echo "GitHub API Response: $RESPONSE"
 
-        if echo "$RESPONSE" | grep -q '"message": "Requires authentication"'; then
-          echo "❌ Token authentication failed! Check token scopes."
-          exit 1
-        elif echo "$RESPONSE" | grep -q '"message": "Not Found"'; then
-          echo "❌ No packages found! Check if your package is public or private."
-          exit 1
-        else
-          echo "✅ Token is working correctly!"
-        fi
-        
-    - name: Authenticate NuGet Source
+    - name: Authenticate NuGet Source (GitHub Packages)
       run: |
         dotnet nuget remove source github || true
-        dotnet nuget add source --username "x-access-token" --password "${{ steps.generate_token.outputs.token }}" \
-        --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
+        dotnet nuget add source "https://nuget.pkg.github.com/garethbirduk/index.json" \
+          --name github \
+          --username "x-access-token" \
+          --password "${{ steps.generate_token.outputs.token }}" \
+          --store-password-in-clear-text
 
-    - name: 🕵️ Verify Token Before Restore
-      run: |
-        echo "🔍 Checking GitHub Token"
-        dotnet nuget list source
-
-    - name: 🔄 Restore dependencies (with explicit token)
+    - name: 🔄 Restore dependencies
       run: |
         dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" \
-                       --source "https://api.nuget.org/v3/index.json" \
-                       --configfile /home/runner/.nuget/NuGet/NuGet.Config
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-    - name: Debug NuGet Sources
-      run: dotnet nuget list source
-
-    - name: Test NuGet Package Fetching
-      run: dotnet list package --source github
+                       --source "https://api.nuget.org/v3/index.json"
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
-    
-    - name: Install modules
+
+    - name: Install JS modules
       run: yarn --prefer-offline
 
-    - name: Test and generate coverage report
+    - name: Run tests and generate coverage report
       run: |
-        dotnet test --configuration Release --no-build GoogleLibrary.Test/GoogleLibrary.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" --verbosity normal
+        dotnet test --configuration Release --no-build GoogleLibrary.Test/GoogleLibrary.Test.csproj \
+          /p:CollectCoverage=true \
+          /p:CoverletOutputFormat="opencover" \
+          --verbosity normal
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator "-reports:GoogleLibrary.Test/coverage.opencover.xml" "-targetdir:./coverage/" "-reporttypes:Badges;Html;TextSummary"
+
 
     - name: Upload Test Coverage Report
       uses: actions/upload-artifact@v4
