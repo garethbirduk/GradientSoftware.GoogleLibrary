@@ -19,6 +19,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
 
@@ -27,31 +28,19 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Generate GitHub App Token
-      id: generate_token
-      uses: tibdex/github-app-token@v2
-      with:
-        app_id: ${{ secrets.GH_APP_ID }}
-        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-
-    - name: Authenticate NuGet Source (GitHub Packages)
-      run: |
-        dotnet nuget remove source github || true
-        dotnet nuget add source "https://nuget.pkg.github.com/garethbirduk/index.json" \
-          --name github \
-          --username "x-access-token" \
-          --password "${{ steps.generate_token.outputs.token }}" \
-          --store-password-in-clear-text
-
-    - name: 🔄 Restore dependencies
-      run: |
-        dotnet restore --source "https://nuget.pkg.github.com/garethbirduk/index.json" \
-                       --source "https://api.nuget.org/v3/index.json"
+    - name: Print .NET SDK version
+      run: dotnet --version
+      
+    - name: Nuget set access
+      run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GH_APIKEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/garethbirduk/index.json"
+      
+    - name: Restore dependencies
+      run: dotnet restore
 
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: Install JS modules
+    - name: Install modules
       run: yarn --prefer-offline
 
     - name: Run tests and generate coverage report
