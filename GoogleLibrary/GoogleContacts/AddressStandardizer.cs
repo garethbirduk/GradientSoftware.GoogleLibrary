@@ -188,7 +188,7 @@ namespace GoogleLibrary.GoogleContacts
                 list = StandardizeCommonNames(list);
             }
 
-            if (standardizationOptions.HasFlag(AddressStandardizationOptions.TrimRepetative))
+            if (standardizationOptions.HasFlag(AddressStandardizationOptions.TrimRepetitive))
             {
                 list = list
                     .Distinct()

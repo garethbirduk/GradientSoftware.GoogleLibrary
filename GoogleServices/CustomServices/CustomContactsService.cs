@@ -40,7 +40,7 @@ namespace GoogleServices.CustomServices
                         | AddressStandardizationOptions.CapitalizeAbbreviations
                         | AddressStandardizationOptions.TrimTrailingPunctuation
                         | AddressStandardizationOptions.IncludeSpaceAfterDelimiter
-                        | AddressStandardizationOptions.TrimRepetative;
+                        | AddressStandardizationOptions.TrimRepetitive;
                     var standardizer = new AddressStandardizer(options);
                     var addresses = new List<Address>();
                     foreach (var address in contact.Addresses)

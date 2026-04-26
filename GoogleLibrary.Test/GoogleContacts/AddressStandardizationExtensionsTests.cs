@@ -37,7 +37,7 @@ namespace GoogleLibrary.Test.GoogleContacts
                 | AddressStandardizationOptions.CapitalizeAbbreviations
                 | AddressStandardizationOptions.TrimTrailingPunctuation
                 | AddressStandardizationOptions.IncludeSpaceAfterDelimiter
-                | AddressStandardizationOptions.TrimRepetative;
+                | AddressStandardizationOptions.TrimRepetitive;
 
             var standardizer = new AddressStandardizer(options);
 
