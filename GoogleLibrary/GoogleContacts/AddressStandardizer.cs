@@ -334,10 +334,6 @@ namespace GoogleLibrary.GoogleContacts
 
         private string NormalizeWhitespace(string input) => Regex.Replace(input, @"\s+", " ");
 
-        private string RemoveWhitespaceAroundHyphens(string input) => Regex.Replace(input, @"\s*-\s*", "-");
-
-        private string ReplaceUnderscoresWithHyphens(string input) => input.Replace("_", "-");
-
         // Standardization logic for City
         private string StandardizeCity(string city)
         {
@@ -359,34 +355,6 @@ namespace GoogleLibrary.GoogleContacts
             }
 
             return city;
-        }
-
-        private string StandardizeCommonNames(string input)
-        {
-            var list = input.Split(',').Select(x => x.Trim()).ToList();
-
-            var commonNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                { "St", "Street" },
-                { "Ave", "Avenue" },
-                { "Rd", "Road" },
-                { "Blvd", "Boulevard" },
-                { "Dr", "Drive" },
-                { "Cl", "Close" },
-                { "Cr", "Crescent" }
-            };
-
-            for (var index = 0; index < list.Count(); index++)
-            {
-                foreach (var pair in commonNames)
-                {
-                    if (list[index].EndsWith(pair.Key, StringComparison.InvariantCultureIgnoreCase)
-                        || list[index].EndsWith($"{pair.Key}.", StringComparison.InvariantCultureIgnoreCase))
-                        list[index] = list[index].ReplaceLast(pair.Key, pair.Value, StringComparison.InvariantCultureIgnoreCase);
-                }
-            }
-
-            return string.Join(", ", list);
         }
 
         // Standardization logic for Country
