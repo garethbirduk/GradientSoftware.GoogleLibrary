@@ -13,7 +13,7 @@ namespace GoogleServices.GoogleServices
         {
         }
 
-        public SheetsService GoogleService { get; set; }
+        public SheetsService GoogleService { get; set; } = null!;
 
         public async Task<Spreadsheet> GetSpreadsheetAsync(string spreadsheetId)
         {

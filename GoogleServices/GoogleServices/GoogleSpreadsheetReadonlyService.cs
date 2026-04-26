@@ -15,7 +15,7 @@ namespace GoogleServices.GoogleServices
         {
         }
 
-        public SheetsService GoogleService { get; set; }
+        public SheetsService GoogleService { get; set; } = null!;
 
         public static string BuildRange(int columnStart, int rowStart, int? columnEnd = null, int? rowEnd = null, IndexBase indexBasis = IndexBase.Zero)
         {

@@ -54,7 +54,7 @@ namespace GoogleLibrary.Custom.Events
         {
             var index = fields.FindIndex(x => x.Item2.Equals(enumType));
             if (index < 0)
-                return default;
+                return default!;
             var value = data[index].Trim();
             return EnumHelper.StringToEnumOrDefault<T2>(value, allowAlias);
         }

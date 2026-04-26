@@ -25,8 +25,8 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
         [TestMethod]
         public void Build_WithNullEvent_ThrowsNullReferenceException()
         {
-            Event googleEvent = null;
-            Assert.ThrowsException<NullReferenceException>(() => googleEvent.Build());
+            Event? googleEvent = null;
+            Assert.ThrowsException<NullReferenceException>(() => googleEvent!.Build());
         }
 
         [TestMethod]

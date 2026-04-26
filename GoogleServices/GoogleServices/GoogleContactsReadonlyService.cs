@@ -16,9 +16,9 @@ namespace GoogleServices.GoogleServices
         /// <summary>
         /// The google people service for accessing the contacts
         /// </summary>
-        public PeopleServiceService GooglePeopleService { get; set; }
+        public PeopleServiceService GooglePeopleService { get; set; } = null!;
 
-        public Person GetContactByResourceName(string resourceName)
+        public Person? GetContactByResourceName(string resourceName)
         {
             if (string.IsNullOrEmpty(resourceName))
             {
@@ -46,7 +46,7 @@ namespace GoogleServices.GoogleServices
             // List to store all contacts
             var allContacts = new List<Person>();
 
-            string nextPageToken = null;
+            string? nextPageToken = null;
             do
             {
                 // Define request parameters.

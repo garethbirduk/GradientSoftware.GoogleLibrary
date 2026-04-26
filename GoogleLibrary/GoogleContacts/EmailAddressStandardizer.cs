@@ -25,7 +25,7 @@ namespace GoogleLibrary.GoogleContacts
         /// </summary>
         /// <param name="inputEmail">The email address to standardize.</param>
         /// <returns>A standardized EmailAddress object.</returns>
-        public EmailAddress Standardize(EmailAddress inputEmail)
+        public EmailAddress? Standardize(EmailAddress? inputEmail)
         {
             if (inputEmail == null || string.IsNullOrWhiteSpace(inputEmail.Value))
                 return inputEmail;

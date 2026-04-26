@@ -38,7 +38,7 @@ namespace GoogleServices.GoogleServices
         /// <summary>
         /// A dummy executable for ensuring the scopes get checked and requested if missing.
         /// </summary>
-        public CalendarListEntry ExecuteSomething()
+        public CalendarListEntry? ExecuteSomething()
         {
             return GoogleCalendarsService.GetCalendar();
         }

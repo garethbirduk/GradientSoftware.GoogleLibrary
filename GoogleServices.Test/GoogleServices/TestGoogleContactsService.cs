@@ -25,7 +25,7 @@ namespace GoogleServices.Test.GoogleServices
             var json = File.ReadAllText(filePath);
 
             // Deserialize the JSON content into a list of Person objects
-            return JsonConvert.DeserializeObject<List<Person>>(json);
+            return JsonConvert.DeserializeObject<List<Person>>(json) ?? new List<Person>();
         }
 
         [TestMethod]
@@ -80,6 +80,7 @@ namespace GoogleServices.Test.GoogleServices
             };
 
             var contact2 = GoogleContactsService.CreateContact(contact);
+            Assert.IsNotNull(contact2);
             Assert.IsTrue(contact.ResourceName != contact2.ResourceName);
 
             await GoogleContactsService.DeleteContactAsync(contact2);
@@ -119,6 +120,7 @@ namespace GoogleServices.Test.GoogleServices
             try
             {
                 contact2 = GoogleContactsService.CreateContact(contact);
+                Assert.IsNotNull(contact2);
                 Assert.IsTrue(contact.ResourceName != contact2.ResourceName);
 
                 contact2.Names.First().FamilyName = "Smith";
@@ -138,6 +140,7 @@ namespace GoogleServices.Test.GoogleServices
         public async Task TestUpdateContact2()
         {
             var contact = GoogleContactsService.GetContactByResourceName("people/c41931351444101877");
+            Assert.IsNotNull(contact);
             var service = new CustomContactsService();
             service.CleanupContacts(new List<Person>()
             {

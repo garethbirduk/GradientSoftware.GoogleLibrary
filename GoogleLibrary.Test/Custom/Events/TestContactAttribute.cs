@@ -11,7 +11,7 @@ namespace GoogleLibrary.Test.Custom.Events
         public void AttributeUsage_InheritedIsFalse()
         {
             // Arrange & Act
-            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(ContactAttribute), typeof(AttributeUsageAttribute));
+            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(ContactAttribute), typeof(AttributeUsageAttribute))!;
 
             // Assert
             Assert.IsNotNull(attributeUsage);
@@ -22,7 +22,7 @@ namespace GoogleLibrary.Test.Custom.Events
         public void AttributeUsage_ValidOnAllTargets()
         {
             // Arrange & Act
-            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(ContactAttribute), typeof(AttributeUsageAttribute));
+            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(ContactAttribute), typeof(AttributeUsageAttribute))!;
 
             // Assert
             Assert.IsNotNull(attributeUsage);

@@ -19,7 +19,7 @@ namespace GoogleServices.GoogleServices
         /// <summary>
         /// The google calendar service for accessing the calendar to which the events belong.
         /// </summary>
-        public CalendarService GoogleCalendarService { get; set; }
+        public CalendarService GoogleCalendarService { get; set; } = null!;
 
         /// <summary>
         /// Get a single event by id

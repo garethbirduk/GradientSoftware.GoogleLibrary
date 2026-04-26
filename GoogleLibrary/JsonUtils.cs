@@ -35,7 +35,9 @@ namespace GoogleLibrary
 
             try
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                var dir = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrEmpty(dir))
+                    Directory.CreateDirectory(dir);
                 File.WriteAllText(filePath, json);
             }
             catch (IOException ex)

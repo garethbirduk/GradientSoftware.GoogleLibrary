@@ -44,10 +44,10 @@ namespace GoogleLibrary.Test.Custom.Events
         public void TestCreateBasicEventFromNullGoogleEvent()
         {
             // Arrange
-            Event googleEvent = null;
+            Event? googleEvent = null;
 
             // Act
-            EventBuilder.Create(googleEvent);
+            EventBuilder.Create(googleEvent!);
         }
 
         [DataTestMethod]
@@ -291,7 +291,7 @@ namespace GoogleLibrary.Test.Custom.Events
             };
 
             // Act
-            EventBuilder.Create(fields, null);
+            EventBuilder.Create(fields, null!);
         }
 
         [TestMethod]
@@ -302,7 +302,7 @@ namespace GoogleLibrary.Test.Custom.Events
             var data = new List<string>();
 
             // Act
-            EventBuilder.Create(null, data);
+            EventBuilder.Create(null!, data);
         }
     }
 }

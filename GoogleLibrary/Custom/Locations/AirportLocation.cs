@@ -7,7 +7,8 @@ namespace GoogleLibrary.Custom.Locations
         public AirportLocation(string airportId)
         {
             AirportId = airportId;
-            AirportInformation = AirportHelper.GetAirportOrDefault(airportId);
+            AirportInformation = AirportHelper.GetAirportOrDefault(airportId)
+                ?? throw new ArgumentException($"Airport code '{airportId}' not found in OpenFlights data.", nameof(airportId));
             ShortName = AirportInformation.Name;
             Address = AirportInformation.Name;
         }

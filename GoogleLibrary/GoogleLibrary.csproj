@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>GradientSoftware.$(AssemblyName)</Title>
     <Description>A google library for dotnet 8 and above.</Description>

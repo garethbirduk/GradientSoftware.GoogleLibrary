@@ -105,7 +105,8 @@ namespace GoogleServices.GoogleServices
             foreach (var worksheetName in worksheetNames)
             {
                 var worksheet = worksheets.Where(x => x.Properties.Title == worksheetName).Single();
-                dictionary.Add(worksheet.Properties.SheetId.Value, worksheetName);
+                if (worksheet.Properties.SheetId.HasValue)
+                    dictionary.Add(worksheet.Properties.SheetId.Value, worksheetName);
             }
             return dictionary;
         }

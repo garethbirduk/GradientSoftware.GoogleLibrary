@@ -20,7 +20,7 @@ namespace GoogleServices.Test.GoogleServices
                 .Where(x => x.Names.FirstOrDefault() != null)
                 .Where(x => x.Names.FirstOrDefault()?.GivenName == "Sonia")
                 .SingleOrDefault();
-            var list = new List<Person>() { contact };
+            var list = new List<Person>() { contact! };
             JsonUtils.SaveToFile(list, @"c:\temp\contact.json");
         }
 

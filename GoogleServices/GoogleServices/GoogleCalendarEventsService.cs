@@ -31,7 +31,11 @@ namespace GoogleServices.GoogleServices
         {
             var list = new List<Event>();
             foreach (var myEvent in events.Where(x => !string.IsNullOrWhiteSpace(x.Summary)))
-                list.Add(CreateEvent(calendarId, myEvent));
+            {
+                var created = CreateEvent(calendarId, myEvent);
+                if (created != null)
+                    list.Add(created);
+            }
             return list;
         }
 

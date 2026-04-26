@@ -52,7 +52,7 @@ namespace GoogleServices.GoogleServices
             return string.Join(",", selectedFields);
         }
 
-        public Person CreateContact(Person contact)
+        public Person? CreateContact(Person contact)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace GoogleServices.GoogleServices
             GooglePeopleService = new PeopleServiceService(initializer);
         }
 
-        public Person UpdateContact(Person contact, ContactUpdateFields fieldsToUpdate)
+        public Person? UpdateContact(Person contact, ContactUpdateFields fieldsToUpdate)
         {
             if (fieldsToUpdate == ContactUpdateFields.None)
             {

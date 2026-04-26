@@ -12,7 +12,7 @@ namespace GoogleLibrary.Test.Custom.Events
         public void AttributeUsage_InheritedIsFalse()
         {
             // Arrange & Act
-            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(TypeAttribute), typeof(AttributeUsageAttribute));
+            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(TypeAttribute), typeof(AttributeUsageAttribute))!;
 
             // Assert
             Assert.IsNotNull(attributeUsage);
@@ -23,7 +23,7 @@ namespace GoogleLibrary.Test.Custom.Events
         public void AttributeUsage_ValidOnAllTargets()
         {
             // Arrange & Act
-            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(TypeAttribute), typeof(AttributeUsageAttribute));
+            var attributeUsage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(TypeAttribute), typeof(AttributeUsageAttribute))!;
 
             // Assert
             Assert.IsNotNull(attributeUsage);
@@ -35,7 +35,7 @@ namespace GoogleLibrary.Test.Custom.Events
         public void Constructor_NullType_ThrowsArgumentNullException()
         {
             // Act
-            var attribute = new TypeAttribute(null);
+            var attribute = new TypeAttribute(null!);
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@ namespace GoogleLibrary.Test.Custom.Events
         {
             // Arrange & Act
             var fieldInfo = typeof(EnumEventFieldType).GetField(nameof(EnumEventFieldType.PriceEuros));
-            var typeAttribute = (TypeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(TypeAttribute));
+            var typeAttribute = (TypeAttribute)Attribute.GetCustomAttribute(fieldInfo!, typeof(TypeAttribute))!;
 
             // Assert
             Assert.IsNotNull(typeAttribute);
@@ -68,7 +68,7 @@ namespace GoogleLibrary.Test.Custom.Events
         {
             // Arrange & Act
             var fieldInfo = typeof(EnumEventFieldType).GetField(nameof(EnumEventFieldType.PricePounds));
-            var typeAttribute = (TypeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(TypeAttribute));
+            var typeAttribute = (TypeAttribute)Attribute.GetCustomAttribute(fieldInfo!, typeof(TypeAttribute))!;
 
             // Assert
             Assert.IsNotNull(typeAttribute);
@@ -80,7 +80,7 @@ namespace GoogleLibrary.Test.Custom.Events
         {
             // Arrange & Act
             var fieldInfo = typeof(EnumEventFieldType).GetField(nameof(EnumEventFieldType.StartDate));
-            var typeAttribute = (TypeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(TypeAttribute));
+            var typeAttribute = (TypeAttribute)Attribute.GetCustomAttribute(fieldInfo!, typeof(TypeAttribute))!;
 
             // Assert
             Assert.IsNotNull(typeAttribute);
