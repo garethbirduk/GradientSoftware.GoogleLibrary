@@ -14,7 +14,7 @@ namespace GoogleServices.GoogleServices
         private CalendarService GoogleService { get; set; } = new();
         private GoogleSpreadsheetService GoogleSpreadsheetService { get; set; } = new();
 
-        public static List<string> RequiredScopes = new List<string>()
+        public static IReadOnlyList<string> RequiredScopes = new List<string>()
         {
             CalendarService.Scope.Calendar,
             CalendarService.Scope.CalendarEvents,

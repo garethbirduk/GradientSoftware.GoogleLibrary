@@ -6,7 +6,7 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleCalendarEventsService : GoogleCalendarEventsReadonlyService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public new static IReadOnlyList<string> RequiredScopes = new List<string>()
             { CalendarService.Scope.Calendar, CalendarService.Scope.CalendarEvents };
 
         public GoogleCalendarEventsService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())

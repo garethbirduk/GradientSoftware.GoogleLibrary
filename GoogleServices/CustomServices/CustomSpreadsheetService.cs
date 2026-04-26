@@ -9,7 +9,7 @@ namespace GoogleServices.CustomServices
 {
     public class CustomSpreadsheetService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes =
+        public static IReadOnlyList<string> RequiredScopes =
             GoogleSpreadsheetService.RequiredScopes
             .Union(GoogleCalendarService.RequiredScopes)
             .Union(GoogleCalendarsService.RequiredScopes)

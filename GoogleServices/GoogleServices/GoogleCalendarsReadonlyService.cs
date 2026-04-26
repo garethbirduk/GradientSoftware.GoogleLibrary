@@ -6,7 +6,7 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleCalendarsReadonlyService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public static IReadOnlyList<string> RequiredScopes = new List<string>()
             { CalendarService.Scope.CalendarReadonly };
 
         public GoogleCalendarsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())

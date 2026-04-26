@@ -84,4 +84,5 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: |
         dotnet nuget push ./GoogleLibrary/bin/Release/**/*.nupkg --source "github" --api-key ${{ secrets.GH_APIKEY }} --skip-duplicate
-        dotnet nuget push ./GoogleServices/bin/Release/**/*.nupkg --source "gi
+        dotnet nuget push ./GoogleServices/bin/Release/**/*.nupkg --source "github" --api-key ${{ secrets.GH_APIKEY }} --skip-duplicate
+

@@ -21,7 +21,7 @@ namespace GoogleServices.GoogleServices
             spreadsheetId).ExecuteAsync();
         }
 
-        public static List<string> RequiredScopes = new List<string>()
+        public new static IReadOnlyList<string> RequiredScopes = new List<string>()
             { SheetsService.Scope.Spreadsheets };
 
         public GoogleSpreadsheetService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())

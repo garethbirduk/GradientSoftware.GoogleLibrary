@@ -9,7 +9,7 @@ namespace GoogleServices.GoogleServices
     /// </summary>
     public class GoogleCalendarEventsReadonlyService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public static IReadOnlyList<string> RequiredScopes = new List<string>()
             { CalendarService.Scope.Calendar, CalendarService.Scope.CalendarEvents };
 
         public GoogleCalendarEventsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes))

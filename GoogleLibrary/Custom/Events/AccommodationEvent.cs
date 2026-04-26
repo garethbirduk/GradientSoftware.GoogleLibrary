@@ -11,8 +11,10 @@ namespace GoogleLibrary.Custom.Events
         public override List<string> AddCustomSummary()
         {
             var list = new List<string>();
-            if (Location == null || Location.ShortName == "")
+            if (Location == null || string.IsNullOrWhiteSpace(Location.ShortName))
                 list.Add("TBC");
+            else
+                list.Add(Location.ShortName.Trim());
             return list;
         }
 

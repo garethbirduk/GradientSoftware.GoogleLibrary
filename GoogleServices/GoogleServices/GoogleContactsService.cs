@@ -7,7 +7,7 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleContactsService : GoogleContactsReadonlyService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public new static IReadOnlyList<string> RequiredScopes = new List<string>()
             { PeopleServiceService.Scope.Contacts };
 
         public GoogleContactsService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())

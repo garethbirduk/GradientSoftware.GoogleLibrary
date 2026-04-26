@@ -7,7 +7,7 @@ namespace GoogleServices.CustomServices
 {
     public class CustomContactsService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes =
+        public static IReadOnlyList<string> RequiredScopes =
             GoogleContactsService.RequiredScopes
             .ToList();
 
