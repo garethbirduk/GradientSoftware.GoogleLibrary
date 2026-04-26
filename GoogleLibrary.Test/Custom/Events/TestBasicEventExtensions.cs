@@ -87,6 +87,22 @@ namespace GoogleLibrary.Test.Custom.Events
         }
 
         [TestMethod]
+        public void ToLocationString_EncodesSpecialUrlCharacters()
+        {
+            var baseEvent = new BasicEvent
+            {
+                Locations = new List<Location>
+                {
+                    new Location { Address = "Joe's Diner & Bar #1?" }
+                }
+            };
+
+            var result = baseEvent.ToLocationString();
+
+            Assert.AreEqual("https://www.google.com/maps/search/Joe%27s+Diner+%26+Bar+%231%3F", result);
+        }
+
+        [TestMethod]
         public void ToReminderOverrides_WithValidReminders_ReturnsEventReminders()
         {
             var baseEvent = new BasicEvent

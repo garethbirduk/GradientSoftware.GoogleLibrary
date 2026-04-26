@@ -12,14 +12,12 @@
             if (Address == "")
                 Address = ShortName;
 
-            if (ShortName.Equals(Home, StringComparison.InvariantCultureIgnoreCase))
+            if (KnownLocations.TryGet(ShortName, out var canonical, out var resolved))
             {
-                ShortName = Home;
-                Address = "10 Bourne Close, Beeston, NG9 3BZ, UK";
+                ShortName = canonical;
+                Address = resolved;
             }
         }
-
-        public readonly string Home = nameof(Home);
 
         public Location(string? shortName = null, string? address = null)
         {

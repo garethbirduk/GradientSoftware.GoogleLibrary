@@ -30,12 +30,12 @@ namespace GoogleLibrary.Custom.Events
             if (!locations.Any())
                 return "";
 
-            var prefix = "search";
-            if (locations.Count > 1)
-                prefix = "dir";
-
+            var prefix = locations.Count > 1 ? "dir" : "search";
             var baseString = $"https://www.google.com/maps/{prefix}/";
-            return $"{baseString}{string.Join("/", locations)}".Replace(" ", "+");
+            // Per-segment percent-encoding so that &, ?, #, /, non-ASCII etc. survive the URL.
+            // Spaces become "+" for readability — Google Maps accepts both "+" and "%20".
+            var encoded = locations.Select(l => Uri.EscapeDataString(l).Replace("%20", "+"));
+            return $"{baseString}{string.Join("/", encoded)}";
         }
 
         public static List<EventReminder> ToReminderOverrides(this BasicEvent baseEvent)
