@@ -5,14 +5,28 @@ namespace GoogleServices.Test.CustomServices
     [TestClass]
     public class TestCustomSpreadsheetService
     {
-        protected string TestSpreadsheetId { get; set; } = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+        protected string TestSpreadsheetId { get; set; } = "1xXeM_uG2_z1dH9dAfSNZntxNfadmaWo6K9QrFHRURZg";
 
         public CustomSpreadsheetService CustomSpreadsheetService { get; set; } = new();
 
         [TestMethod]
-        public async Task TestBlackpool2025a()
+        public async Task Formula1()
         {
-            var name = "Blackpool2025a";
+            var name = "Formula 1";
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(TestSpreadsheetId, name, headerRowsCount: 1);
+        }
+
+        [TestMethod]
+        public async Task TestCrewe()
+        {
+            var name = "Crewe Alex";
+            await CustomSpreadsheetService.WorksheetToCalendarAsync(TestSpreadsheetId, name, headerRowsCount: 1);
+        }
+
+        [TestMethod]
+        public async Task TestHoliday()
+        {
+            var name = "Holiday";
             await CustomSpreadsheetService.WorksheetToCalendarAsync(TestSpreadsheetId, name, headerRowsCount: 2);
         }
 
@@ -35,13 +49,6 @@ namespace GoogleServices.Test.CustomServices
         //{
         //    CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(TestHelpers.RandomCalendarName())).Id;
         //    await CustomSpreadsheetService.WorksheetToCalendarAsync(SpreadsheetId, "ExampleItinerary", CalendarId, headerRowsCount: 1);
-        //}
-
-        //[TestMethod]
-        //public async Task TestCrewe()
-        //{
-        //    CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync("Crewe Alex", true)).Id;
-        //    await CustomSpreadsheetService.WorksheetToCalendarAsync("1xXeM_uG2_z1dH9dAfSNZntxNfadmaWo6K9QrFHRURZg", "Crewe Alex", CalendarId, headerRowsCount: 1);
         //}
     }
 }
