@@ -7,25 +7,15 @@ public class GoogleContactsProcessor
     private static List<Person> NormalizeContacts(List<Person> contacts)
     {
         var normalizedContacts = new List<Person>();
-        var addressDictionary = new Dictionary<string, Address>(); // Track unique addresses
-        var phoneNumberDictionary = new Dictionary<string, string>(); // Track unique phone numbers
 
         foreach (var person in contacts)
         {
             var normalizedPerson = new Person
             {
-                Names = person.Names
+                Names = person.Names,
+                PhoneNumbers = person.PhoneNumbers
             };
 
-            // Normalize phone numbers
-            if (person.PhoneNumbers != null)
-            {
-                normalizedPerson.PhoneNumbers = person.PhoneNumbers
-                    .Select(phone => NormalizePhoneNumber(phone, phoneNumberDictionary))
-                    .ToList();
-            }
-
-            // Normalize addresses
             if (person.Addresses != null)
             {
                 var options = AddressStandardizationOptions.NormalizeWhitespace
@@ -49,24 +39,6 @@ public class GoogleContactsProcessor
         }
 
         return normalizedContacts;
-    }
-
-    private static PhoneNumber NormalizePhoneNumber(PhoneNumber phoneNumber, Dictionary<string, string> phoneNumberDictionary)
-    {
-        var normalizedPhone = phoneNumber.Value;
-
-        // Check if the phone number has already been normalized
-        if (phoneNumberDictionary.ContainsKey(phoneNumber.Value))
-        {
-            normalizedPhone = phoneNumberDictionary[phoneNumber.Value];
-        }
-        else
-        {
-            // Add to dictionary for future normalization
-            phoneNumberDictionary[phoneNumber.Value] = phoneNumber.Value;
-        }
-
-        return new PhoneNumber { Value = normalizedPhone };
     }
 
     public void ProcessContacts()

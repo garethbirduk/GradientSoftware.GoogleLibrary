@@ -152,6 +152,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public void FixLists()
         {
             var contacts_current = JsonUtils.LoadFromFile<Person>(Path.Combine("c:\\", "temp", "list.json"));
@@ -179,6 +180,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public async Task TestCreateDeleteContact()
         {
             var contact = new Person()
@@ -214,6 +216,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public async Task TestUpdateContact()
         {
             var contact = new Person()
@@ -254,6 +257,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public async Task TestUpdateContact2()
         {
             var contact = GoogleContactsService.GetContactByResourceName("people/c41931351444101877");

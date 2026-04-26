@@ -72,9 +72,10 @@ namespace GoogleLibrary.Custom.Events
             var index = fields.FindIndex(x => x.Item2 == enumEventFieldType);
             if (index < 0)
                 return [];
-            var value = data[index];
-            var list = data[fields.FindIndex(x => x.Item2 == enumEventFieldType)].Split("").Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-            return list.Select(x => (T)Convert.ChangeType(x, typeof(T))).ToList();
+            return data[index]
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(x => (T)Convert.ChangeType(x, typeof(T)))
+                .ToList();
         }
 
         /// <summary>

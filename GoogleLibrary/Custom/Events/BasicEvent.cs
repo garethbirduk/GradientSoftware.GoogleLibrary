@@ -241,7 +241,7 @@ namespace GoogleLibrary.Custom.Events
                 else if (!string.IsNullOrWhiteSpace(value))
                     CustomFields.Add(item.Item1, value);
             }
-            var additionalDataIndex = fields.Count - 1;
+            var additionalDataIndex = fields.Count;
             while (additionalDataIndex < data.Count)
             {
                 AdditionalData.Add(data[additionalDataIndex]);

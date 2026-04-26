@@ -133,6 +133,7 @@ namespace GoogleServices.Test.GoogleServices
         protected static GoogleContactsReadonlyService GoogleContactsReadonlyService { get; set; } = new();
 
         [TestMethod]
+        [TestCategory("Manual")]
         public void TestGetGoogleContactReadonlyService()
         {
             var service = GoogleContactsReadonlyService;
@@ -149,6 +150,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public void TestGetGoogleContactsReadonlyService()
         {
             var service = GoogleContactsReadonlyService;
@@ -213,6 +215,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public void TestNormalizeAndSaveGoogleContacts()
         {
             // Step 1: Load list from the existing JSON file.
