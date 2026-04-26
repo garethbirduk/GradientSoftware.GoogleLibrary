@@ -34,27 +34,35 @@ namespace GoogleServices.CustomServices
                 worksheetName = calendarId;
 
             var description = GoogleCalendarService.Calendar(calendarId).Description;
-            var header = description.Split("\r\n").Where(x => x.StartsWith("Headers")).FirstOrDefault();
-            if (header != null)
-            {
-                var headers = header.Split("*/*").Skip(1).ToList();
-            }
+            var headers = WorksheetCalendarMapping.TryDecodeHeaders(description, out var decoded)
+                ? decoded
+                : WorksheetCalendarMapping.DefaultHeaders.ToList();
 
             var worksheet = (await GoogleSpreadsheetService.CreateWorksheetsAsync(spreadsheetId, worksheetName)).Single();
 
             var googleSheetParameters = new GoogleSheetParameters(0, 0, IndexBase.Zero);
-            var rows = new List<GoogleSheetRow>();
-            foreach (var myEvent in events.Items)
+            var rows = new List<GoogleSheetRow>
             {
-                var row = new GoogleSheetRow();
-                row.Cells.Add(new GoogleSheetCell()
-                {
-                    CellValue = myEvent.Summary
-                });
-                rows.Add(row);
+                BuildRow(headers, isHeader: true)
+            };
+            foreach (var googleEvent in events.Items)
+            {
+                var basicEvent = EventBuilder.Create(googleEvent);
+                var values = WorksheetCalendarMapping.ToCellValues(basicEvent, headers);
+                rows.Add(BuildRow(values, isHeader: false));
             }
 
             await GoogleSpreadsheetService.AddCells(spreadsheetId, worksheet.Key, googleSheetParameters, rows);
+        }
+
+        private static GoogleSheetRow BuildRow(IEnumerable<string> values, bool isHeader)
+        {
+            var row = new GoogleSheetRow();
+            foreach (var value in values)
+            {
+                row.Cells.Add(new GoogleSheetCell { CellValue = value, IsBold = isHeader });
+            }
+            return row;
         }
 
         public override void SetupExternalServices(BaseClientService.Initializer initializer)
@@ -71,15 +79,18 @@ namespace GoogleServices.CustomServices
         {
             var valueRange = await GoogleSpreadsheetService.GetData(spreadsheetId, worksheetName, "");
 
-            var headers = valueRange.Values.Take(headerRowsCount).Last().Select(x => x.ToString());
-            var data = valueRange.Values.Skip(headerRowsCount).Select(x => x.Select(y => y.ToString()).ToList());
+            var headers = valueRange.Values.Take(headerRowsCount).Last().Select(x => x?.ToString() ?? "").ToList();
+            var data = valueRange.Values.Skip(headerRowsCount).Select(x => x.Select(y => y?.ToString() ?? "").ToList());
 
             var events = EventsBuilder.Create(headers, data);
             var googleEvents = GoogleEventsBuilder.Create(events.ToArray());
             if (maxEvents > 0)
                 googleEvents = googleEvents.Take(maxEvents).ToList();
             GoogleCalendarService.CreateEvents(calendarId, googleEvents);
-            GoogleCalendarService.SetDescription(calendarId, worksheetName);
+
+            // Persist the original column ordering so CalendarToWorksheetAsync can round-trip.
+            var description = $"{worksheetName}\r\n{WorksheetCalendarMapping.EncodeHeaders(headers)}";
+            GoogleCalendarService.SetDescription(calendarId, description);
         }
     }
 }
