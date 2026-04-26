@@ -41,7 +41,7 @@ namespace GoogleLibrary.Custom.Events
 
         Status,
 
-        [Alias("End, Location2")]
+        [Alias("End", "Location2")]
         To,
 
         Via,
