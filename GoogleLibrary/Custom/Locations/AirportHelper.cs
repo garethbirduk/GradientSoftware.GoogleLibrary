@@ -6,15 +6,20 @@ namespace GoogleLibrary.Custom.Locations
 {
     public static class AirportHelper
     {
+        private static readonly Lazy<AirportIataCodeDatabase> _airportCodes = new(() =>
+        {
+            var airportProvider = new OpenFlightsDataAirportProvider("airports.cache", new OpenFlightsDataCountryProvider("countries.cache"));
+            var db = new AirportIataCodeDatabase();
+            db.AddOrUpdateAirports(airportProvider.GetAllAirports(), true, true);
+            return db;
+        });
+
         public static Airport? GetAirportOrDefault(string airportId)
         {
             if (string.IsNullOrWhiteSpace(airportId))
                 return null;
-            var airportProvider = new OpenFlightsDataAirportProvider("airports.cache", new OpenFlightsDataCountryProvider("countries.cache"));
-            var airportCodes = new AirportIataCodeDatabase();
-            airportCodes.AddOrUpdateAirports(airportProvider.GetAllAirports(), true, true);
 
-            if (airportCodes.TryGetAirport(airportId, out Airport airport))
+            if (_airportCodes.Value.TryGetAirport(airportId, out Airport airport))
                 return airport;
             return null;
         }

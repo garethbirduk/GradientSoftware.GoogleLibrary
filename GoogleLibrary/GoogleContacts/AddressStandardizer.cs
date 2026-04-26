@@ -299,7 +299,7 @@ namespace GoogleLibrary.GoogleContacts
         /// <returns></returns>
         private static string TrimTrailingPunctuation(string input)
         {
-            return Regex.Replace(input, @"[\search,.!?;:]+$", "");
+            return Regex.Replace(input, @"[\s,.!?;:]+$", "");
         }
 
         private static string TrimWhitespaceAndTrailingPunctuation(string streetAddress)
@@ -332,9 +332,9 @@ namespace GoogleLibrary.GoogleContacts
             return input;
         }
 
-        private string NormalizeWhitespace(string input) => Regex.Replace(input, @"\search+", " ");
+        private string NormalizeWhitespace(string input) => Regex.Replace(input, @"\s+", " ");
 
-        private string RemoveWhitespaceAroundHyphens(string input) => Regex.Replace(input, @"\search*-\search*", "-");
+        private string RemoveWhitespaceAroundHyphens(string input) => Regex.Replace(input, @"\s*-\s*", "-");
 
         private string ReplaceUnderscoresWithHyphens(string input) => input.Replace("_", "-");
 

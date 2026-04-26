@@ -76,7 +76,6 @@ namespace GoogleServices.GoogleServices
             catch (Google.GoogleApiException ex)
             {
                 Console.WriteLine($"Error fetching contact: {ex.Message}");
-                await Task.CompletedTask;
             }
         }
 

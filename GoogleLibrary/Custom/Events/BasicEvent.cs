@@ -41,10 +41,7 @@ namespace GoogleLibrary.Custom.Events
                 to
             ];
 
-            foreach (var location in Locations)
-            {
-                AirportHelper.SetAddresses(from, to);
-            }
+            AirportHelper.SetAddresses(from, to);
         }
 
         /// <summary>
