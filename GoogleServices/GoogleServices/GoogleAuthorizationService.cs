@@ -130,8 +130,6 @@ namespace GoogleServices.GoogleServices
             clientSecrets = LoadClientSecretsFromConfiguration();
         }
 
-        protected UserCredential? UserCredential { get; private set; }
-
         /// <summary>
         /// Gets the UserCredential either handling the authorization process or retrieving from store; it refreshes if necessary.
         /// </summary>
@@ -171,8 +169,6 @@ namespace GoogleServices.GoogleServices
             }
             return await RequestUserAuthorization(Scopes);
         }
-
-        public BaseClientService.Initializer? BaseClientServiceInitializer { get; set; }
 
         public virtual void Initialize()
         {

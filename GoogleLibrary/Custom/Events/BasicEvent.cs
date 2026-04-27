@@ -3,7 +3,6 @@ using GoogleLibrary.Custom.Locations;
 using Gradient.Utils;
 using Gradient.Utils.Attributes;
 using PostSharp.Patterns.Contracts;
-using System.Linq.Dynamic.Core;
 
 namespace GoogleLibrary.Custom.Events
 {
@@ -12,20 +11,6 @@ namespace GoogleLibrary.Custom.Events
     /// </summary>
     public class BasicEvent
     {
-        /// <summary>
-        /// One to one mapping of a status indicator and its enum value.
-        /// </summary>
-        protected Dictionary<EventStatus, string> EventStatusMap = new()
-        {
-            { EventStatus.None, "" },
-            { EventStatus.Idea, "i" },
-            { EventStatus.Planned, "p" },
-            { EventStatus.Confirmed, "c" },
-            { EventStatus.Paid, "£" },
-            { EventStatus.Cancelled, "x" },
-            { EventStatus.Reserved, "r" },
-        };
-
         /// <summary>
         /// Build the locations from 'from, to, via' etc.
         /// </summary>
@@ -134,32 +119,8 @@ namespace GoogleLibrary.Custom.Events
         public EventStatus Status { get; set; } = EventStatus.None;
 
         /// <summary>
-        /// The summary of the event composed of constituent summary parts.
-        /// </summary>
-        public List<string> Summary
-        {
-            get
-            {
-                var list = new List<string>();
-                list.AddRange(SummaryPrefix);
-                list.AddRange(AddCustomSummary());
-                list.AddRange(SummarySuffix);
-                return list.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-            }
-        }
-
-        /// <summary>
-        /// An optional prefix that is inserted before the generated summary.
-        /// </summary>
-        public List<string> SummaryPrefix { get; set; } = [];
-
-        /// <summary>
-        /// An optional suffix that is appended to the generated summary.
-        /// </summary>
-        public List<string> SummarySuffix { get; set; } = [];
-
-        /// <summary>
-        /// The title of the event. Also known as the Name or simply the Event.
+        /// The title of the event. Also known as the Name or simply the Event. This is the string that
+        /// flows directly into the Google Calendar event's summary field.
         /// </summary>
         public string Title { get; set; } = "";
 
@@ -167,24 +128,6 @@ namespace GoogleLibrary.Custom.Events
         {
             // Removes duplicates and sorts the reminders
             return reminders.Distinct().OrderBy(x => x).ToList();
-        }
-
-        /// <summary>
-        /// Add a custom summary to the summary builder based on title, status etc.
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerable<string> AddCustomSummary()
-        {
-            var list = new List<string>()
-            {
-                Title
-            };
-
-            if (Status != EventStatus.None)
-                list.Add($"({EventStatusMap[Status]})");
-            if (Category != EventCategory.None)
-                list.Add($"{Category}:");
-            return list;
         }
 
         /// <summary>

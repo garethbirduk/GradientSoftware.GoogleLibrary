@@ -27,27 +27,6 @@ namespace GoogleLibrary.Test.Custom.Events
             CollectionAssert.AreEqual(new List<int> { 5, 10, 20 }, finalizedReminders);
         }
 
-        [TestMethod]
-        public void TestSummary()
-        {
-            var e = new BasicEvent()
-            {
-                Title = "MyEvent"
-            };
-            e.SummaryPrefix.Add("first line");
-            e.SummaryPrefix.Add("second line");
-            e.SummarySuffix.Add("penultimate line");
-            e.SummarySuffix.Add("ultimate line");
-
-            var s = e.Summary;
-            Assert.AreEqual("first line", s[0]);
-            Assert.AreEqual("second line", s[1]);
-            Assert.AreEqual("MyEvent", s[2]);
-            Assert.AreEqual("penultimate line", s[3]);
-            Assert.AreEqual("ultimate line", s[4]);
-            Assert.AreEqual(5, s.Count);
-        }
-
         //[TestMethod]
         //public void AdjustForSilentPeriods_ShouldAdjustTimeOutsideSilentPeriods()
         //{

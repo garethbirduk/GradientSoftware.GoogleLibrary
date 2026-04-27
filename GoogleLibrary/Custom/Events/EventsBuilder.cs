@@ -8,7 +8,7 @@ namespace GoogleLibrary.Custom.Events
         {
             return data
                 .Select(x => EventBuilder.Create(fields, x.ToList()))
-                .Where(x => !string.IsNullOrWhiteSpace(string.Join(" ", x.Summary)))
+                .Where(x => !string.IsNullOrWhiteSpace(x.Title))
                 .ToList();
         }
 

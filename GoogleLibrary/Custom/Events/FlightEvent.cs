@@ -21,16 +21,6 @@ namespace GoogleLibrary.Custom.Events
             }
         }
 
-        public override List<string> AddCustomSummary()
-        {
-            var list = new List<string>
-            {
-                FlightInformation.FlightDetails,
-                RouteSummary
-            };
-            return list;
-        }
-
         public override void Build(List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
         {
             base.Build(fields, data);

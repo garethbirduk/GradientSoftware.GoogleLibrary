@@ -1,5 +1,4 @@
-﻿using GoogleLibrary.Custom.Events;
-using GoogleLibrary.Custom.Locations;
+using GoogleLibrary.Custom.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoogleLibrary.Test.Custom.Events
@@ -7,111 +6,60 @@ namespace GoogleLibrary.Test.Custom.Events
     [TestClass]
     public class TestAccomodationEvent
     {
+        [TestMethod]
+        public void Build_WithExplicitSummary_KeepsTitle()
+        {
+            var e = new AccommodationEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new("Summary", EnumEventFieldType.Summary),
+                new("From", EnumEventFieldType.From),
+            };
+            var data = new List<string> { "Hotel Hilton", "Heathrow" };
+
+            e.Build(fields, data);
+
+            Assert.AreEqual("Hotel Hilton", e.Title);
+        }
+
+        [TestMethod]
+        public void Build_WithEmptySummary_FallsBackToFirstLocationName()
+        {
+            var e = new AccommodationEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new("Summary", EnumEventFieldType.Summary),
+                new("From", EnumEventFieldType.From),
+            };
+            var data = new List<string> { "", "Hotel Hilton" };
+
+            e.Build(fields, data);
+
+            Assert.AreEqual("Hotel Hilton", e.Title);
+        }
+
         [DataTestMethod]
         [DataRow("")]
-        [DataRow(null)]
-        [DataRow(" ")]
-        public void AddCustomSummary_WithEmptyShortNameLocation_AddsTBC(string? shortName)
+        [DataRow("   ")]
+        public void Build_WithNoSummaryAndNoLocation_FallsBackToTBC(string summary)
         {
-            // Arrange
-            var accommodationEvent = new AccommodationEvent
+            var e = new AccommodationEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
             {
-                Location = new Location(shortName)
+                new("Summary", EnumEventFieldType.Summary),
             };
+            var data = new List<string> { summary };
 
-            // Act
-            var result = accommodationEvent.AddCustomSummary();
+            e.Build(fields, data);
 
-            // Assert
-            CollectionAssert.Contains(result, "TBC");
+            Assert.AreEqual("TBC", e.Title);
         }
 
         [TestMethod]
-        public void AddCustomSummary_WithNonEmptyShortNameLocation_DoesNotAddTBC()
+        public void DefaultRemindersInMinutes_Is12HoursBeforeEvent()
         {
-            // Arrange
-            var accommodationEvent = new AccommodationEvent
-            {
-                Location = new Location("Location Name")
-            };
-
-            // Act
-            var result = accommodationEvent.AddCustomSummary();
-
-            // Assert
-            CollectionAssert.DoesNotContain(result, "TBC");
-        }
-
-        [TestMethod]
-        public void AddCustomSummary_WithNullLocation_AddsTBC()
-        {
-            // Arrange
-            var accommodationEvent = new AccommodationEvent();
-
-            // Act
-            var result = accommodationEvent.AddCustomSummary();
-
-            // Assert
-            CollectionAssert.Contains(result, "TBC");
-        }
-
-        [TestMethod]
-        public void LocationSummary_WithNonEmptySummary_ReturnsSummary()
-        {
-            // Arrange
-            var accommodationEvent = new AccommodationEvent();
-            var summary = "Sample Summary";
-
-            // Act
-            var result = accommodationEvent.LocationSummary(summary);
-
-            // Assert
-            Assert.AreEqual(summary, result);
-        }
-
-        [TestMethod]
-        public void LocationSummary_WithNullOrWhiteSpaceSummaryAndEmptyShortNameLocation_ReturnsTBC()
-        {
-            // Arrange
-            var accommodationEvent = new AccommodationEvent
-            {
-                Location = new Location("")
-            };
-
-            // Act
-            var result = accommodationEvent.LocationSummary(null);
-
-            // Assert
-            Assert.AreEqual("TBC", result);
-        }
-
-        [TestMethod]
-        public void LocationSummary_WithNullOrWhiteSpaceSummaryAndNonEmptyShortNameLocation_ReturnsShortName()
-        {
-            // Arrange
-            var accommodationEvent = new AccommodationEvent
-            {
-                Location = new Location("Location Name")
-            };
-
-            // Act
-            var result = accommodationEvent.LocationSummary(null);
-
-            // Assert
-            Assert.AreEqual("Location Name", result);
-        }
-
-        [TestMethod]
-        public void LocationSummary_WithNullOrWhiteSpaceSummaryAndNullLocation_ReturnsTBC()
-        {
-            // Arrange
-            var accommodationEvent = new AccommodationEvent();
-
-            // Act
-            var result = accommodationEvent.LocationSummary(null);
-
-            // Assert
-            Assert.AreEqual("TBC", result);
+            var e = new AccommodationEvent();
+            CollectionAssert.AreEqual(new List<int> { 12 * 60 }, e.DefaultRemindersInMinutes);
         }
     }
 }

@@ -10,24 +10,6 @@ namespace GoogleLibrary.Test.Custom.Events
     public class TestFlightEvent
     {
         [TestMethod]
-        public void AddCustomSummary_ReturnsCorrectSummary()
-        {
-            var flightEvent = new FlightEvent();
-            flightEvent.FlightInformation.Number = "BA1234";
-            flightEvent.FlightInformation.Carrier = "British Airways";
-            flightEvent.Locations.Add(new AirportLocation("LHR"));
-            flightEvent.Locations.Add(new AirportLocation("MAD"));
-            flightEvent.Locations.Add(new AirportLocation("VVI"));
-
-            var summary = flightEvent.AddCustomSummary();
-
-            Assert.AreEqual(2, summary.Count);
-            Assert.AreEqual("British Airways (BA1234)", summary[0]);
-            Assert.AreEqual("LHR - VVI", summary[1]);
-            Assert.AreEqual("https://www.flightradar24.com/BA1234", flightEvent.FlightInformation.FlightTracker);
-        }
-
-        [TestMethod]
         public void Build_SetsFlightInformationCorrectly()
         {
             var flightEvent = new FlightEvent();

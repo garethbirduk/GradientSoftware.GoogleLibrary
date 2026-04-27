@@ -1,31 +1,19 @@
-﻿using GoogleLibrary.Custom.Locations;
-
 namespace GoogleLibrary.Custom.Events
 {
     public class AccommodationEvent : BasicEvent
     {
         internal override List<int> DefaultRemindersInMinutes { get; set; } = [12 * 60];
 
-        public Location Location { get; set; } = new();
-
-        public override List<string> AddCustomSummary()
+        public override void Build(List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
         {
-            var list = new List<string>();
-            if (Location == null || string.IsNullOrWhiteSpace(Location.ShortName))
-                list.Add("TBC");
-            else
-                list.Add(Location.ShortName.Trim());
-            return list;
-        }
-
-        public string LocationSummary(string? summary)
-        {
-            if (!string.IsNullOrWhiteSpace(summary))
-                return summary;
-            if (Location == null || Location.ShortName.Trim() == "")
-                return "TBC";
-            else
-                return Location.ShortName.Trim();
+            base.Build(fields, data);
+            // If the sheet's Summary column was empty, fall back to the first location's
+            // short name, or "TBC" if no location was specified either.
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                var firstShortName = Locations.FirstOrDefault()?.ShortName?.Trim();
+                Title = string.IsNullOrWhiteSpace(firstShortName) ? "TBC" : firstShortName;
+            }
         }
     }
 }
