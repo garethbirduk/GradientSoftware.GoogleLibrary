@@ -6,21 +6,21 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleCalendarsReadonlyService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public static IReadOnlyList<string> RequiredScopes = new List<string>()
             { CalendarService.Scope.CalendarReadonly };
 
         public GoogleCalendarsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
         {
         }
 
-        public CalendarService GoogleService { get; set; }
+        public CalendarService GoogleService { get; set; } = null!;
 
         /// <summary>
         /// Gets a calendar.
         /// </summary>
         /// <param name="predicate">selects the primary calendar by default</param>
         /// <returns>The calendar as CalendarListEntry</returns>
-        public CalendarListEntry GetCalendar(Func<CalendarListEntry, bool> predicate = null)
+        public CalendarListEntry? GetCalendar(Func<CalendarListEntry, bool>? predicate = null)
         {
             predicate ??= x => x.Primary == true;
             return GetCalendars().Items.Where(predicate).FirstOrDefault();
@@ -41,7 +41,7 @@ namespace GoogleServices.GoogleServices
         /// </summary>
         /// <param name="summary">The exact calendar summary.</param>
         /// <returns>The calendar as CalendarListEntry</returns>
-        public CalendarListEntry GetCalendarBySummary(string summary)
+        public CalendarListEntry? GetCalendarBySummary(string summary)
         {
             return GetCalendar(x => x.Summary == summary);
         }

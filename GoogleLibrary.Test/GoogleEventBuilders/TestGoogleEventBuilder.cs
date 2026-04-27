@@ -25,8 +25,8 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
         [TestMethod]
         public void Build_WithNullEvent_ThrowsNullReferenceException()
         {
-            Event googleEvent = null;
-            Assert.ThrowsException<NullReferenceException>(() => googleEvent.Build());
+            Event? googleEvent = null;
+            Assert.ThrowsException<NullReferenceException>(() => googleEvent!.Build());
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace GoogleLibrary.Test.GoogleEventBuilders
 
         [DataTestMethod]
         [DataRow(EventStatus.None, "MyEvent")]
-        [DataRow(EventStatus.Idea, "(?) MyEvent")]
+        [DataRow(EventStatus.Idea, "(i) MyEvent")]
         [DataRow(EventStatus.Planned, "(p) MyEvent")]
         [DataRow(EventStatus.Confirmed, "MyEvent")]
         [DataRow(EventStatus.Reserved, "(r) MyEvent")]

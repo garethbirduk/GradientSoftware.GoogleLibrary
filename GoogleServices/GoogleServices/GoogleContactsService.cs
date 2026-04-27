@@ -7,7 +7,7 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleContactsService : GoogleContactsReadonlyService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public new static IReadOnlyList<string> RequiredScopes = new List<string>()
             { PeopleServiceService.Scope.Contacts };
 
         public GoogleContactsService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
@@ -52,7 +52,7 @@ namespace GoogleServices.GoogleServices
             return string.Join(",", selectedFields);
         }
 
-        public Person CreateContact(Person contact)
+        public Person? CreateContact(Person contact)
         {
             try
             {
@@ -76,7 +76,6 @@ namespace GoogleServices.GoogleServices
             catch (Google.GoogleApiException ex)
             {
                 Console.WriteLine($"Error fetching contact: {ex.Message}");
-                await Task.CompletedTask;
             }
         }
 
@@ -85,7 +84,7 @@ namespace GoogleServices.GoogleServices
             GooglePeopleService = new PeopleServiceService(initializer);
         }
 
-        public Person UpdateContact(Person contact, ContactUpdateFields fieldsToUpdate)
+        public Person? UpdateContact(Person contact, ContactUpdateFields fieldsToUpdate)
         {
             if (fieldsToUpdate == ContactUpdateFields.None)
             {

@@ -48,7 +48,7 @@ namespace GoogleLibrary.GoogleEventBuilders
             {
                 case EventStatus.Idea:
                     {
-                        googleEvent.Summary = $"(?) {googleEvent.Summary}";
+                        googleEvent.Summary = $"(i) {googleEvent.Summary}";
                         break;
                     }
                 case EventStatus.Planned:

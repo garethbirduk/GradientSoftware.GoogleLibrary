@@ -10,129 +10,6 @@ namespace GoogleServices.Test.GoogleServices
     [TestClass]
     public class TestGoogleContactsService
     {
-        // Helper method to construct the FormattedValue from structured fields.
-        private string ConstructFormattedValue(Address address)
-        {
-            var components = new List<string>();
-
-            if (!string.IsNullOrWhiteSpace(address.StreetAddress))
-            {
-                components.Add(address.StreetAddress);
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.City))
-            {
-                components.Add(address.City);
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.Region))
-            {
-                components.Add(address.Region);
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.PostalCode))
-            {
-                components.Add(address.PostalCode);
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.Country))
-            {
-                components.Add(address.Country);
-            }
-
-            // Join all non-empty components with a comma and space
-            return string.Join(", ", components);
-        }
-
-        private Address MergeAddresses(params Address[] addresses)
-        {
-            var merged = new Address();
-
-            foreach (var address in addresses)
-            {
-                if (!string.IsNullOrWhiteSpace(address.StreetAddress))
-                {
-                    merged.StreetAddress = address.StreetAddress;
-                }
-
-                if (!string.IsNullOrWhiteSpace(address.City))
-                {
-                    merged.City = address.City;
-                }
-
-                if (!string.IsNullOrWhiteSpace(address.Region))
-                {
-                    merged.Region = address.Region;
-                }
-
-                if (!string.IsNullOrWhiteSpace(address.PostalCode))
-                {
-                    merged.PostalCode = address.PostalCode;
-                }
-
-                if (!string.IsNullOrWhiteSpace(address.Country))
-                {
-                    merged.Country = address.Country;
-                }
-
-                if (!string.IsNullOrWhiteSpace(address.CountryCode))
-                {
-                    merged.CountryCode = address.CountryCode;
-                }
-
-                // If formattedValue exists and the structured data seems incomplete or misformed, use formattedValue to correct
-                if (!string.IsNullOrWhiteSpace(address.FormattedValue))
-                {
-                    // Attempt to split formattedValue into components based on commas
-                    var components = address.FormattedValue.Split(',').Select(c => c.Trim()).ToArray();
-
-                    // Check for missing fields and use formattedValue components to fill them
-                    if (string.IsNullOrWhiteSpace(merged.StreetAddress) && components.Length > 0)
-                    {
-                        merged.StreetAddress = components[0];
-                    }
-
-                    if (string.IsNullOrWhiteSpace(merged.City) && components.Length > 1)
-                    {
-                        merged.City = components[1];
-                    }
-
-                    // Assuming region comes before country
-                    if (string.IsNullOrWhiteSpace(merged.Region) && components.Length > 2)
-                    {
-                        merged.Region = components[2];
-                    }
-
-                    if (string.IsNullOrWhiteSpace(merged.Country) && components.Length > 3)
-                    {
-                        merged.Country = components[3];
-                    }
-                }
-
-                // Special logic to handle cases where region contains country (e.g., "Gwynedd, UK")
-                if (!string.IsNullOrWhiteSpace(merged.Region) && merged.Region.Contains(","))
-                {
-                    var regionParts = merged.Region.Split(',').Select(r => r.Trim()).ToArray();
-                    merged.Region = regionParts[0]; // Keep the first part as the region
-                    if (string.IsNullOrWhiteSpace(merged.Country) && regionParts.Length > 1)
-                    {
-                        merged.Country = regionParts[1]; // Move the second part to country
-                    }
-                }
-            }
-
-            // Construct the FormattedValue from the corrected structured fields
-            merged.FormattedValue = ConstructFormattedValue(merged);
-
-            return merged;
-        }
-
-        // Helper to normalize strings by trimming and converting to upper case.
-        private string NormalizeString(string value)
-        {
-            return string.IsNullOrWhiteSpace(value) ? string.Empty : value.Trim().ToUpper();
-        }
-
         protected static GoogleContactsReadonlyService GoogleContactsReadonlyService { get; set; } = new();
         protected static GoogleContactsService GoogleContactsService { get; set; } = new();
 
@@ -148,10 +25,11 @@ namespace GoogleServices.Test.GoogleServices
             var json = File.ReadAllText(filePath);
 
             // Deserialize the JSON content into a list of Person objects
-            return JsonConvert.DeserializeObject<List<Person>>(json);
+            return JsonConvert.DeserializeObject<List<Person>>(json) ?? new List<Person>();
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public void FixLists()
         {
             var contacts_current = JsonUtils.LoadFromFile<Person>(Path.Combine("c:\\", "temp", "list.json"));
@@ -179,6 +57,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public async Task TestCreateDeleteContact()
         {
             var contact = new Person()
@@ -201,6 +80,7 @@ namespace GoogleServices.Test.GoogleServices
             };
 
             var contact2 = GoogleContactsService.CreateContact(contact);
+            Assert.IsNotNull(contact2);
             Assert.IsTrue(contact.ResourceName != contact2.ResourceName);
 
             await GoogleContactsService.DeleteContactAsync(contact2);
@@ -214,6 +94,7 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public async Task TestUpdateContact()
         {
             var contact = new Person()
@@ -239,6 +120,7 @@ namespace GoogleServices.Test.GoogleServices
             try
             {
                 contact2 = GoogleContactsService.CreateContact(contact);
+                Assert.IsNotNull(contact2);
                 Assert.IsTrue(contact.ResourceName != contact2.ResourceName);
 
                 contact2.Names.First().FamilyName = "Smith";
@@ -254,9 +136,11 @@ namespace GoogleServices.Test.GoogleServices
         }
 
         [TestMethod]
+        [TestCategory("Manual")]
         public async Task TestUpdateContact2()
         {
             var contact = GoogleContactsService.GetContactByResourceName("people/c41931351444101877");
+            Assert.IsNotNull(contact);
             var service = new CustomContactsService();
             service.CleanupContacts(new List<Person>()
             {

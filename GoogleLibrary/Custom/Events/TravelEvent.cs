@@ -17,13 +17,12 @@
             }
         }
 
-        public override List<string> AddCustomSummary()
+        public override void Build(List<Tuple<string, EnumEventFieldType>> fields, List<string> data)
         {
-            var list = new List<string>
-            {
-                RouteSummary
-            };
-            return list;
+            base.Build(fields, data);
+            // If the sheet's Summary column was empty, fall back to the From-To route as the title.
+            if (string.IsNullOrWhiteSpace(Title))
+                Title = RouteSummary;
         }
     }
 }

@@ -69,7 +69,7 @@ namespace GoogleServices.Test.GoogleServices
         {
             var myEvent = CreateAllDayEvent();
             var myEvent2 = GoogleCalendarEventsService.CreateEvent(CalendarId, myEvent);
-            AssertEvents(myEvent, myEvent2);
+            AssertEvents(myEvent, myEvent2!);
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@ namespace GoogleServices.Test.GoogleServices
         {
             var myEvent = CreateAllDayEvent();
             var myGoogleEvent1 = GoogleCalendarEventsService.CreateEvent(CalendarId, myEvent);
-            var myGoogleEvent2 = GoogleCalendarEventsService.GetEvent(CalendarId, myGoogleEvent1.Id);
+            var myGoogleEvent2 = GoogleCalendarEventsService.GetEvent(CalendarId, myGoogleEvent1!.Id);
             AssertEvents(myGoogleEvent1, myGoogleEvent2, true);
         }
 
@@ -120,13 +120,13 @@ namespace GoogleServices.Test.GoogleServices
             myEvent.SetMultiDay(start, end);
 
             var myEvent2 = GoogleCalendarEventsService.CreateEvent(CalendarId, myEvent);
-            AssertEvents(myEvent, myEvent2);
+            AssertEvents(myEvent, myEvent2!);
         }
 
         [TestMethod]
         public void TestPatchAllDayEvent()
         {
-            var originalEvent = GoogleCalendarEventsService.CreateEvent(CalendarId, CreateAllDayEvent());
+            var originalEvent = GoogleCalendarEventsService.CreateEvent(CalendarId, CreateAllDayEvent())!;
             Assert.AreEqual("TestAllDay", originalEvent.Summary);
             Assert.AreEqual("TestAllDay Description", originalEvent.Description);
             Assert.IsFalse(string.IsNullOrWhiteSpace(originalEvent.Id));
@@ -153,7 +153,7 @@ namespace GoogleServices.Test.GoogleServices
         [TestMethod]
         public void TestReplaceAllDayEvent()
         {
-            var originalEvent = GoogleCalendarEventsService.CreateEvent(CalendarId, CreateAllDayEvent());
+            var originalEvent = GoogleCalendarEventsService.CreateEvent(CalendarId, CreateAllDayEvent())!;
             Assert.AreEqual("TestAllDay", originalEvent.Summary);
             Assert.AreEqual("TestAllDay Description", originalEvent.Description);
             Assert.IsFalse(string.IsNullOrWhiteSpace(originalEvent.Id));
@@ -180,7 +180,7 @@ namespace GoogleServices.Test.GoogleServices
             myEvent.SetTimed(DateTime.UtcNow, DateTime.UtcNow.AddHours(hours));
 
             var myEvent2 = GoogleCalendarEventsService.CreateEvent(CalendarId, myEvent);
-            AssertEvents(myEvent, myEvent2);
+            AssertEvents(myEvent, myEvent2!);
         }
     }
 }

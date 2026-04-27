@@ -27,7 +27,7 @@ namespace GoogleLibrary.GoogleSheets
 
         public int RangeRowStart { get; set; }
 
-        public string SheetName { get; set; }
+        public string SheetName { get; set; } = "";
 
         public static GridCoordinate GridCoordinate(int worksheetId, int rangeColumnStart, int rangeRowStart)
         {

@@ -17,9 +17,9 @@ namespace GoogleServices.GoogleServices
 
         private ClientSecrets clientSecrets;
 
-        private IAuthorizationCodeFlow authorizationFlow { get; set; }
+        private IAuthorizationCodeFlow authorizationFlow { get; set; } = null!;
 
-        private List<string> Scopes { get; set; }
+        private List<string> Scopes { get; set; } = new();
 
         /// <summary>
         /// Loads the client secrets from user secrets or environment variables using the configuration.
@@ -37,7 +37,7 @@ namespace GoogleServices.GoogleServices
             };
         }
 
-        private TokenResponse LoadTokenFromRegistry()
+        private TokenResponse? LoadTokenFromRegistry()
         {
             return RegistryHelper.LoadObject<TokenResponse>(TokenResponseRegistryKeyPath, TokenReponseRegistryKeyName);
         }
@@ -101,8 +101,10 @@ namespace GoogleServices.GoogleServices
         /// </summary>
         /// <param name="tokenResponse"></param>
         /// <returns></returns>
-        private UserCredential TryCreateUserCredential(TokenResponse tokenResponse)
+        private UserCredential? TryCreateUserCredential(TokenResponse? tokenResponse)
         {
+            if (tokenResponse == null)
+                return null;
             try
             {
                 authorizationFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
@@ -128,8 +130,6 @@ namespace GoogleServices.GoogleServices
             clientSecrets = LoadClientSecretsFromConfiguration();
         }
 
-        protected UserCredential UserCredential { get; private set; }
-
         /// <summary>
         /// Gets the UserCredential either handling the authorization process or retrieving from store; it refreshes if necessary.
         /// </summary>
@@ -144,7 +144,7 @@ namespace GoogleServices.GoogleServices
             var userCredential = TryCreateUserCredential(existingTokenResponse);
             if (userCredential != null && userCredential.Token.HasScopes(Scopes))
             {
-                if (userCredential.IsExpired() && !string.IsNullOrEmpty(existingTokenResponse.RefreshToken))
+                if (userCredential.IsExpired() && !string.IsNullOrEmpty(existingTokenResponse?.RefreshToken))
                 {
                     try
                     {
@@ -169,8 +169,6 @@ namespace GoogleServices.GoogleServices
             }
             return await RequestUserAuthorization(Scopes);
         }
-
-        public BaseClientService.Initializer BaseClientServiceInitializer { get; set; }
 
         public virtual void Initialize()
         {

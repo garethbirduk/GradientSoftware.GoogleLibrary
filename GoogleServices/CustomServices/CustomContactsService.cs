@@ -7,7 +7,7 @@ namespace GoogleServices.CustomServices
 {
     public class CustomContactsService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes =
+        public static IReadOnlyList<string> RequiredScopes =
             GoogleContactsService.RequiredScopes
             .ToList();
 
@@ -27,9 +27,12 @@ namespace GoogleServices.CustomServices
         {
             foreach (var contact in contacts)
             {
+                if (contact == null)
+                    continue;
+
                 ContactUpdateFields fieldsToUpdate = ContactUpdateFields.None;
 
-                if (contact?.Addresses != null)
+                if (contact.Addresses != null)
                 {
                     var options = AddressStandardizationOptions.NormalizeWhitespace
                         | AddressStandardizationOptions.RemoveHyphens
@@ -40,7 +43,7 @@ namespace GoogleServices.CustomServices
                         | AddressStandardizationOptions.CapitalizeAbbreviations
                         | AddressStandardizationOptions.TrimTrailingPunctuation
                         | AddressStandardizationOptions.IncludeSpaceAfterDelimiter
-                        | AddressStandardizationOptions.TrimRepetative;
+                        | AddressStandardizationOptions.TrimRepetitive;
                     var standardizer = new AddressStandardizer(options);
                     var addresses = new List<Address>();
                     foreach (var address in contact.Addresses)
@@ -51,7 +54,7 @@ namespace GoogleServices.CustomServices
                     contact.Addresses = addresses;
                 }
 
-                if (contact?.EmailAddresses != null)
+                if (contact.EmailAddresses != null)
                 {
                     var options = EmailAddressStandardizationOptions.NormalizeWhitespace
                         | EmailAddressStandardizationOptions.ToLowerCase
@@ -60,7 +63,9 @@ namespace GoogleServices.CustomServices
                     var emailsAddresses = new List<EmailAddress>();
                     foreach (var emailAddress in contact.EmailAddresses)
                     {
-                        emailsAddresses.Add(standardizer.Standardize(emailAddress));
+                        var standardized = standardizer.Standardize(emailAddress);
+                        if (standardized != null)
+                            emailsAddresses.Add(standardized);
                         fieldsToUpdate |= ContactUpdateFields.EmailAddresses;
                     }
                     contact.EmailAddresses = emailsAddresses;

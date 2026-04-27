@@ -6,14 +6,14 @@ namespace GoogleServices.GoogleServices
 {
     public class GoogleSpreadsheetsReadonlyService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public static IReadOnlyList<string> RequiredScopes = new List<string>()
             { SheetsService.Scope.SpreadsheetsReadonly };
 
         public GoogleSpreadsheetsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
         {
         }
 
-        public SheetsService GoogleService { get; set; }
+        public SheetsService GoogleService { get; set; } = null!;
 
         public async Task<Spreadsheet> GetSpreadsheetAsync(string spreadsheetId)
         {

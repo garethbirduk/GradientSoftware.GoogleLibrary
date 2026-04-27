@@ -1,63 +1,15 @@
 ﻿using PostSharp.Patterns.Contracts;
-using System.Data;
 
 namespace GoogleLibrary.Custom.Events
 {
     public static class EventsBuilder
     {
-        private static void CombineEvent(BasicEvent primary, BasicEvent secondary)
-        {
-            Console.WriteLine(primary.EventId + " " + secondary.EventId);
-            //var descriptions = new List<Dictionary<string, string>>();
-            //var list = new List<BasicEvent> { primary, secondary };
-            //foreach (var item in list)
-            //    descriptions.Add(GoogleCalendarEventConverter.FromDescription(item.Event.Description));
-
-            //foreach (var description in descriptions.Skip(1))
-            //{
-            //    var duplicates = description.Where(x => descriptions[0].ContainsKey(x.Key) && descriptions[0][x.Key] == x.Value).Select(x => x.Key);
-            //    foreach (var duplicate in duplicates)
-            //        description.Remove(duplicate);
-            //}s
-
-            //foreach (var item in list.Skip(1))
-            //{
-            //    foreach (var description in descriptions.Skip(1).Where(x => x.Any()))
-            //    {
-            //        var s = GoogleCalendarEventConverter.ToDescriptionString(description);
-            //        primary.Event.Description += $"\r\n\r\n{s}";
-            //    }
-            //}
-
-            //foreach (var item in list.Skip(1))
-            //{
-            //    foreach (var attendee in item.Event.Attendees)
-            //    {
-            //        primary.Event.Attendees.Add(attendee);
-            //    }
-            //}
-        }
-
         public static List<BasicEvent> Create([Required] List<Tuple<string, EnumEventFieldType>> fields, [Required] IEnumerable<IEnumerable<string>> data)
         {
-            var list = new List<BasicEvent>();
-            var events = data.Select(x => EventBuilder.Create(fields, x.ToList())).ToList();
-            foreach (var myEvent in events)
-            {
-                var duplicate = FindDuplicateOrDefault(myEvent, list);
-                if (duplicate == null)
-                {
-                    if (!string.IsNullOrWhiteSpace(string.Join(" ", myEvent.Summary)))
-                    {
-                        list.Add(myEvent);
-                    }
-                }
-                else
-                {
-                    CombineEvent(duplicate, myEvent);
-                }
-            }
-            return list;
+            return data
+                .Select(x => EventBuilder.Create(fields, x.ToList()))
+                .Where(x => !string.IsNullOrWhiteSpace(x.Title))
+                .ToList();
         }
 
         public static List<BasicEvent> Create(Google.Apis.Calendar.v3.Data.Events googleEvents)
@@ -69,18 +21,6 @@ namespace GoogleLibrary.Custom.Events
         {
             var fields = FieldMaps.EventTypes(headers.Select(x => x.ToString()).ToArray());
             return Create(fields, data);
-        }
-
-        public static BasicEvent? FindDuplicateOrDefault(BasicEvent myEvent, IEnumerable<BasicEvent> otherEvents)
-        {
-            return otherEvents.SingleOrDefault(x =>
-                x.EventId != myEvent.EventId
-                && x.Summary.SequenceEqual(myEvent.Summary)
-                && x.StartDate == myEvent.StartDate
-                && x.StartTime == myEvent.StartTime
-                && x.EndDate == myEvent.EndDate
-                && x.EndTime == myEvent.EndTime
-                );
         }
     }
 }

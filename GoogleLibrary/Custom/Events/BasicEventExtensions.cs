@@ -4,6 +4,14 @@ namespace GoogleLibrary.Custom.Events
 {
     public static class BasicEventExtensions
     {
+        /// <summary>
+        /// Sentinel line written between the free-text Description and the structured
+        /// CustomFields/AdditionalData tail in the calendar event description.
+        /// Lets the inverse parser (EventBuilder.Create) recover Description verbatim even if
+        /// it contains "Key: value" patterns that would otherwise get reclassified.
+        /// </summary>
+        public const string DescriptionSectionDelimiter = "---";
+
         public static List<string> GetCustomFieldsAsDescription(BasicEvent baseEvent)
         {
             var list = new List<string>();
@@ -14,14 +22,25 @@ namespace GoogleLibrary.Custom.Events
 
         public static string ToDescriptionString(this BasicEvent baseEvent)
         {
-            var list = new List<string>()
-            {
-                baseEvent.Description
-            };
+            var description = baseEvent.Description ?? "";
+            var customFieldLines = GetCustomFieldsAsDescription(baseEvent);
+            var additionalLines = baseEvent.AdditionalData
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToList();
 
-            list.AddRange(GetCustomFieldsAsDescription(baseEvent));
-            list.AddRange(baseEvent.AdditionalData);
-            return string.Join("\r\n", list.Where(x => !string.IsNullOrWhiteSpace(x)));
+            // If there's no structured tail, emit Description alone.
+            if (customFieldLines.Count == 0 && additionalLines.Count == 0)
+                return description;
+
+            // Otherwise insert the sentinel between Description and the structured tail
+            // so the inverse parser can recover the boundary precisely.
+            var parts = new List<string>();
+            if (!string.IsNullOrWhiteSpace(description))
+                parts.Add(description);
+            parts.Add(DescriptionSectionDelimiter);
+            parts.AddRange(customFieldLines);
+            parts.AddRange(additionalLines);
+            return string.Join("\r\n", parts);
         }
 
         public static string ToLocationString(this BasicEvent baseEvent)
@@ -30,12 +49,12 @@ namespace GoogleLibrary.Custom.Events
             if (!locations.Any())
                 return "";
 
-            var prefix = "search";
-            if (locations.Count > 1)
-                prefix = "dir";
-
+            var prefix = locations.Count > 1 ? "dir" : "search";
             var baseString = $"https://www.google.com/maps/{prefix}/";
-            return $"{baseString}{string.Join("/", locations)}".Replace(" ", "+");
+            // Per-segment percent-encoding so that &, ?, #, /, non-ASCII etc. survive the URL.
+            // Spaces become "+" for readability — Google Maps accepts both "+" and "%20".
+            var encoded = locations.Select(l => Uri.EscapeDataString(l).Replace("%20", "+"));
+            return $"{baseString}{string.Join("/", encoded)}";
         }
 
         public static List<EventReminder> ToReminderOverrides(this BasicEvent baseEvent)

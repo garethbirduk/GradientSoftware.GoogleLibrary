@@ -12,7 +12,7 @@
         CapitalizeAbbreviations = 64,
         TrimTrailingPunctuation = 128,
         IncludeSpaceAfterDelimiter = 256,
-        TrimRepetative = 512,
+        TrimRepetitive = 512,
         RemoveUnderscores = 1024,
     }
 

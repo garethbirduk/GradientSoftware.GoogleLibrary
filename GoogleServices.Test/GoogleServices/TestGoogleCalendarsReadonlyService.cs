@@ -41,6 +41,7 @@ namespace GoogleServices.Test.GoogleServices
         public void TestGetCalendarBySummary(string summary)
         {
             var calendar = GoogleCalendarsReadonlyService.GetCalendarBySummary(summary);
+            Assert.IsNotNull(calendar);
             Assert.AreEqual(summary, calendar.Summary);
         }
 

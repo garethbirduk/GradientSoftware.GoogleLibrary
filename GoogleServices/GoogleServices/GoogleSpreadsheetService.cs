@@ -21,7 +21,7 @@ namespace GoogleServices.GoogleServices
             spreadsheetId).ExecuteAsync();
         }
 
-        public static List<string> RequiredScopes = new List<string>()
+        public new static IReadOnlyList<string> RequiredScopes = new List<string>()
             { SheetsService.Scope.Spreadsheets };
 
         public GoogleSpreadsheetService(params string[] scopes) : base(scopes.Union(RequiredScopes).ToArray())
@@ -105,7 +105,8 @@ namespace GoogleServices.GoogleServices
             foreach (var worksheetName in worksheetNames)
             {
                 var worksheet = worksheets.Where(x => x.Properties.Title == worksheetName).Single();
-                dictionary.Add(worksheet.Properties.SheetId.Value, worksheetName);
+                if (worksheet.Properties.SheetId.HasValue)
+                    dictionary.Add(worksheet.Properties.SheetId.Value, worksheetName);
             }
             return dictionary;
         }

@@ -1,4 +1,4 @@
-﻿using GoogleLibrary.Custom.Events;
+using GoogleLibrary.Custom.Events;
 using GoogleLibrary.Custom.Locations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,52 +8,71 @@ namespace GoogleLibrary.Test.Custom.Events
     public class TestTravelEvent
     {
         [TestMethod]
-        public void AddCustomSummary_ReturnsCorrectSummary()
+        public void RouteSummary_Empty_WhenNoLocations()
         {
             var e = new TravelEvent();
-            var summary = e.AddCustomSummary();
-
-            Assert.AreEqual(1, summary.Count);
-            Assert.AreEqual("", summary[0]);
+            Assert.AreEqual("", e.RouteSummary);
         }
 
         [TestMethod]
-        public void AddCustomSummary_ReturnsCorrectSummary1()
+        public void RouteSummary_SingleLocation_ReturnsName()
         {
             var e = new TravelEvent();
             e.Locations.Add(new Location("Home"));
-
-            var summary = e.AddCustomSummary();
-
-            Assert.AreEqual(1, summary.Count);
-            Assert.AreEqual("Home", summary[0]);
+            Assert.AreEqual("Home", e.RouteSummary);
         }
 
         [TestMethod]
-        public void AddCustomSummary_ReturnsCorrectSummary2()
+        public void RouteSummary_TwoLocations_ReturnsFromTo()
         {
             var e = new TravelEvent();
             e.Locations.Add(new Location("Home"));
             e.Locations.Add(new Location("Shops"));
-
-            var summary = e.AddCustomSummary();
-
-            Assert.AreEqual(1, summary.Count);
-            Assert.AreEqual("Home - Shops", summary[0]);
+            Assert.AreEqual("Home - Shops", e.RouteSummary);
         }
 
         [TestMethod]
-        public void AddCustomSummary_ReturnsCorrectSummary3()
+        public void RouteSummary_ManyLocations_FirstAndLast()
         {
             var e = new TravelEvent();
             e.Locations.Add(new Location("Home"));
             e.Locations.Add(new Location("Shops"));
             e.Locations.Add(new Location("Work"));
+            Assert.AreEqual("Home - Work", e.RouteSummary);
+        }
 
-            var summary = e.AddCustomSummary();
+        [TestMethod]
+        public void Build_WithExplicitSummary_KeepsTitle()
+        {
+            var e = new TravelEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new("Summary", EnumEventFieldType.Summary),
+                new("From", EnumEventFieldType.From),
+                new("To", EnumEventFieldType.To),
+            };
+            var data = new List<string> { "School run", "Home", "School" };
 
-            Assert.AreEqual(1, summary.Count);
-            Assert.AreEqual("Home - Work", summary[0]);
+            e.Build(fields, data);
+
+            Assert.AreEqual("School run", e.Title);
+        }
+
+        [TestMethod]
+        public void Build_WithEmptySummary_FallsBackToRouteSummary()
+        {
+            var e = new TravelEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new("Summary", EnumEventFieldType.Summary),
+                new("From", EnumEventFieldType.From),
+                new("To", EnumEventFieldType.To),
+            };
+            var data = new List<string> { "", "Home", "School" };
+
+            e.Build(fields, data);
+
+            Assert.AreEqual("Home - School", e.Title);
         }
     }
 }

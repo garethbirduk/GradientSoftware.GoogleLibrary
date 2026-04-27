@@ -9,7 +9,7 @@ namespace GoogleServices.GoogleServices
     /// </summary>
     public class GoogleCalendarEventsReadonlyService : GoogleAuthorizationService
     {
-        public static List<string> RequiredScopes = new List<string>()
+        public static IReadOnlyList<string> RequiredScopes = new List<string>()
             { CalendarService.Scope.Calendar, CalendarService.Scope.CalendarEvents };
 
         public GoogleCalendarEventsReadonlyService(params string[] scopes) : base(scopes.Union(RequiredScopes))
@@ -19,7 +19,7 @@ namespace GoogleServices.GoogleServices
         /// <summary>
         /// The google calendar service for accessing the calendar to which the events belong.
         /// </summary>
-        public CalendarService GoogleCalendarService { get; set; }
+        public CalendarService GoogleCalendarService { get; set; } = null!;
 
         /// <summary>
         /// Get a single event by id

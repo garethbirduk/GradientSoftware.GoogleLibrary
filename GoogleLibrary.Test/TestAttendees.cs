@@ -40,7 +40,7 @@ namespace GoogleLibrary.Test
 
     public static class EnumExtensions
     {
-        public static T AttributeFirstOrDefault<T>(this Enum value)
+        public static T? AttributeFirstOrDefault<T>(this Enum value)
             where T : Attribute
         {
             var type = value.GetType();

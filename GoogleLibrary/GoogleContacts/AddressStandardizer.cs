@@ -188,7 +188,7 @@ namespace GoogleLibrary.GoogleContacts
                 list = StandardizeCommonNames(list);
             }
 
-            if (standardizationOptions.HasFlag(AddressStandardizationOptions.TrimRepetative))
+            if (standardizationOptions.HasFlag(AddressStandardizationOptions.TrimRepetitive))
             {
                 list = list
                     .Distinct()
@@ -299,7 +299,7 @@ namespace GoogleLibrary.GoogleContacts
         /// <returns></returns>
         private static string TrimTrailingPunctuation(string input)
         {
-            return Regex.Replace(input, @"[\search,.!?;:]+$", "");
+            return Regex.Replace(input, @"[\s,.!?;:]+$", "");
         }
 
         private static string TrimWhitespaceAndTrailingPunctuation(string streetAddress)
@@ -332,11 +332,7 @@ namespace GoogleLibrary.GoogleContacts
             return input;
         }
 
-        private string NormalizeWhitespace(string input) => Regex.Replace(input, @"\search+", " ");
-
-        private string RemoveWhitespaceAroundHyphens(string input) => Regex.Replace(input, @"\search*-\search*", "-");
-
-        private string ReplaceUnderscoresWithHyphens(string input) => input.Replace("_", "-");
+        private string NormalizeWhitespace(string input) => Regex.Replace(input, @"\s+", " ");
 
         // Standardization logic for City
         private string StandardizeCity(string city)
@@ -359,34 +355,6 @@ namespace GoogleLibrary.GoogleContacts
             }
 
             return city;
-        }
-
-        private string StandardizeCommonNames(string input)
-        {
-            var list = input.Split(',').Select(x => x.Trim()).ToList();
-
-            var commonNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                { "St", "Street" },
-                { "Ave", "Avenue" },
-                { "Rd", "Road" },
-                { "Blvd", "Boulevard" },
-                { "Dr", "Drive" },
-                { "Cl", "Close" },
-                { "Cr", "Crescent" }
-            };
-
-            for (var index = 0; index < list.Count(); index++)
-            {
-                foreach (var pair in commonNames)
-                {
-                    if (list[index].EndsWith(pair.Key, StringComparison.InvariantCultureIgnoreCase)
-                        || list[index].EndsWith($"{pair.Key}.", StringComparison.InvariantCultureIgnoreCase))
-                        list[index] = list[index].ReplaceLast(pair.Key, pair.Value, StringComparison.InvariantCultureIgnoreCase);
-                }
-            }
-
-            return string.Join(", ", list);
         }
 
         // Standardization logic for Country
