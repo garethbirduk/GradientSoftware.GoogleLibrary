@@ -22,7 +22,7 @@ namespace GoogleLibrary.Test.Custom.Events
         }
 
         [TestMethod]
-        public void ToDescriptionString_WithValidData_ReturnsFormattedString()
+        public void ToDescriptionString_WithValidData_InsertsSentinelBeforeStructuredTail()
         {
             var baseEvent = new BasicEvent
             {
@@ -34,8 +34,45 @@ namespace GoogleLibrary.Test.Custom.Events
 
             var result = baseEvent.ToDescriptionString();
 
-            var expected = "Event Description\r\nKey1: Value1\r\nAdditional Data 1\r\nAdditional Data 2";
+            var expected = "Event Description\r\n---\r\nKey1: Value1\r\nAdditional Data 1\r\nAdditional Data 2";
             Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ToDescriptionString_WithDescriptionOnly_OmitsSentinel()
+        {
+            var baseEvent = new BasicEvent { Description = "Just some notes" };
+            Assert.AreEqual("Just some notes", baseEvent.ToDescriptionString());
+        }
+
+        [TestMethod]
+        public void ToDescriptionString_WithCustomFieldsOnly_StartsWithSentinel()
+        {
+            var baseEvent = new BasicEvent();
+            baseEvent.CustomFields.Add("Flight", "BA (175)");
+            Assert.AreEqual("---\r\nFlight: BA (175)", baseEvent.ToDescriptionString());
+        }
+
+        [TestMethod]
+        public void ToDescriptionString_RoundTripsDescriptionContainingColonPatterns()
+        {
+            // The whole point of the sentinel: a description line that matches "Key: value"
+            // must not be reclassified as a custom field on the way back.
+            var baseEvent = new BasicEvent
+            {
+                Description = "Notes: bring passport\r\nGate change likely",
+            };
+            baseEvent.CustomFields.Add("Flight", "BA (175)");
+
+            var description = baseEvent.ToDescriptionString();
+            var roundTripped = EventBuilder.Create(new Google.Apis.Calendar.v3.Data.Event
+            {
+                Summary = "Flight",
+                Description = description,
+            });
+
+            Assert.AreEqual("Notes: bring passport\r\nGate change likely", roundTripped.Description);
+            Assert.AreEqual("BA (175)", roundTripped.CustomFields["Flight"]);
         }
 
         [TestMethod]

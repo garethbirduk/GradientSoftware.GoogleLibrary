@@ -133,9 +133,28 @@ namespace GoogleLibrary.Custom.Events
                 return ("", customFields, additionalData);
 
             var lines = raw.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+            // Format written by BasicEventExtensions.ToDescriptionString:
+            //     <description lines, may include "Key: value" patterns>
+            //     ---
+            //     <Key: value lines>
+            //     <additional-data lines>
+            // The sentinel makes the Description boundary unambiguous. If absent (legacy events,
+            // or events authored outside this library), fall back to the older heuristic that
+            // treats the first kv-pattern line as the start of the structured tail.
+            var sentinelIdx = Array.IndexOf(lines, BasicEventExtensions.DescriptionSectionDelimiter);
+
+            if (sentinelIdx >= 0)
+            {
+                var description = string.Join("\r\n", lines.Take(sentinelIdx));
+                ClassifyTail(lines, sentinelIdx + 1, customFields, additionalData);
+                return (description, customFields, additionalData);
+            }
+
+            // Heuristic fallback: lines before first kv pattern → Description, kv lines →
+            // CustomFields, anything after the kv block → AdditionalData.
             var descriptionLines = new List<string>();
             var seenKvBlock = false;
-
             foreach (var line in lines)
             {
                 var match = _customFieldLine.Match(line);
@@ -153,8 +172,20 @@ namespace GoogleLibrary.Custom.Events
                     additionalData.Add(line);
                 }
             }
-
             return (string.Join("\r\n", descriptionLines), customFields, additionalData);
+        }
+
+        private static void ClassifyTail(string[] lines, int startIdx, Dictionary<string, string> customFields, List<string> additionalData)
+        {
+            for (var i = startIdx; i < lines.Length; i++)
+            {
+                var line = lines[i];
+                var match = _customFieldLine.Match(line);
+                if (match.Success)
+                    customFields[match.Groups[1].Value.Trim()] = match.Groups[2].Value.Trim();
+                else
+                    additionalData.Add(line);
+            }
         }
 
         private static List<Location> ParseLocations(string? raw)
