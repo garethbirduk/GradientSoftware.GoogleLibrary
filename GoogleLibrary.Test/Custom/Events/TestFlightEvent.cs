@@ -34,6 +34,46 @@ namespace GoogleLibrary.Test.Custom.Events
         }
 
         [TestMethod]
+        public void Build_PreservesUserSummaryInCustomFields_WhenAutoTitleWins()
+        {
+            var flightEvent = new FlightEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new("Summary", EnumEventFieldType.Summary),
+                new("From", EnumEventFieldType.From),
+                new("To", EnumEventFieldType.To),
+                new("Carrier", EnumEventFieldType.FlightCarrier),
+                new("Number", EnumEventFieldType.FlightNumber),
+            };
+            var data = new List<string> { "Honeymoon flight", "LHR", "MAD", "Airline", "12345" };
+
+            flightEvent.Build(fields, data);
+
+            Assert.AreEqual("Airline (12345) LHR - MAD", flightEvent.Title);
+            Assert.IsTrue(flightEvent.CustomFields.ContainsKey(FlightEvent.UserTitleKey));
+            Assert.AreEqual("Honeymoon flight", flightEvent.CustomFields[FlightEvent.UserTitleKey]);
+        }
+
+        [TestMethod]
+        public void Build_DoesNotEmitUserTitleKey_WhenSummaryEmpty()
+        {
+            var flightEvent = new FlightEvent();
+            var fields = new List<Tuple<string, EnumEventFieldType>>
+            {
+                new("Summary", EnumEventFieldType.Summary),
+                new("From", EnumEventFieldType.From),
+                new("To", EnumEventFieldType.To),
+                new("Carrier", EnumEventFieldType.FlightCarrier),
+                new("Number", EnumEventFieldType.FlightNumber),
+            };
+            var data = new List<string> { "", "LHR", "MAD", "Airline", "12345" };
+
+            flightEvent.Build(fields, data);
+
+            Assert.IsFalse(flightEvent.CustomFields.ContainsKey(FlightEvent.UserTitleKey));
+        }
+
+        [TestMethod]
         public void Build_SetsFlightInformationCorrectly_MissingFlightNumber()
         {
             var flightEvent = new FlightEvent();
