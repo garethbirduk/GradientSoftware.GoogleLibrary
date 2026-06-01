@@ -9,7 +9,7 @@ namespace GoogleServices.Test.GoogleServices
     {
         private static GoogleSpreadsheetReadonlyService GoogleSpreadsheetReadonlyService = new();
 
-        private static string SpreadsheetId { get; set; } = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+        private static string SpreadsheetId => TestConfig.SpreadsheetId;
 
         [ClassInitialize]
         public static async Task ClassInitialize(TestContext context)

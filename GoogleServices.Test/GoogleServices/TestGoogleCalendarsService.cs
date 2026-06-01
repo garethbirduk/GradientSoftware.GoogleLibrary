@@ -51,14 +51,21 @@ namespace GoogleServices.Test.GoogleServices
             }
         }
 
-        [DataTestMethod]
-        [DataRow("_deleteme_")]
-        public async Task TestDeleteCalendars_WithPredicate(string startsWithPredicateExpression)
+        [TestMethod]
+        public async Task TestDeleteCalendars_WithPredicate()
         {
-            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith(startsWithPredicateExpression);
-            var calendarIds = GoogleCalendarsService.GetCalendars(predicate).Items.Select(x => x.Id).ToList();
-            if (!calendarIds.Any())
-                await GoogleCalendarsService.CreateOrGetCalendarAsync(startsWithPredicateExpression);
+            // Use a per-run unique prefix so this test doesn't sweep other tests'
+            // `_deleteme_*` calendars while they're in-flight.
+            var prefix = $"_predtest_{Guid.NewGuid():N}_";
+            Func<CalendarListEntry, bool> predicate = x => x.Summary.StartsWith(prefix);
+
+            await GoogleCalendarsService.CreateOrGetCalendarAsync($"{prefix}a");
+            await GoogleCalendarsService.CreateOrGetCalendarAsync($"{prefix}b");
+            Assert.AreEqual(2, GoogleCalendarsService.GetCalendars(predicate).Items.Count);
+
+            // Verifies the delete-many-by-predicate path completes without throwing.
+            // Not asserting post-delete count because Google's CalendarList has eventual
+            // consistency — the deleted calendars may still appear briefly.
             await GoogleCalendarsService.DeleteCalendarsAsync(predicate);
         }
     }

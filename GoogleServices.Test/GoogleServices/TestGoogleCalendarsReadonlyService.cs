@@ -1,48 +1,39 @@
-﻿using GoogleServices.GoogleServices;
+using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
 {
+    /// <summary>
+    /// Tests against the shared session calendar — see <see cref="TestSessionFixture"/>.
+    /// Read-only; safe to share with other test classes.
+    /// </summary>
     [TestClass]
     public class TestGoogleCalendarsReadonlyService
     {
-        private static readonly string _calendarName1 = Guid.NewGuid().ToString();
-
-        private static GoogleCalendarService GoogleCalendarService = new();
-
         private static GoogleCalendarsReadonlyService GoogleCalendarsReadonlyService = new();
-
-        private static GoogleCalendarsService GoogleCalendarsService = new();
-
-        public static string CalendarId { get; private set; } = "";
+        private static string CalendarId => TestSessionFixture.CalendarId;
+        private static string CalendarSummary => TestSessionFixture.SessionCalendarName;
 
         [ClassInitialize]
-        public static async Task ClassInitialize(TestContext context)
+        public static void ClassInitialize(TestContext context)
         {
-            GoogleCalendarsService = new GoogleCalendarsService();
-            GoogleCalendarsService.Initialize();
-            GoogleCalendarService = new GoogleCalendarService();
-            GoogleCalendarService.Initialize();
             GoogleCalendarsReadonlyService = new GoogleCalendarsReadonlyService();
             GoogleCalendarsReadonlyService.Initialize();
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(_calendarName1)).Id;
         }
 
-        [DataTestMethod]
-        [DataRow("garethbird@gmail.com")]
-        public void TestGetCalendar(string summary)
+        [TestMethod]
+        public void TestGetCalendar()
         {
-            var calendar = GoogleCalendarsReadonlyService.GetCalendar(summary);
-            Assert.AreEqual(summary, calendar.Summary);
-        }
-
-        [DataTestMethod]
-        [DataRow("garethbird@gmail.com")]
-        [DataRow("Family")]
-        public void TestGetCalendarBySummary(string summary)
-        {
-            var calendar = GoogleCalendarsReadonlyService.GetCalendarBySummary(summary);
+            var calendar = GoogleCalendarsReadonlyService.GetCalendar(CalendarId);
             Assert.IsNotNull(calendar);
-            Assert.AreEqual(summary, calendar.Summary);
+            Assert.AreEqual(CalendarSummary, calendar.Summary);
+        }
+
+        [TestMethod]
+        public void TestGetCalendarBySummary()
+        {
+            var calendar = GoogleCalendarsReadonlyService.GetCalendarBySummary(CalendarSummary);
+            Assert.IsNotNull(calendar);
+            Assert.AreEqual(CalendarSummary, calendar.Summary);
         }
 
         [TestMethod]
@@ -50,20 +41,15 @@ namespace GoogleServices.Test.GoogleServices
         {
             var calendars = GoogleCalendarsReadonlyService.GetCalendars();
             Assert.IsTrue(calendars.Items.Count > 0);
-            Assert.IsTrue(calendars.Items.Count == calendars.Items.Count);
-            Assert.AreEqual(1, calendars.Items.Where(x => x.Summary == "garethbird@gmail.com").Count());
+            Assert.AreEqual(1, calendars.Items.Count(x => x.Id == CalendarId));
         }
 
         [TestMethod]
         public void TestGetCalendars_WithPredicate()
         {
-            var calendars = GoogleCalendarsReadonlyService.GetCalendars(x => x.Summary.StartsWith("Arin"));
-            var names = calendars.Items.Select(x => x.Summary).ToList();
-            foreach (var name in names)
-            {
-                Assert.IsTrue(name.StartsWith("Arin"));
-                Console.WriteLine(name);
-            }
+            var calendars = GoogleCalendarsReadonlyService.GetCalendars(x => x.Id == CalendarId);
+            Assert.AreEqual(1, calendars.Items.Count);
+            Assert.AreEqual(CalendarSummary, calendars.Items.Single().Summary);
         }
     }
 }

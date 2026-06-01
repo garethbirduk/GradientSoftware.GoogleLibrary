@@ -5,7 +5,7 @@ namespace GoogleServices.Test.GoogleServices
     [TestClass]
     public class TestGoogleSpreadsheetsReadonlyService
     {
-        private static string SpreadsheetId { get; set; } = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+        private static string SpreadsheetId => TestConfig.SpreadsheetId;
 
         public static GoogleSpreadsheetsReadonlyService GoogleSpreadsheetsReadonlyService = new();
 

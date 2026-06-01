@@ -1,4 +1,4 @@
-﻿using GoogleServices.GoogleServices;
+using GoogleServices.GoogleServices;
 using Gradient.Utils;
 
 namespace GoogleServices.Test.GoogleServices
@@ -6,53 +6,60 @@ namespace GoogleServices.Test.GoogleServices
     [TestClass]
     public class TestGoogleCalendarService
     {
-        private static readonly string _calendarName1 = TestHelpers.RandomCalendarName();
-
         private static GoogleCalendarService GoogleCalendarService = new();
         private static GoogleCalendarsService GoogleCalendarsService = new();
 
-        public static string CalendarId { get; private set; } = "";
-
-        [ClassCleanup]
-        public static async Task ClassCleanup()
-        {
-            await GoogleCalendarsService.DeleteCalendarAsync(CalendarId);
-        }
+        private static string SharedCalendarId => TestSessionFixture.CalendarId;
 
         [ClassInitialize]
-        public static async Task ClassInitialize(TestContext context)
+        public static void ClassInitialize(TestContext context)
         {
             GoogleCalendarService = new GoogleCalendarService();
             GoogleCalendarService.Initialize();
             GoogleCalendarsService = new GoogleCalendarsService();
             GoogleCalendarsService.Initialize();
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(_calendarName1)).Id;
         }
 
+        /// <summary>
+        /// Rename mutates the calendar's canonical name — if a partial failure leaves the wrong
+        /// name in place, lookups by name fail. So this test always uses its own throwaway calendar.
+        /// </summary>
         [TestMethod]
-        public void TestRenameCalendar()
+        public async Task TestRenameCalendar()
         {
+            var name1 = TestHelpers.RandomCalendarName();
+            var calendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(name1)).Id;
             try
             {
-                var calendarName2 = TestHelpers.RandomCalendarName();
-                GoogleCalendarService.RenameCalendar(CalendarId, calendarName2);
-                Assert.IsNull(GoogleCalendarsService.GetCalendarBySummary(_calendarName1));
-                Assert.IsNotNull(GoogleCalendarsService.GetCalendarBySummary(calendarName2));
+                var name2 = TestHelpers.RandomCalendarName();
+                GoogleCalendarService.RenameCalendar(calendarId, name2);
+                Assert.IsNull(GoogleCalendarsService.GetCalendarBySummary(name1));
+                Assert.IsNotNull(GoogleCalendarsService.GetCalendarBySummary(name2));
             }
             finally
             {
-                // restore name for TestCleanup purposes
-                GoogleCalendarService.RenameCalendar(CalendarId, _calendarName1);
+                try { await GoogleCalendarsService.DeleteCalendarAsync(calendarId); }
+                catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == System.Net.HttpStatusCode.NotFound) { }
             }
         }
 
+        /// <summary>
+        /// Uses the shared session calendar. Doesn't assert on starting state (could be a description
+        /// from a previous run). Best-effort restore in finally.
+        /// </summary>
         [TestMethod]
         public void TestSetDescription()
         {
-            Assert.IsNull(GoogleCalendarService.Calendar(CalendarId).Description);
             var description = StringHelpers.RandomName(prefix: "_deleteme_");
-            GoogleCalendarService.SetDescription(CalendarId, description);
-            Assert.AreEqual(description, GoogleCalendarService.Calendar(CalendarId).Description);
+            try
+            {
+                GoogleCalendarService.SetDescription(SharedCalendarId, description);
+                Assert.AreEqual(description, GoogleCalendarService.Calendar(SharedCalendarId).Description);
+            }
+            finally
+            {
+                try { GoogleCalendarService.SetDescription(SharedCalendarId, ""); } catch { }
+            }
         }
     }
 }

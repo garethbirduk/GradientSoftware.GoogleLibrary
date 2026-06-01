@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <!-- Empty — for running [TestCategory("Manual")] tests explicitly. -->
+  </RunConfiguration>
+</RunSettings>

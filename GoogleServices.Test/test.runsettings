@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <!-- Skip tests marked [TestCategory("Manual")] by default. -->
+    <!-- To run them deliberately, override the filter: dotnet test /TestCaseFilter:"TestCategory=Manual" -->
+    <!-- To run everything: dotnet test /TestCaseFilter:"" -->
+    <TestCaseFilter>TestCategory!=Manual</TestCaseFilter>
+  </RunConfiguration>
+</RunSettings>

@@ -1,25 +1,28 @@
-﻿using GoogleServices.GoogleServices;
+using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
 {
+    /// <summary>
+    /// Tests against the shared session calendar — see <see cref="TestSessionFixture"/>.
+    /// </summary>
     [TestClass]
     public class TestGoogleCalendarReadonlyService
     {
         private static GoogleCalendarReadonlyService GoogleCalendarReadonlyService = new();
+        private static string CalendarId => TestSessionFixture.CalendarId;
+        private static string CalendarSummary => TestSessionFixture.SessionCalendarName;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            GoogleCalendarReadonlyService = new();
+            GoogleCalendarReadonlyService = new GoogleCalendarReadonlyService();
             GoogleCalendarReadonlyService.Initialize();
         }
 
-        [DataTestMethod]
-        [DataRow("garethbird@gmail.com", "garethbird@gmail.com")]
-        [DataRow("vbhhaeru6oq3mmg8jance8sar8@group.calendar.google.com", "Bramcote CofE Y3 24/25")]
-        public void TestCalendarSummary(string calendarId, string expectedSummary)
+        [TestMethod]
+        public void TestCalendarSummary()
         {
-            Assert.AreEqual(expectedSummary, GoogleCalendarReadonlyService.Calendar(calendarId).Summary);
+            Assert.AreEqual(CalendarSummary, GoogleCalendarReadonlyService.Calendar(CalendarId).Summary);
         }
     }
 }

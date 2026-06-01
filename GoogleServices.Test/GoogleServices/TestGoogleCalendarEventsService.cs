@@ -4,14 +4,14 @@ using GoogleServices.GoogleServices;
 
 namespace GoogleServices.Test.GoogleServices
 {
+    /// <summary>
+    /// Event-mutating tests against the shared session calendar — see <see cref="TestSessionFixture"/>.
+    /// [TestCleanup] wipes all events between tests so each starts from an empty event state.
+    /// </summary>
     [TestClass]
     public class TestGoogleCalendarGoogleCalendarEventsService
     {
-        private static readonly string _calendarName1 = TestHelpers.RandomCalendarName();
-
         private static GoogleCalendarEventsService GoogleCalendarEventsService = new();
-        private static GoogleCalendarService GoogleCalendarService = new();
-        private static GoogleCalendarsService GoogleCalendarsService = new();
 
         private static void AssertEvents(Event myEvent, Event myEvent2, bool enforceSameIds = false)
         {
@@ -38,24 +38,13 @@ namespace GoogleServices.Test.GoogleServices
             return myEvent;
         }
 
-        public static string CalendarId { get; private set; } = "";
-
-        [ClassCleanup]
-        public static async Task ClassCleanup()
-        {
-            await GoogleCalendarsService.DeleteCalendarAsync(CalendarId);
-        }
+        private static string CalendarId => TestSessionFixture.CalendarId;
 
         [ClassInitialize]
-        public static async Task ClassInitialize(TestContext context)
+        public static void ClassInitialize(TestContext context)
         {
-            GoogleCalendarService = new GoogleCalendarService();
-            GoogleCalendarService.Initialize();
-            GoogleCalendarsService = new GoogleCalendarsService();
-            GoogleCalendarsService.Initialize();
             GoogleCalendarEventsService = new GoogleCalendarEventsService();
             GoogleCalendarEventsService.Initialize();
-            CalendarId = (await GoogleCalendarsService.CreateOrGetCalendarAsync(_calendarName1)).Id;
         }
 
         [TestCleanup]

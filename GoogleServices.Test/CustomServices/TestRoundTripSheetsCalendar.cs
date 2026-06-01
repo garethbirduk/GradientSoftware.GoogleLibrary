@@ -5,7 +5,7 @@ namespace GoogleServices.Test.CustomServices
     [TestClass]
     public class TestRoundTripSheetsCalendar
     {
-        private readonly string SpreadsheetId = "166KxWAwDKeMagoVh6RGdrc8BmzIaNmgM7i8W9IDCT7A";
+        private string SpreadsheetId => TestConfig.SpreadsheetId;
         public CustomSpreadsheetService CustomSpreadsheetService { get; set; } = new();
 
         [TestMethod]

@@ -36,6 +36,14 @@ The structured plan as the through-line of a trip's life cycle — authored in a
 - Power user wins: copy-paste-row, fill-down, copy-tab-as-variant.
 - Spreadsheet stays canonical. Don't replace with a web app — see *Why not a web app* below.
 
+### Tabs are the variant primitive
+
+What-if comparisons ("3 routings to USA", "same plan one week later", "with vs without the Madrid leg") are authored as **separate tabs**, not as a `Variant` column on rows. This is already how power planners think and act in spreadsheets: copy a tab, mutate a few rows, eyeball it side-by-side.
+
+The library matches this directly — `WorksheetToCalendarAsync(spreadsheetId, worksheetName, calendarId, ...)` publishes any named tab to any named calendar. One tab → one calendar → one variant. No filtering, no row-tagging, no parallel mental model.
+
+A `Variant` column was considered and rejected: it would force the user to maintain a relational model in their head when they explicitly chose tabs to avoid that, and — worse — it would coexist with copy-tab-as-variant rather than replace it, doubling the sources of truth and making "which is canonical?" an unanswerable question per row.
+
 ### 2. Companion (during — designed, not built)
 
 - Mobile app that listens for triggers (geofence, time, status change) and proposes contextual actions grounded in the structured plan.
@@ -162,9 +170,8 @@ The plan-as-structured-data is the moat. Every existing tool either has the plan
 
 ## Open questions / parking-lot
 
-- **`Variant` column + per-variant calendar.** Small implementation. Unblocks "3 routings to USA" what-if comparison. Probably the next functional commit.
-- **Date-shift simulation.** `WorksheetToCalendarAsync(..., dateOffset: TimeSpan.FromDays(7))`. Tiny. Useful for "same plan, next week".
-- **Comparison report.** Pure-functional helper outputting Markdown. Cost / overlap / "could-see-who" analysis. Console runner first; UI later if needed.
+- **Date-shift simulation.** `WorksheetToCalendarAsync(..., dateOffset: TimeSpan.FromDays(7))`. Tiny. Useful for "same plan, next week" without forking a tab.
+- **Comparison report across tabs.** Pure-functional helper outputting Markdown — input is N worksheet names, output is cost / overlap / "could-see-who" analysis. Console runner first; UI later if needed. (Reframed from the rejected `Variant`-column approach — tabs are the variant primitive; see *Tabs are the variant primitive* above.)
 - **"Who's nearby" detection.** Generalise `KnownLocations` to contacts' addresses, filter by event-location proximity. Strong differentiator for travel.
 - **Title vs Summary still has FlightEvent's "always overwrite" inconsistency** vs Travel/Accommodation's "fall back when empty". `UserTitle` preserves user input but the *consistency* question is open. Decided to ship as-is; revisit if anyone trips on it.
 - **Repositioning README** to reflect the generic-engine framing (not just trip planning). Wider TAM, clearer architectural story.
